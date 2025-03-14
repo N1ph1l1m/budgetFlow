@@ -2,7 +2,8 @@ import { InputItem } from "./Shared/InputItem/InputItem"
 
 function App() {
   return(<>
-    <InputItem/>
+    <InputItem title="Расходы" typeItem="rate"/>
+    <InputItem title="Доходы" typeItem="income"/>
   </>)
 }
 
