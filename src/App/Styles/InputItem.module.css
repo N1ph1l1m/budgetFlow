@@ -1,0 +1,83 @@
+.mainWrap{
+    margin: 200px auto;
+    width: 600px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items:center;
+    border:1px solid rgb(179, 179, 179);
+    height: auto;
+    border-radius:5px;
+    padding: 5px;
+
+}
+.inputMainWrap{
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+    flex-direction: row;
+    height: 60px;
+    width: 100%;
+}
+.wrapCard{
+    padding: 5px;
+    width: 250px;
+    height: 250px;
+    border-radius:50%;
+    /* border:1px solid red; */
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    background-color:rgba(255, 0, 0, 0.247);
+}
+.titleCard{
+    font-size: 60px;
+    color:rgb(88, 88, 88);
+}
+.inputWrap{
+    display: flex;
+    flex-direction: column;
+    height: 45px;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+
+}
+
+.inputItem{
+    min-width: 140px;
+    border:1px solid rgb(179, 179, 179);
+    border-radius:5px;
+    padding: 5px;
+    font-size: 18px;
+    height: 70px;
+}
+.inputPrice{
+    border:1px solid rgb(179, 179, 179);
+    width: 60px;
+    border-radius:5px;
+    padding: 6px;
+    font-size: 16px;
+
+}
+
+
+.categoryTitle{
+font-size: 16px;
+}
+.categoryWrap{
+    border:1px solid rgb(179, 179, 179);
+    background-color:#ffffff;
+    border-radius:5px;
+    padding: 5px;
+    font-size: 17.2px;
+}
+.addItem{
+    padding: 5px;
+    background-color:rgba(255, 0, 0, 0.247);
+    width: 100px;
+    height: 32px;
+    margin-top: 30px;
+    border-radius:5px;
+    color:rgb(88, 88, 88);
+}
