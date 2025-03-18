@@ -1,9 +1,10 @@
 
 
 import styles from "../../App/Styles/InputItem.module.css";
-import { useDispatch} from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { setTransaction} from "../../Store/Slice/transactionsSlice/transactionsSlice"
-import { useState,  ChangeEvent } from "react";
+import { useState,  ChangeEvent ,  useEffect} from "react";
+import { RootState } from "../../Store";
 
 interface IInputItem {
     title:string,
@@ -17,10 +18,12 @@ interface ICategory{
 }
 export const InputItem = ({title,typeItem,categories}:IInputItem) => {
   const dispatch = useDispatch();
+  const selectorOpeation  = useSelector((state:RootState)=> state.transactionsSlice)
 
   const [category,setCategory] = useState("food");
   const [itemName,setItemName] = useState("Кофе");
   const [price,setPrice]  = useState("");
+
 
 
   function  handlerPrice(e: ChangeEvent<HTMLInputElement>) {
@@ -49,12 +52,16 @@ export const InputItem = ({title,typeItem,categories}:IInputItem) => {
 
   dispatch(setTransaction({
     id:Date.now(),
+    category:category,
     itemName:itemName,
     price:price,
     date:new Date(),
     typeOperation: typeItem === "income"? "income" : "rate"}))
   }
 
+  useEffect(()=>{
+    console.log(selectorOpeation);
+  },[selectorOpeation])
 
 
   return (

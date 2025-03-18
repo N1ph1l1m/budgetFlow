@@ -13,8 +13,6 @@ return(<>
   <div className={styles.mainWrap}>
   <Nav/>
   <Main/>
-
-
   </div>
 
   </>)

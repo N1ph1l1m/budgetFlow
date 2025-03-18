@@ -4,6 +4,8 @@ export const Nav = ()=>{
         <div className={styles.wrapMain}>
         <ul className={styles.navItemWrap}>
             <li className={styles.navItem}>Главная</li>
+            <li className={styles.navItem}>Добавить</li>
+
             <li className={styles.navItem}>Статистика</li>
             <li className={styles.navItem}>Бюджет</li>
             <li className={styles.navItem}>Категории расходов</li>

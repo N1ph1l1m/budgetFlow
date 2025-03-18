@@ -4,8 +4,10 @@ margin-top: 20px;
 padding: 10px;
 }
 .transactionListWrap{
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     margin-bottom: 10px;
 }
 .transactionListItem{
@@ -32,4 +34,35 @@ padding: 10px;
 .income{
     background-color:rgb(0, 4, 255);
     color:#ffffff;
+}
+.tableBorder{
+    margin: 0px auto;
+    border:1px solid black;
+    padding:  10px;
+    width: 600px;
+    border-radius:10px;
+    margin-bottom: 10px;
+}
+.tableWrap{
+    font-size: 18px;
+    border-collapse: collapse;
+}
+
+caption{
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+tr{
+    margin: 0px;
+    border-bottom:1px solid rgb(124, 124, 124);
+}
+th{
+    padding: 20px;
+}
+td{
+    border-bottom:1px solid rgb(124, 124, 124);
+
+    padding: 15px;
+    width: 150px;
+
 }
