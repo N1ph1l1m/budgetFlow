@@ -1,6 +1,6 @@
 
 
-import styles from "../../App/Styles/InputItem.module.css";
+import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch , useSelector} from "react-redux";
 import { setTransaction} from "../../Store/Slice/transactionsSlice/transactionsSlice"
 import { useState,  ChangeEvent ,  useEffect} from "react";
@@ -16,7 +16,7 @@ interface ICategory{
   key:string,
   name:string
 }
-export const InputItem = ({title,typeItem,categories}:IInputItem) => {
+export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
   const dispatch = useDispatch();
   const selectorOpeation  = useSelector((state:RootState)=> state.transactionsSlice)
 
@@ -67,8 +67,8 @@ export const InputItem = ({title,typeItem,categories}:IInputItem) => {
   return (
     <>
       <div className={styles.mainWrap}>
-        <div className={styles.wrapCard} style={{backgroundColor: typeItem === "income"? "rgb(0, 4, 255)" : "rgba(255, 0, 0, 0.247 )" }}>
-          <span className={styles.titleCard} style={{color: typeItem === "income"? "#ffffff" : "rgb(88, 88, 88)"}}>{title}</span>
+        <div className={styles.wrapCard} style={{backgroundColor: typeItem === "income"? "rgb(93,126,88)" : "rgb(181,53,52)" }}>
+          <span className={styles.titleCard}>{title}</span>
         </div>
 
         <div className={styles.inputMainWrap}>
@@ -98,7 +98,7 @@ export const InputItem = ({title,typeItem,categories}:IInputItem) => {
             </label>
             <input className={styles.inputPrice}  onChange={(e)=>handlerPrice(e)} step={0.50} type="number" name="price" />
           </div>
-          <button  onClick={()=>addItem()}className={styles.addItem} style={{backgroundColor: typeItem === "income"? "rgb(0, 4, 255)" : "rgba(255, 0, 0, 0.247 )" , color: typeItem === "income"? "#ffffff" : "rgb(88, 88, 88)"}} >Добавить </button>
+          <button  onClick={()=>addItem()}className={styles.addItem} style={{backgroundColor: typeItem === "income"? "rgb(93,126,88)" : "rgb(181,53,52)"}} >Добавить </button>
         </div>
 
       </div>

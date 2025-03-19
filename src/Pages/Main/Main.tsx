@@ -1,28 +1,13 @@
 import styles from "../../App/Styles/Main.module.css"
-import { CateroryTransaction } from "../../App/Data/Data"
-import { InputItem } from "../../Shared/InputItem/InputItem"
-import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../Store"
 export const Main = () =>{
-    const [transaction, setTransaction] = useState("")
     const transactionState = useSelector((state:RootState)=> state.transactionsSlice)
 
     function sumPriceOperation(typeOperation: string):number{
         return  transactionState
         .filter((price) => price.typeOperation === typeOperation)
         .reduce((total,item)=> total + parseInt( item.price,10),0)
-    }
-
-    const renderTransaction = ()=>{
-        switch (transaction){
-            case "rate":
-                return <InputItem title="Расходы" typeItem="rate" categories={CateroryTransaction.rate}/>
-            break;
-            case "income":
-                return <InputItem title="Доходы" typeItem="income" categories={CateroryTransaction.income} />
-            break;
-        }
     }
 
 
@@ -38,7 +23,7 @@ export const Main = () =>{
   <thead>
     <tr>
       <th >Расходы</th>
-      <th  style={{textAlign:"right" , borderRight:"1px solid rgb(124, 124, 124)"}}>{`${sumPriceOperation('rate')} ₽`}</th>
+      <th  style={{textAlign:"right" , borderRight:"1px solid black"}}>{`${sumPriceOperation('rate')} ₽`}</th>
       <th>Доходы</th>
       <th  style={{textAlign:"right"}}>{`${sumPriceOperation('income')} ₽`}</th>
     </tr>
@@ -55,7 +40,7 @@ export const Main = () =>{
           <td>
             {expenses[index]?.itemName || ""}
           </td>
-          <td  style={{textAlign:"right" , borderRight:"1px solid rgb(124, 124, 124)"}}>
+          <td  style={{textAlign:"right" , borderRight:"1px solid black"}}>
             {expenses[index]?.price || ""}
           </td>
           <td>
@@ -70,12 +55,6 @@ export const Main = () =>{
   </tbody>
 </table>
         </div>
-
-
-        <button className={`${styles.buttonTransaction} ${styles.rate}`} onClick={()=>setTransaction("rate")}> Добавить расходы</button>
-        <button className={`${styles.buttonTransaction} ${styles.income}`} onClick={()=>setTransaction("income")}> Добавить доходы</button>
-        {renderTransaction()}
-
         </div>
         </>
     )

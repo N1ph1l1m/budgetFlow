@@ -11,14 +11,18 @@ width: 100%;
 /* border:1px solid red; */
 flex-direction: row;
 justify-content: space-around;
+
 }
 .navItem{
     padding: 5px;
-    border:1px solid rgb(179, 179, 179);
-    background-color:#ffffff;
+
+    color:#000000;
     font-size: 18px;
     text-align: center;
-
+    font-family: "Playfair";
     cursor: pointer;
-    border-radius:5px;
+
+}
+.navItem:hover{
+    color: rgb(181,53,52);
 }
