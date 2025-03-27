@@ -11,6 +11,5 @@ return(<>
   <Nav/>
     <Outlet/>
   </div>
-
   </>)
 }

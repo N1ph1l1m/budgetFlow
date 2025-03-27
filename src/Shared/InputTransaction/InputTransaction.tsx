@@ -59,9 +59,6 @@ export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
     typeOperation: typeItem === "income"? "income" : "rate"}))
   }
 
-  useEffect(()=>{
-    console.log(selectorOpeation);
-  },[selectorOpeation])
 
 
   return (
@@ -74,19 +71,20 @@ export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
         <div className={styles.inputMainWrap}>
           <div className={styles.inputWrap}>
             <label htmlFor="category">
-              <span className={styles.categoryTitle}>Категории</span>
+              <span className={styles.inputTitle}>Категории</span>
             </label>
 
-            <select className={styles.categoryWrap} onChange={(e)=>handlerCategory(e)} name="category">
+            <select className={styles.inputItem} onChange={(e)=>handlerCategory(e)} name="category">
               <option value=""></option>
               {categories.map((category:ICategory)=>(
                 <option  key={category.id} value={category.key}>{category.name}</option>
               ))}
             </select>
           </div>
+
          <div className={styles.inputWrap}>
             <label htmlFor="nameItem">
-              <span className={styles.categoryTitle}>
+              <span className={styles.inputTitle}>
                 Название товара/услуги
               </span>
             </label>
@@ -94,7 +92,7 @@ export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
           </div>
           <div className={styles.inputWrap}>
             <label htmlFor="price">
-              <span className={styles.categoryTitle}>Цена</span>
+              <span className={styles.inputTitle}>Цена</span>
             </label>
             <input className={styles.inputPrice}  onChange={(e)=>handlerPrice(e)} step={0.50} type="number" name="price" />
           </div>
