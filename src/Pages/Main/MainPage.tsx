@@ -33,10 +33,12 @@ export const MainPage = () => {
                 <th
                   style={{ textAlign: "right", borderRight: "1px solid black" }}
                 >{`${sumPriceOperation("rate")} ₽`}</th>
+
                 <th>Доходы</th>
                 <th style={{ textAlign: "right" }}>{`${sumPriceOperation(
                   "income"
                 )} ₽`}</th>
+
               </tr>
             </thead>
             <tbody>

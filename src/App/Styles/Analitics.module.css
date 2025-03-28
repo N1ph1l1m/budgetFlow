@@ -36,12 +36,22 @@ align-items:center;
 
 .tableWrap{
     width: 100%;
-    border:1px solid red;
+    display: flex;
+    align-items:center;
+
 }
-.tableBorder{
-    width: 400px;
+.tableAnaliticBorder{
     margin: 0px auto;
+
+}
+.tableAnaliticWrap{
+    font-size: 18px;
+    border-collapse: collapse;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.589);
+    background-color:rgb(93,126,88);
+    color:#ffffff;
 }
 th{
-    border:1px solid red;
-    text-align: center;}
+    text-align: center;
+    border:1px solid rgba(0, 0, 0, 0.253)
+}

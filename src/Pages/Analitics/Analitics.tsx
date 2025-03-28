@@ -11,49 +11,67 @@ interface ICategory {
 }
 
 export const Analitics = () => {
-  const [transaction, setTransaction] = useState("rate");
-  const [categories, setCategories] = useState("food");
+  const [transaction, setTransaction] = useState("");
+  const [categories, setCategories] = useState("");
   const dispatch = useDispatch();
 
-//   const { transactionState } = useSelector(
-//     (state: RootState) => state.transactionsSlice
-//   );
+  const transactionState = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
 
-//   function sumPriceOperation(typeOperation: string): number {
-//     return transactionState
-//       .filter((price) => price.typeOperation === typeOperation)
-//       .reduce((total, item) => total + Number(item.price), 0);
-//   }
+  const filterCategory = transactionState.filter((item)=> item.category === categories && item.typeOperation === transaction )
+  function sumPriceOperation(): number {
+    return  filterCategory.reduce((total, item) => total + Number(item.price), 0);
+  }
+
+
+    // useEffect(()=>{
+    //   console.log(filterCategory);
+    // },[transaction,categories])
+
 
   const renderTable = () => {
-    if(transaction.length !== 0 && categories.length !==0 ){
+    if(transaction.length !== 0 && categories.length !==0 && filterCategory.length !== 0 ){
         return(
-            <div className={styles.tableBorder}>
-            <table className={styles.tableWrap}>
+            <div className={styles.tableAnaliticBorder}>
+            <table className={styles.tableAnaliticWrap}>
               <thead>
-                <tr  >
+                <tr>
                   <th colSpan={2}>Расходы</th>
-
                 </tr>
               </thead>
               <tbody>
-                {
-                  <tr key={1}>
-                    <td>category</td>
-                    <td
-                      style={{
-                        textAlign: "right",
-                        borderRight: "1px solid black",
-                      }}
-                    >
-                      price
-                    </td>
-                  </tr>
+                {filterCategory.map((item,index)=>(
+                  <tr key={index}>
+                  <td>{item.itemName}</td>
+                  <td
+                    style={{
+                      textAlign: "right",}}
+                  >
+                    {item.price}
+                  </td>
+
+                </tr>
+                ))
+
                 }
+               <tr>
+               <td key={"id-total"}>Итого:</td>
+                  <td
+                    style={{
+                      textAlign: "right",
+                    }}
+                  >
+                    {sumPriceOperation()}
+                  </td>
+               </tr>
+
               </tbody>
             </table>
           </div>
         )
+    }else{
+      return(    <div className={styles.tableAnaliticBorder}><p className={styles.titleHeader} style={{marginTop:"20px"}}>Данные отсуствуют</p></div>)
     }
 
   };
@@ -62,6 +80,32 @@ export const Analitics = () => {
   }
   function handlerCategory(e: ChangeEvent<HTMLSelectElement>) {
     setCategories(e.target.value);
+  }
+  const  renderOptionCategory = () =>{
+
+    // if(transaction.length === 0  ) return
+
+    switch (transaction){
+      case "rate":
+      return(<>
+          {CateroryTransaction.rate.map((category: ICategory) => (
+          <option key={category.id} value={category.key}>
+            {category.name}
+          </option>
+        ))}
+      </>)
+      break;
+      case "income":
+        return(<>
+            {CateroryTransaction.income.map((category: ICategory) => (
+          <option key={category.id} value={category.key}>
+            {category.name}
+          </option>
+        ))}
+        </>)
+
+      break;
+    }
   }
 
   return (
@@ -100,11 +144,7 @@ export const Analitics = () => {
                 name="category"
               >
                 <option value=""></option>
-                {CateroryTransaction.rate.map((category: ICategory) => (
-                  <option key={category.id} value={category.key}>
-                    {category.name}
-                  </option>
-                ))}
+                  {renderOptionCategory()}
               </select>
             </div>
           </div>
