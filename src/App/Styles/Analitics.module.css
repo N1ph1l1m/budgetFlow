@@ -53,5 +53,25 @@ align-items:center;
 }
 th{
     text-align: center;
-    border:1px solid rgba(0, 0, 0, 0.253)
+
+}
+.priceWrap{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items:center;
+    gap:0px 10px;
+    border:0px solid transparent;
+}
+
+.trashIcon{
+    height: auto;
+    padding: 0px;
+    width: auto;
+    display: none;
+
+}
+
+tr{
+cursor: pointer;
 }

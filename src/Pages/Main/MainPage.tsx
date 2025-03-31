@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Store";
 export const MainPage = () => {
   const transactionState = useSelector(
-    (state: RootState) => state.transactionsSlice
+    (state: RootState) => state.transactionsSlice.transactionState
   );
 
   function sumPriceOperation(typeOperation: string): number {
