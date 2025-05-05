@@ -4,7 +4,7 @@ export const Nav = ()=>{
     return(<>
         <div className={styles.wrapMain}>
         <ul className={styles.navItemWrap}>
-            <NavLink to="main/"> <li className={styles.navItem}>Главная</li> </NavLink>
+            <NavLink to="/"> <li className={styles.navItem}>Главная</li> </NavLink>
             <NavLink to="income/"><li className={styles.navItem}>Доходы</li></NavLink>
             <NavLink to="/"><li className={styles.navItem}>Расходы</li></NavLink>
             <NavLink to="analitics/"> <li className={styles.navItem}>Статистика</li> </NavLink>

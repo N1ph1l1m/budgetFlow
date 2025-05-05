@@ -51,7 +51,7 @@ export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
   }
 
   dispatch(setTransaction({
-    id:Date.now(),
+    id:new Date(),
     category:category,
     itemName:itemName,
     price:price,
