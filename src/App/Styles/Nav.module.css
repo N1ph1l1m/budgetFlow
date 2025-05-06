@@ -1,6 +1,6 @@
 .wrapMain{
     width: 800px;
-    height: 40px;
+
     margin: 0px auto;
     padding-top: 20px;
 }
@@ -8,14 +8,14 @@
 
 display: flex;
 width: 100%;
-/* border:1px solid red; */
+
 flex-direction: row;
 justify-content: space-around;
+margin-bottom: 10px;
 
 }
 .navItem{
     padding: 5px;
-
     color:#000000;
     font-size: 18px;
     text-align: center;
@@ -25,4 +25,37 @@ justify-content: space-around;
 }
 .navItem:hover{
     color: rgb(181,53,52);
+}
+
+.addTransactionWrap{
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.addTransactionButton {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    cursor: pointer;
+    background-color: rgb(93, 126, 88);
+    margin: 0;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+
+  }
+.modal{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color:rgba(0, 0, 0, 0.329);
+    z-index: 100;
 }

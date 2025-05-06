@@ -5,7 +5,8 @@ import { useDispatch , useSelector} from "react-redux";
 import { setTransaction} from "../../Store/Slice/transactionsSlice/transactionsSlice"
 import { useState,  ChangeEvent ,  useEffect} from "react";
 import { RootState } from "../../Store";
-
+import { RateButton,IncomeButton } from "./TransactionButtons/TransactionButtons";
+import { CateroryTransaction } from "../../App/Data/Data";
 interface IInputItem {
     title:string,
     typeItem:string,
@@ -16,18 +17,19 @@ interface ICategory{
   key:string,
   name:string
 }
-export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
+export const InputTransaction = ({title,}:IInputItem) => {
   const dispatch = useDispatch();
   const selectorOpeation  = useSelector((state:RootState)=> state.transactionsSlice)
 
-  const [category,setCategory] = useState("food");
-  const [itemName,setItemName] = useState("Кофе");
-  const [price,setPrice]  = useState("");
-
+  const [category,setCategory] = useState("");
+  const [itemName,setItemName] = useState("");
+  const [price,setPrice]  = useState(0);
+  const [typeTransaction, setTypeTransaction] = useState("rate");
 
 
   function  handlerPrice(e: ChangeEvent<HTMLInputElement>) {
-    setPrice(e.target.value)
+    const digitsOnly = e.target.value.replace(/\D/g, '');
+    setPrice(digitsOnly)
   }
   function handlerCategory(e: ChangeEvent<HTMLSelectElement>){
     setCategory(e.target.value)
@@ -56,48 +58,50 @@ export const InputTransaction = ({title,typeItem,categories}:IInputItem) => {
     itemName:itemName,
     price:price,
     date:new Date(),
-    typeOperation: typeItem === "income"? "income" : "rate"}))
+    typeOperation: typeTransaction === "income"? "income" : "rate"}))
   }
 
-
+  function clearInput(){
+    if(price === 0 || price === "0" ){
+      setPrice("")
+    }
+  }
 
   return (
     <>
       <div className={styles.mainWrap}>
-        <div className={styles.wrapCard} style={{backgroundColor: typeItem === "income"? "rgb(93,126,88)" : "rgb(181,53,52)" }}>
-          <span className={styles.titleCard}>{title}</span>
-        </div>
+        <h1>Новая транзакция</h1>
+      <div className={styles.inputWrap}>
+            <input style={{color: price >0 ? "black" : "gray"}} className={styles.inputPrice} value={price}  onClick={()=>clearInput()} onChange={(e)=>handlerPrice(e)}   inputMode="numeric"  type="text" name="price" /><span style={{fontSize:"24px"}}>{`\u20BD`}</span>
+          </div>
+
+                <div className={styles.buttonsWrap}>
+                <RateButton typeTransaction={typeTransaction} onClick={() => setTypeTransaction("rate")}/>
+        <IncomeButton  typeTransaction={typeTransaction} onClick={() => setTypeTransaction("income")}  />
+
+                </div>
 
         <div className={styles.inputMainWrap}>
           <div className={styles.inputWrap}>
             <label htmlFor="category">
-              <span className={styles.inputTitle}>Категории</span>
+              <span className={styles.inputTitle}>Выбрать категорию </span>
             </label>
 
-            <select className={styles.inputItem} onChange={(e)=>handlerCategory(e)} name="category">
+            <select className={`${styles.inputItem} ${styles.selectItem}`} onChange={(e)=>handlerCategory(e)} name="category">
               <option value=""></option>
-              {categories.map((category:ICategory)=>(
+              {CateroryTransaction[typeTransaction].map((category:ICategory)=>(
                 <option  key={category.id} value={category.key}>{category.name}</option>
               ))}
             </select>
           </div>
 
          <div className={styles.inputWrap}>
-            <label htmlFor="nameItem">
-              <span className={styles.inputTitle}>
-                Название товара/услуги
-              </span>
-            </label>
-            <input className={styles.inputItem} onChange={(e)=>handlerItemName(e)} value={itemName} type="text" name="nameItem" />
+            <input placeholder="Описание"  className={styles.inputItem} onChange={(e)=>handlerItemName(e)} value={itemName} type="text" name="nameItem" />
           </div>
-          <div className={styles.inputWrap}>
-            <label htmlFor="price">
-              <span className={styles.inputTitle}>Цена</span>
-            </label>
-            <input className={styles.inputPrice}  onChange={(e)=>handlerPrice(e)} step={0.50} type="number" name="price" />
-          </div>
-          <button  onClick={()=>addItem()}className={styles.addItem} style={{backgroundColor: typeItem === "income"? "rgb(93,126,88)" : "rgb(181,53,52)"}} >Добавить </button>
+
+
         </div>
+        <button  onClick={()=>addItem()}className={styles.addItem} style={{backgroundColor: typeTransaction === "income"? "rgb(93,126,88)" : "rgb(181,53,52)"}} >Добавить </button>
 
       </div>
     </>

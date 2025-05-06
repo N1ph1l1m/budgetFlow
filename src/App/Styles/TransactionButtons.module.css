@@ -1,0 +1,21 @@
+.typeTransactButton{
+    padding: 5px 20px;
+
+    background-color:transparent;
+    border-radius:10px;
+    border:1px dashed black;
+    font-size: 14px;
+    font-weight: 500;
+    width: 120px;
+    }
+
+    .rateTransaction{
+        border:1px dashed rgb(187, 12, 12);
+        background-color:rgba(252, 56, 22, 0.205);
+
+    }
+    .incomeTransaction{
+        border:1px dashed green;
+        background-color:rgba(0, 255, 0, 0.281);
+
+    }

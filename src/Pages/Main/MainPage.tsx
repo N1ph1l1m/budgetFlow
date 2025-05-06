@@ -2,16 +2,22 @@ import styles from "../../App/Styles/Main.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Store";
 import { useEffect, useState } from "react";
+import { IoIosArrowForward, IoIosArrowBack , IoIosArrowDown } from "react-icons/io";
+import { RateButton,IncomeButton } from "../../Shared/InputTransaction/TransactionButtons/TransactionButtons";
 export const MainPage = () => {
   const transactionState = useSelector(
     (state: RootState) => state.transactionsSlice.transactionState
   );
+
   const [date, setDate] = useState(new Date());
 
   const [typeTransaction, setTypeTransaction] = useState("rate");
-  const [list, setList] = useState([]);
+  const [list, setList]  = useState([]) ;
+  const [openCategories, setOpenCategories] = useState({});
+
   useEffect(() => {
     filterTransition(date);
+
   }, [typeTransaction, date]);
 
   function changeDay(type: string) {
@@ -22,8 +28,15 @@ export const MainPage = () => {
       newDate.setUTCDate(date.getUTCDate() - 1);
     }
     setDate(newDate);
-    filterTransition(date);
   }
+
+  const toggleCategory = (category) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
+
 
   function filterTransition(data: Date) {
     const newDate = new Date(data);
@@ -54,62 +67,60 @@ export const MainPage = () => {
     setList(grouped);
   }
 
-  useEffect(() => {
-    // for (const sort in list) {
-    //   console.log(list[sort]);
-    // }
-  }, [list]);
 
-  // function sumPriceOperation(typeOperation: string): number {
-  //   return transactionState
-  //     .filter((price) => price.typeOperation === typeOperation)
-  //     .reduce((total, item) => total + Number(item.price), 0);
-  // }
+
+  function sumPriceOperation(category: string): number {
+    const items = list[category] || [];
+    return items.reduce((total, item) => total + Number(item.price), 0);
+  }
 
   const option: object = { month: "long", day: "numeric" };
+
+  function capitalizeFirstLetter(string:string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   return (
     <>
       <div className={styles.mainWrap}>
-        <div className={styles.tableBorder}>
-          <h1>
-            {" "}
-            <span onClick={() => changeDay("-")} style={{ fontSize: "20px" }}>
-              &#11164;
-            </span>
-            {date.toLocaleDateString("ru-RU", option)}{" "}
-            <span onClick={() => changeDay("+")} style={{ fontSize: "20px" }}>
-              &#11166;
-            </span>
+        <header className={styles.headerWrap}>
+          <span className={styles.headerNav} onClick={() => changeDay("-")}>
+            <IoIosArrowBack color="black" size="20" />
+          </span>
+          <h1 className={styles.headerTitle}>
+            {date.toLocaleDateString("ru-RU", option)}
           </h1>
-          <div
-            style={{
-              display: "flex",
-              width: "400px",
-              justifyContent: "space-around",
-            }}
-          >
-            <h1>{typeTransaction}</h1>
-            <button onClick={() => setTypeTransaction("rate")}>Расходы</button>
-            <button onClick={() => setTypeTransaction("income")}>Доходы</button>
-          </div>
-          <ul>
-            <ul>
-              {Object.entries(list).map(([category, items]) => (
-                <div key={category}>
-                  <h3>{category}</h3>
-                  <ul>
-                    {items.map((item) => (
-                      <li key={item.id}>
-                        {item.itemName} — {item.price}₽
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </ul>
-          </ul>
+          <span className={styles.headerNav} onClick={() => changeDay("+")}>
+            <IoIosArrowForward color="black" size="20" />
+          </span>
+        </header>
+
+        <div className={styles.buttonsWrap}>
+          <RateButton typeTransaction={typeTransaction} onClick={() => setTypeTransaction("rate")}/>
+          <IncomeButton  typeTransaction={typeTransaction} onClick={() => setTypeTransaction("income")}  />
         </div>
+
+        {Object.entries(list).map(([category, items]) =>
+        (
+          <div className={styles.listWrap} key={category}>
+            <div className={styles.headerList}>
+            <span className={styles.titleList}>{capitalizeFirstLetter(category)} </span>
+              <div className={styles.listMenu}>
+                <span className={styles.listPrice}>{sumPriceOperation(category)} &#8381;</span>
+              <span  className={styles.listIcon} onClick={() => toggleCategory(category)}><IoIosArrowDown size="20"/></span></div>
+            </div>
+
+            {   <ul>
+              {openCategories[category] &&  items.map((item) => (
+                <li className={styles.listItems} key={item.id}>
+                   <span>   {capitalizeFirstLetter(item.itemName) }    </span> <span> {item.price} &#8381;</span>
+                </li>
+              ))
+
+              }
+            </ul>}
+          </div>
+        ))}
       </div>
     </>
   );

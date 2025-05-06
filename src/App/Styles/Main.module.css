@@ -1,63 +1,73 @@
 .mainWrap{
+    height: auto;
 margin-top: 20px;
 padding: 10px;
 font-family: "Playfair";
 font-weight: 600;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items:center;
+gap:10px;
+
 }
-.transactionListWrap{
-    width: 100%;
+.headerWrap{
+    /* border:1px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.headerTitle{
+    font-size: 20px;
+}
+.headerNav{
+    transform: translateY(4px);
+    cursor: pointer;
+}
+
+.buttonsWrap{
+    display: flex;
+    width: 500px;
+    justify-content: space-around;
+}
+.listWrap{
+
+    width: 370px;
+}
+.headerList{
+    padding: 5px;
+    /* border:1px solid red; */
+    overflow: hidden;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: baseline;
+
 }
-.transactionListItem{
-    font-size: 18px;
-    font-weight: 600;
+.titleList{
+    font-weight: 500;
+    font-size: 20px;
 }
-.balanceTitle{
-    font-weight: lighter;
+.listPrice{
+transform: translateY(-3px);
+    font-size: 20px;
+}
+.listMenu{
+ width: 100px;
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
 }
 
-.buttonTransaction{
-    padding: 10px;
-    border-radius:5px;
+.listIcon{
+    transform: translateY(3px);
+}
+.listItems{
+    /* border:1px solid red; */
+    padding: 5px 10px;
     font-size: 16px;
-    color:#ffffff;
-    display: block;
-
-}
-
-.tableBorder{
-    margin: 0px auto;
-    padding:  10px;
-    width: 600px;
-    margin-bottom: 10px;
-}
-.tableWrap{
-    font-size: 18px;
-    border-collapse: collapse;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.589);
-    background-color:rgb(93,126,88);
-    color:#ffffff;
-}
-
-caption{
-    margin-bottom: 10px;
-    font-size: 25px;
-    color:black;
-}
-tr{
-    margin: 0px;
-    border-bottom:2px solid black;
-}
-th{
-    padding: 20px;
-}
-td{
-    border-bottom:1px solid black;
-
-    padding: 15px;
-    width: 150px;
-
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
 }

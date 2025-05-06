@@ -1,23 +1,22 @@
 .mainWrap{
-
     margin: 20% auto;
-    width: 650px;
+    width: 450px;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     align-items:center;
-    height: auto;
+
     padding: 5px;
     font-family: "Playfair";
+    border:1px solid red;
+    background-color:#ffffff;
 }
 .inputMainWrap{
     display: flex;
-    justify-content: space-around;
-    align-items:flex-end;
+    justify-content: flex-start;
+    align-items:flex-start;
     flex-wrap: wrap;
-    flex-direction: row;
-    height: 70px;
-    min-width: 300px;
+    flex-direction: column;
     gap:0px 5px;
     margin-bottom: 10px;
 
@@ -39,35 +38,57 @@
 
 }
 .inputWrap{
+    margin-top: 5px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: baseline;
     justify-content: space-around;
-    gap: 5px;
-
+    /* gap: 5px; */
 
 }
 
 .inputItem{
-    width: 200px;
-    border:1px solid rgb(179, 179, 179);
+    width: 370px;
+    height: 50px;
+    margin-top: 5px;
     border-radius:5px;
     padding: 5px;
     font-size: 18px;
+    background-color:#ffffff;
+    border:1px solid rgb(179, 179, 179);
+}
+
+.selectItem{
+    border:1px solid rgb(179, 179, 179);
+    width: 120px;
+}
+
+.inputPrice{
+    /* border:1px solid rgb(179, 179, 179); */
+    text-align: center;
+    min-width: 10px;
+    max-width: 80px;
+    text-align: end;
     height: 40px;
+    border-radius:5px;
+    margin-bottom: 10px;
+    color:gray;
+    font-weight: 600;
+    font-size: 26px;
     background-color:#ffffff;
 
 }
-.inputPrice{
-    border:1px solid rgb(179, 179, 179);
-    min-width: 60px;
-    max-width: 80px;
-    height: 40px;
-    border-radius:5px;
-    padding: 5px;
-    font-size: 16px;
-    background-color:#ffffff;
+
+.inputPrice[type="number"]::-webkit-outer-spin-button,
+.inputPrice[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
+
+.inputPrice[type="number"] {
+  -moz-appearance: textfield;
+}
+
 
 .inputTitle{
 font-size: 18px;
@@ -82,6 +103,12 @@ font-weight: 600;
 
     border-radius:5px;
     color:#ffffff
+}
+
+.buttonsWrap{
+    display: flex;
+    width: 500px;
+    justify-content: space-around;
 }
 @media screen and (max-width:614px) {
     .mainWrap{

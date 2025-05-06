@@ -6,6 +6,7 @@ import App from "./Pages/App/App"
 import { Analitics } from "./Pages/Analitics/Analitics";
 import { InputTransaction } from "./Shared/InputTransaction/InputTransaction";
 import { CateroryTransaction } from "./App/Data/Data";
+import Setting from "./Pages/Setting/Setting";
 
 function Routers() {
 const router = createBrowserRouter ([
@@ -28,6 +29,10 @@ const router = createBrowserRouter ([
       {
         path:"income",
         element:<InputTransaction title="Доходы" typeItem="income" categories={CateroryTransaction.income} />
+      },
+      {
+        path:"setting",
+        element:<Setting/>
       },
     ]
   },

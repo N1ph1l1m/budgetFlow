@@ -5,7 +5,7 @@ interface ITransactionData {
     category:string,
     itemName: string;
     price: number;
-    date: Date;
+    date: string ;
     typeOperation: string;
   }
   interface ITransaction{
@@ -21,6 +21,7 @@ interface ITransactionData {
         "price": 10,
         "date": "2025-04-05T07:15:23Z",
         "typeOperation": "rate"
+
       },
       {
         "id": 1742288245868,
