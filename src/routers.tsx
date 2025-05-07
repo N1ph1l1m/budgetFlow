@@ -1,12 +1,12 @@
 
 import "./index.css"
-import { MainPage } from "./Pages/Main/MainPage";
+import { MainPage } from "./pages/Main/MainPage";
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
-import App from "./Pages/App/App"
-import { Analitics } from "./Pages/Analitics/Analitics";
-import { InputTransaction } from "./Shared/InputTransaction/InputTransaction";
-import { CateroryTransaction } from "./App/Data/Data";
-import Setting from "./Pages/Setting/Setting";
+import App from "./pages/App/App"
+import { Analitics } from "./pages/Analitics/Analitics";
+import { InputTransaction } from "./shared/InputTransaction/InputTransaction";
+import { CateroryTransaction } from "./app/data/Data";
+import Setting from "./pages/Setting/Setting";
 
 function Routers() {
 const router = createBrowserRouter ([

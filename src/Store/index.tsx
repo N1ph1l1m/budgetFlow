@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
-import transactionsSlice from "../Store/Slice/transactionsSlice/transactionsSlice"
+import transactionsSlice from "./Slice/transactionsSlice/transactionsSlice"
 const store = configureStore({
     reducer:{
         transactionsSlice:transactionsSlice

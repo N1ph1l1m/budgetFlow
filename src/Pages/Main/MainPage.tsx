@@ -1,9 +1,16 @@
 import styles from "../../App/Styles/Main.module.css";
 import { useSelector } from "react-redux";
-import { RootState } from "../../Store";
+import { RootState } from "../../store";
 import { useEffect, useState } from "react";
-import { IoIosArrowForward, IoIosArrowBack , IoIosArrowDown } from "react-icons/io";
-import { RateButton,IncomeButton } from "../../Shared/InputTransaction/TransactionButtons/TransactionButtons";
+import {
+  IoIosArrowForward,
+  IoIosArrowBack,
+  IoIosArrowDown,
+} from "react-icons/io";
+import {
+  RateButton,
+  IncomeButton,
+} from "../../shared/InputTransaction/TransactionButtons/TransactionButtons";
 export const MainPage = () => {
   const transactionState = useSelector(
     (state: RootState) => state.transactionsSlice.transactionState
@@ -12,12 +19,11 @@ export const MainPage = () => {
   const [date, setDate] = useState(new Date());
 
   const [typeTransaction, setTypeTransaction] = useState("rate");
-  const [list, setList]  = useState([]) ;
+  const [list, setList] = useState([]);
   const [openCategories, setOpenCategories] = useState({});
 
   useEffect(() => {
     filterTransition(date);
-
   }, [typeTransaction, date]);
 
   function changeDay(type: string) {
@@ -36,7 +42,6 @@ export const MainPage = () => {
       [category]: !prev[category],
     }));
   };
-
 
   function filterTransition(data: Date) {
     const newDate = new Date(data);
@@ -67,8 +72,6 @@ export const MainPage = () => {
     setList(grouped);
   }
 
-
-
   function sumPriceOperation(category: string): number {
     const items = list[category] || [];
     return items.reduce((total, item) => total + Number(item.price), 0);
@@ -76,7 +79,7 @@ export const MainPage = () => {
 
   const option: object = { month: "long", day: "numeric" };
 
-  function capitalizeFirstLetter(string:string) {
+  function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
@@ -96,29 +99,46 @@ export const MainPage = () => {
         </header>
 
         <div className={styles.buttonsWrap}>
-          <RateButton typeTransaction={typeTransaction} onClick={() => setTypeTransaction("rate")}/>
-          <IncomeButton  typeTransaction={typeTransaction} onClick={() => setTypeTransaction("income")}  />
+          <RateButton
+            typeTransaction={typeTransaction}
+            onClick={() => setTypeTransaction("rate")}
+          />
+          <IncomeButton
+            typeTransaction={typeTransaction}
+            onClick={() => setTypeTransaction("income")}
+          />
         </div>
 
-        {Object.entries(list).map(([category, items]) =>
-        (
+        {Object.entries(list).map(([category, items]) => (
           <div className={styles.listWrap} key={category}>
             <div className={styles.headerList}>
-            <span className={styles.titleList}>{capitalizeFirstLetter(category)} </span>
+              <span className={styles.titleList}>
+                {capitalizeFirstLetter(category)}{" "}
+              </span>
               <div className={styles.listMenu}>
-                <span className={styles.listPrice}>{sumPriceOperation(category)} &#8381;</span>
-              <span  className={styles.listIcon} onClick={() => toggleCategory(category)}><IoIosArrowDown size="20"/></span></div>
+                <span className={styles.listPrice}>
+                  {sumPriceOperation(category)} &#8381;
+                </span>
+                <span
+                  className={styles.listIcon}
+                  onClick={() => toggleCategory(category)}
+                >
+                  <IoIosArrowDown size="20" />
+                </span>
+              </div>
             </div>
 
-            {   <ul>
-              {openCategories[category] &&  items.map((item) => (
-                <li className={styles.listItems} key={item.id}>
-                   <span>   {capitalizeFirstLetter(item.itemName) }    </span> <span> {item.price} &#8381;</span>
-                </li>
-              ))
-
-              }
-            </ul>}
+            {
+              <ul>
+                {openCategories[category] &&
+                  items.map((item) => (
+                    <li className={styles.listItems} key={item.id}>
+                      <span> {capitalizeFirstLetter(item.itemName)} </span>{" "}
+                      <span> {item.price} &#8381;</span>
+                    </li>
+                  ))}
+              </ul>
+            }
           </div>
         ))}
       </div>

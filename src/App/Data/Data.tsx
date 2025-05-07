@@ -2,10 +2,10 @@ export  const  CateroryTransaction = {
     rate:[
         { id: 1, key: "home", name: "Дом" },
         { id: 2, key: "food", name: "Еда" },
-        { id: 3, key: "commun", name: "Коммунальные услуги" },
+        { id: 3, key: "commun", name: "ЖКХ" },
         { id: 4, key: "car", name: "Авто/Дорога" },
         { id: 5, key: "clothes", name: "Одежда" },
-        { id: 6, key: "pets", name: "Домашние животные" },
+        { id: 6, key: "pets", name: "Питомцы" },
         { id: 7, key: "subscriptions", name: "Подписки" },
         { id: 8, key: "study", name: "Образование" },
         { id: 9, key: "pharmacy", name: "Аптечка" },

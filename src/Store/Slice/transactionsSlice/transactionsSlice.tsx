@@ -5,7 +5,7 @@ interface ITransactionData {
     category:string,
     itemName: string;
     price: number;
-    date: string ;
+    date: Date ;
     typeOperation: string;
   }
   interface ITransaction{

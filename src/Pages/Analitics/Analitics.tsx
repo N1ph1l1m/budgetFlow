@@ -1,11 +1,11 @@
 import styles from "../../App/Styles/Analitics.module.css";
 import styless from "../../App/Styles/InputTransaction.module.css";
 import { useState, useEffect, ChangeEvent } from "react";
-import { CateroryTransaction } from "../../App/Data/Data";
-import { RootState } from "../../Store";
+import { CateroryTransaction } from "../../app/data/Data";
+import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { deleteTransaction } from "../../Store/Slice/transactionsSlice/transactionsSlice";
+import { deleteTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
 interface ICategory {
   id: number;
   key: string;
