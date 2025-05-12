@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
 import transactionsSlice from "./Slice/transactionsSlice/transactionsSlice"
+import modalTransactionSlice from "./Slice/modalTransaction/modalTransactionSlice"
 const store = configureStore({
     reducer:{
-        transactionsSlice:transactionsSlice
+        transactionsSlice:transactionsSlice,
+        modalTransactionSlice:modalTransactionSlice
     }
 })
 

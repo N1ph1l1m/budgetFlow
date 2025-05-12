@@ -5,7 +5,7 @@ interface ITransactionData {
     category:string,
     itemName: string;
     price: number;
-    date: Date ;
+    date: string ;
     typeOperation: string;
   }
   interface ITransaction{
@@ -282,7 +282,7 @@ interface ITransactionData {
         category: "clothes",
         itemName: "Рубашка",
         price: 300,
-        date: "2025-05-09T09:00:00Z",
+        date: "2025-05-12T09:00:00Z",
         typeOperation: "rate"
       },
       {
@@ -290,7 +290,7 @@ interface ITransactionData {
         category: "pets",
         itemName: "Игрушка",
         price: 40,
-        date: "2025-05-09T10:30:00Z",
+        date: "2025-05-12T10:30:00Z",
         typeOperation: "rate"
       },
       {
@@ -298,7 +298,7 @@ interface ITransactionData {
         category: "secondJod",
         itemName: "Тестирование",
         price: 1000,
-        date: "2025-05-09T11:45:00Z",
+        date: "2025-05-12T11:45:00Z",
         typeOperation: "income"
       },
       {
@@ -306,17 +306,16 @@ interface ITransactionData {
         category: "gift",
         itemName: "Перевод",
         price: 150,
-        date: "2025-05-09T13:00:00Z",
+        date: "2025-05-12T13:00:00Z",
         typeOperation: "income"
       },
 
-      // 10 мая 2025
       {
         id: 1742295000001,
         category: "transport",
         itemName: "Автобус",
         price: 5,
-        date: "2025-05-10T07:00:00Z",
+        date: "2025-05-12T07:00:00Z",
         typeOperation: "rate"
       },
       {
@@ -324,7 +323,7 @@ interface ITransactionData {
         category: "food",
         itemName: "Завтрак",
         price: 20,
-        date: "2025-05-10T08:30:00Z",
+        date: "2025-05-12T08:30:00Z",
         typeOperation: "rate"
       },
       {
@@ -332,7 +331,7 @@ interface ITransactionData {
         category: "salary",
         itemName: "Основная работа",
         price: 5000,
-        date: "2025-05-10T10:00:00Z",
+        date: "2025-05-12T10:00:00Z",
         typeOperation: "income"
       },
       {
@@ -340,7 +339,7 @@ interface ITransactionData {
         category: "bonus",
         itemName: "Приз",
         price: 250,
-        date: "2025-05-10T12:00:00Z",
+        date: "2025-05-12T12:00:00Z",
         typeOperation: "income"
       }
     ]

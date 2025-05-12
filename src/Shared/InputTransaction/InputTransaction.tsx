@@ -1,10 +1,11 @@
 import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
-import { useState, ChangeEvent, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid'; // уникальный id
+import { useState, ChangeEvent } from "react";
+import { v4 as uuidv4 } from "uuid"; // уникальный id
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
+import { closeModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
   IncomeButton,
@@ -13,51 +14,37 @@ import SelectCategory from "../../widget/selectCategory/SelectCategory";
 
 import { FaCalendarDays } from "react-icons/fa6";
 
-interface IInputItem {
-  title: string;
-  typeItem: string;
-  categories: ICategory[];
-}
-interface ICategory {
-  id: number;
-  key: string;
-  name: string;
-}
-export const InputTransaction = ({ title , close}: IInputItem) => {
+export const InputTransaction = () => {
   const dispatch = useDispatch();
-  const selectorOpeation = useSelector(
-    (state: RootState) => state.transactionsSlice
-  );
-  const [category, setCategory] = useState("");
+
   const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState<string>(0);
-  const [typeTransaction, setTypeTransaction] = useState("rate");
-  const [dateTransaction,setDateTransaction] = useState("")
+  const [price, setPrice] = useState<number>();
 
-  // useEffect(()=>{
-  //   console.log( new Date(dateTransaction))
-
-  // },[dateTransaction])
+  const [dateTransaction, setDateTransaction] = useState("");
+  const { typeTransaction, selectCategory } = useSelector(
+    (state: RootState) => state.modalTransactionSlice
+  );
 
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
-    setPrice(digitsOnly);
+    setPrice(parseInt(digitsOnly));
   }
 
-  function handlerDataTransacton(e){
-    const date  = new Date(e.target.value).toISOString()
-    setDateTransaction(date)
+  function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
+    const date = new Date(e.target.value).toISOString();
+    setDateTransaction(date);
   }
 
-  const  handlerCategory = (item)=> {
-    setCategory(item)
-  }
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
     setItemName(e.target.value);
   }
 
+  function closeModal() {
+    dispatch(closeModalInput());
+  }
   function addItem() {
-    if (!category) {
+    const date  =    new Date().toISOString();
+    if (!selectCategory) {
       alert("Выберите категорию");
       return;
     }
@@ -69,89 +56,82 @@ export const InputTransaction = ({ title , close}: IInputItem) => {
       alert("Введите цену");
       return;
     }
-    if (!dateTransaction) {
-      alert("Введите дату");
-      return;
-    }
-    console.log([category,itemName,price, dateTransaction])
+    // if (!dateTransaction) {
+    //   // alert("Введите дату");
+    //   const date =   new Date().toISOString();
+    //   setDateTransaction(date);
+    // }
+    // console.log([selectCategory, itemName, price, dateTransaction]);
 
     dispatch(
       setTransaction({
-        id:  uuidv4(),
-        category: category,
+        id: parseInt(uuidv4()),
+        category: selectCategory,
         itemName: itemName,
-        price: price,
-        date: dateTransaction,
+        price: price ,
+        date: dateTransaction || date,
         typeOperation: typeTransaction === "income" ? "income" : "rate",
       })
     );
-    close()
-  }
-
-  function clearInput() {
-    if (price == "0") {
-      setPrice("");
-    }
+    closeModal();
   }
 
   return (
     <>
       <div className={styles.mainWrap}>
         <div className={styles.headerModal}>
-        <h1 className={styles.titleModal}>Новая транзакция</h1>
-        <button className={styles.closeModal} onClick={close}><IoMdClose color="black" size="20"/></button>
+          <h1 className={styles.titleModal}>Новая транзакция</h1>
+          <button className={styles.closeModal} onClick={() => closeModal()}>
+            <IoMdClose color="black" size="20" />
+          </button>
         </div>
-        <div >
+        <div>
           <input
-            style={{ color: price  > "0" ? "black" : "gray" }}
+
             className={styles.inputPrice}
             value={price}
-            onClick={() => clearInput()}
+
             onChange={(e) => handlerPrice(e)}
             inputMode="numeric"
             type="text"
             name="price"
+            placeholder="0"
           />
           <span style={{ fontSize: "24px" }}>{`\u20BD`}</span>
         </div>
 
         <div className={styles.buttonsWrap}>
-          <RateButton
-            typeTransaction={typeTransaction}
-            onClick={() => setTypeTransaction("rate")}
-          />
-          <IncomeButton
-            typeTransaction={typeTransaction}
-            onClick={() => setTypeTransaction("income")}
-          />
+          <RateButton />
+          <IncomeButton />
         </div>
 
         <div className={styles.inputMainWrap}>
+          <SelectCategory />
+          <div className={styles.inputDateWrap}>
+            <div className={styles.headerDataInput}>
+              <FaCalendarDays color="#fcb831 " size="40" />
+              <label htmlFor="dateTransaction">
+                <span className={styles.inputTitle}>Дата </span>
+              </label>
+            </div>
 
-          <SelectCategory typeTransaction={typeTransaction} selectCategory={handlerCategory}/>
-          <div className={styles.inputDateWrap} >
-          <div className={styles.headerDataInput}>
-          <FaCalendarDays color="#fcb831 " size="40" />
-            <label htmlFor="dateTransaction">
-            <span className={styles.inputTitle}>Дата </span>
-            </label>
-          </div>
-
-            <input className={styles.inputDate} type="date"  onChange={handlerDataTransacton} />
-
-          </div>
-
-        </div>
-        <div   >
             <input
-              placeholder="Описание"
-              className={styles.inputDescription}
-              onChange={(e) => handlerItemName(e)}
-              value={itemName}
-              type="text"
-              name="nameItem"
+              className={styles.inputDate}
+              type="date"
+              onChange={handlerDataTransacton}
             />
           </div>
+        </div>
+        <div>
+          <input
+            placeholder="Описание"
+            className={styles.inputDescription}
+            onChange={(e) => handlerItemName(e)}
+            value={itemName}
+            type="text"
+            name="nameItem"
+          />
+        </div>
         <button
           onClick={() => addItem()}
           className={styles.addItem}

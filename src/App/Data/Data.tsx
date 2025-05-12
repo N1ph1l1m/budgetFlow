@@ -1,4 +1,20 @@
-export  const  CateroryTransaction = {
+
+
+
+
+interface ICategory{
+    id : number,
+    key:string,
+    name:string
+}
+
+
+interface ICategoryTransaction{
+    rate:ICategory[],
+    income:ICategory[],
+}
+
+export  const  CateroryTransaction:ICategoryTransaction = {
     rate:[
         { id: 1, key: "home", name: "Дом" },
         { id: 2, key: "food", name: "Еда" },

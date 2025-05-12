@@ -3,9 +3,10 @@
     background-color:transparent;
     border-radius:10px;
     border:1px dashed black;
-    font-size: 14px;
-    font-weight: 500;
     width: 120px;
+    font-size: 15px;
+    font-weight: 500;
+
     }
 
     .rateTransaction{
@@ -17,4 +18,13 @@
         border:1px dashed green;
         background-color:rgba(0, 255, 0, 0.281);
 
+    }
+    .largeSize{
+        width: 150px;
+        font-size: 20px;
+    }
+
+    .totalValue{
+        display: inline-block;
+        text-align: center;
     }

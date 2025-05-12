@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+
 import styles from "../../App/Styles/Nav.module.css"
 import { InputTransaction } from "../../shared/InputTransaction/InputTransaction";
 import { NavLink } from "react-router"
 import Modal from "../ModalWindow/ModalTransaction";
-
+import { useDispatch,useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 type NavProps = {
     isButton: boolean;
   };
 
 export const Nav =  ({ isButton }: NavProps) =>{
-    const [isModal,setCoutn] = useState(false);
+    const dispatch = useDispatch();
+    const {modalInput}  = useSelector((state:RootState)=>state.modalTransactionSlice)
 
-    // useEffect(()=>{console.log(count);},[count])
 
-    function handlerModal(){
-        setCoutn(prev => !prev  )
-    }
     return(<>
-        {isModal &&  <Modal>
-          <InputTransaction isModal={isModal} close={()=>handlerModal()} />
+
+        {modalInput &&
+          <Modal>
+          <InputTransaction/>
           </Modal>
           }
         <div className={styles.wrapMain}>
@@ -27,9 +28,11 @@ export const Nav =  ({ isButton }: NavProps) =>{
             <NavLink to="analitics/"> <li className={styles.navItem}>Обзор</li> </NavLink>
             <NavLink to="setting/"><li className={styles.navItem}>Настройки</li></NavLink>
         </ul>
+        <p>{modalInput}</p>
 
         <div style={{display: isButton ? "flex" : "none" }} className={styles.addTransactionWrap}>
-          <button className={styles.addTransactionButton} onClick={()=>handlerModal()}>+</button>
+          <button className={styles.addTransactionButton} onClick={()=>dispatch(isModalInput())}>+</button>
+
         </div>
         </div>
 
