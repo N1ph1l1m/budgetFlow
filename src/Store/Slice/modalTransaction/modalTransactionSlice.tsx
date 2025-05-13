@@ -39,9 +39,12 @@ const modalTransactionSlice = createSlice({
         },
         setSelectCategory(state,action:PayloadAction<string>){
             state.selectCategory = action.payload
+        },
+        resetCategory(state){
+            state.selectCategory = "";
         }
     }
 
 })
-export const {isModalInput,closeModalInput, isModalCategory,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory} = modalTransactionSlice.actions;
+export const {isModalInput,closeModalInput, isModalCategory,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory , resetCategory} = modalTransactionSlice.actions;
 export default modalTransactionSlice.reducer;

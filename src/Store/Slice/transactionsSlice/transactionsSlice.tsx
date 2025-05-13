@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ITransactionData {
+export interface ITransactionData {
     id: number;
     category:string,
     itemName: string;

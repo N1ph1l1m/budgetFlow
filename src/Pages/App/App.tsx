@@ -10,7 +10,7 @@ export default function App() {
 
 return(<>
   <div className={styles.mainWrap}>
-  <Nav isButton={location.pathname !== "/setting/"} />
+  <Nav isButton={location.pathname !== "/setting/"} location = {location.pathname} />
     <Outlet/>
   </div>
   </>)

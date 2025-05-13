@@ -1,13 +1,13 @@
 .analiticWrap{
-    margin: 20px auto;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    align-items:flex-start;
+    align-items:center;
     height: auto;
-    padding: 10px;
+
     font-family: "Playfair";
+    /* border:1px solid red; */
 
 }
 
@@ -18,6 +18,13 @@ display: flex;
 flex-direction: column;
 align-items:center;
 }
+
+.buttonsWrap{
+    display: flex;
+    width: 500px;
+    justify-content: space-around;
+}
+
 .titleHeader{
     margin-bottom: 10px;
     font-size: 25px;
@@ -74,4 +81,11 @@ th{
 
 tr{
 cursor: pointer;
+}
+
+
+.headerTitle{
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
 }

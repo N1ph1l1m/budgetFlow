@@ -1,8 +1,8 @@
-import styles from "../../../App/Styles/TransactionButtons.module.css"
+import styles from "../../app/styles/TransactionButtons.module.css"
 import { FcBearish,FcBullish } from "react-icons/fc";
 import { useDispatch,useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { rateTransaction,incomeTransaction } from "../../../store/Slice/modalTransaction/modalTransactionSlice";
+import { RootState } from "../../store";
+import { rateTransaction,incomeTransaction } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 
 interface IButtonTransaction{
   total?:number,

@@ -53,7 +53,3 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 	font-family: "Playfair";
 	src: url(/src/App/Fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf) format('truetype');
 }
-
-*{
-	/* font-family: "Poppins", sans-serif ; */
-}

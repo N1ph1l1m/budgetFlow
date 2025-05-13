@@ -5,11 +5,11 @@ import { useState, ChangeEvent } from "react";
 import { v4 as uuidv4 } from "uuid"; // уникальный id
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
-import { closeModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import { closeModalInput,resetCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
   IncomeButton,
-} from "./TransactionButtons/TransactionButtons";
+} from "../TransactionButtons/TransactionButtons";
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
 
 import { FaCalendarDays } from "react-icons/fa6";
@@ -18,17 +18,18 @@ export const InputTransaction = () => {
   const dispatch = useDispatch();
 
   const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState<number>();
+const [price, setPrice] = useState<number | null>(null);
 
   const [dateTransaction, setDateTransaction] = useState("");
   const { typeTransaction, selectCategory } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
 
-  function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
-    const digitsOnly = e.target.value.replace(/\D/g, "");
-    setPrice(parseInt(digitsOnly));
-  }
+ function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
+  const digitsOnly = e.target.value.replace(/\D/g, '');
+  const parsed = parseInt(digitsOnly, 10);
+  setPrice(Number.isNaN(parsed) ? null : parsed);
+}
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const date = new Date(e.target.value).toISOString();
@@ -56,12 +57,7 @@ export const InputTransaction = () => {
       alert("Введите цену");
       return;
     }
-    // if (!dateTransaction) {
-    //   // alert("Введите дату");
-    //   const date =   new Date().toISOString();
-    //   setDateTransaction(date);
-    // }
-    // console.log([selectCategory, itemName, price, dateTransaction]);
+
 
     dispatch(
       setTransaction({
@@ -74,6 +70,7 @@ export const InputTransaction = () => {
       })
     );
     closeModal();
+    resetCategory();
   }
 
   return (
@@ -89,8 +86,7 @@ export const InputTransaction = () => {
           <input
 
             className={styles.inputPrice}
-            value={price}
-
+            value={price ?? ''}
             onChange={(e) => handlerPrice(e)}
             inputMode="numeric"
             type="text"

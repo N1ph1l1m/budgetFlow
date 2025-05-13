@@ -1,21 +1,24 @@
 .wrapMain{
     width: 800px;
-
     margin: 0px auto;
     padding-top: 20px;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    /* border:1px solid red; */
 }
 .navItemWrap{
 
 display: flex;
-width: 100%;
-
+width: 40%;
 flex-direction: row;
 justify-content: space-around;
 margin-bottom: 10px;
 
 }
 .navItem{
-    padding: 5px;
+
+    padding: 5px 0px 5px 0px;
     color:#000000;
     font-size: 18px;
     text-align: center;
@@ -23,9 +26,11 @@ margin-bottom: 10px;
     cursor: pointer;
 
 }
-.navItem:hover{
-    color: rgb(181,53,52);
+.navItemActive{
+  border-bottom: 1px solid rgb(93,126,88);
 }
+
+
 
 .addTransactionWrap{
 

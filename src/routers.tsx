@@ -3,7 +3,7 @@ import "./index.css"
 import { MainPage } from "./pages/Main/MainPage";
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
 import App from "./pages/App/App"
-import { Analitics } from "./pages/Analitics/Analitics";
+import { Review } from "./pages/Review/Review";
 import { InputTransaction } from "./shared/InputTransaction/InputTransaction";
 import { CateroryTransaction } from "./app/data/Data";
 import Setting from "./pages/Setting/Setting";
@@ -19,8 +19,8 @@ const router = createBrowserRouter ([
         element:<MainPage/>
       },
       {
-        path:"analitics/",
-        element:<Analitics/>
+        path:"review/",
+        element:<Review/>
       },
       {
         path:"rate/",
