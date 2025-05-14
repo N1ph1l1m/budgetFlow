@@ -6,10 +6,12 @@ import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import {ITransactionData} from "../../store/Slice/transactionsSlice/transactionsSlice"
 import { filteredTransactions , groupByTranssaction} from "../../entities/listTransactions";
 import { RateButton,IncomeButton } from "../../shared/TransactionButtons/TransactionButtons";
+import Graph from "./graph";
 export const Review = () => {
 
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const dispatch = useDispatch();
+
 
   const date  = new Date()
   const {transactionState}  = useSelector(
@@ -60,14 +62,18 @@ export const Review = () => {
 
   return (
     <>
+
       <div className={styles.analiticWrap}>
          <h1 className={styles.headerTitle}>
            <div className={styles.buttonsWrap}>
+
           <RateButton  />
           <IncomeButton  />
         </div>
+
           {date.toLocaleDateString("ru-RU", option)}
         </h1>
+          { Object.keys(list).length >  0 && <Graph/> }
       <ListTransactions  list={list}/>
       </div>
     </>
