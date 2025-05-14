@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import { useCallback, useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router";
 import {
   RateButton,
   IncomeButton,
@@ -15,6 +16,9 @@ import {
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 
 export const MainPage = () => {
+
+
+
   const { transactionState } = useSelector(
     (state: RootState) => state.transactionsSlice
   );

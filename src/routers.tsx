@@ -1,18 +1,28 @@
 
 import "./index.css"
 import { MainPage } from "./pages/Main/MainPage";
-import { createBrowserRouter, RouterProvider,} from "react-router-dom";
+import { createBrowserRouter, RouterProvider,redirect} from "react-router-dom";
 import App from "./pages/App/App"
 import { Review } from "./pages/Review/Review";
-import { InputTransaction } from "./shared/InputTransaction/InputTransaction";
-import { CateroryTransaction } from "./app/data/Data";
+import Authorization from "./pages/Authorization/Authorization";
 import Setting from "./pages/Setting/Setting";
 
+
 function Routers() {
+
+// function checkToken() {
+//   const token = localStorage.getItem("token");
+//   if (!token) {
+//  throw redirect("/authorization/");
+//   }
+//   return null;
+// }
+
 const router = createBrowserRouter ([
   {
     path:"/",
     element:<App/>,
+   // loader:checkToken,
     children:[
       {
         index:true,
@@ -23,19 +33,15 @@ const router = createBrowserRouter ([
         element:<Review/>
       },
       {
-        path:"rate/",
-        element:<InputTransaction  title="Расходы" typeItem="rate" categories={CateroryTransaction.rate} />
-      },
-      {
-        path:"income",
-        element:<InputTransaction title="Доходы" typeItem="income" categories={CateroryTransaction.income} />
-      },
-      {
         path:"setting",
         element:<Setting/>
       },
     ]
-  },
+
+  },{
+    path:"authorization/",
+    element:<Authorization/>
+  }
 
 ])
 
