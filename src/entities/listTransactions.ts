@@ -7,6 +7,9 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
 }
 
 
+ export function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
 
  export function filteredTransactions({state,updatedDay,updatedMonth,transaction}:IFilteredTransaction){
@@ -24,8 +27,6 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
   }
 
 
-
-
 export function groupByTranssaction(filteredList:ITransactionData[]){
     return  filteredList.reduce((acc:Record<string, typeof product[]>, product) => {
       const category:string = product.category;
@@ -36,3 +37,11 @@ export function groupByTranssaction(filteredList:ITransactionData[]){
       return acc;
     }, {} as Record<string, typeof filteredList[0][]>);
   }
+
+
+export function getCategorySums(list:ITransactionData){
+  return   Object.entries(list).map(([category, items]) => {
+  const sum = items.reduce((acc, item) => acc + item.price, 0);
+  return { name: capitalizeFirstLetter(category), value: sum };
+});
+}

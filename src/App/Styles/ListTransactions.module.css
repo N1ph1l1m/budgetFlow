@@ -1,10 +1,21 @@
-.listWrap{
+.listWrap {
+  width: 100%;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out forwards;
+}
 
-    width: 370px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .headerList{
     padding: 5px;
-
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -31,12 +42,13 @@ transform: translateY(-3px);
     transform: translateY(3px);
 }
 .listItems{
-    /* border:1px solid red; */
+
     padding: 5px 10px;
     font-size: 16px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+     animation: fadeIn 0.4s ease-out forwards;
 }
 
 

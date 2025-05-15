@@ -12,8 +12,10 @@ import {
 import {
   filteredTransactions,
   groupByTranssaction,
+  getCategorySums,
 } from "../../entities/listTransactions";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
+import DataPieChart from "../../shared/Charts/DataPieChart";
 
 export const MainPage = () => {
 
@@ -106,7 +108,12 @@ export const MainPage = () => {
           <RateButton total={sumRate} large />
           <IncomeButton total={sumIncome} large />
         </div>
-        <ListTransactions list={list} />
+        {Object.keys(list).length >  0  ?
+        <div className={styles.listWrapContainer}>
+          <div className={styles.wrapGraph}>   <DataPieChart data={getCategorySums(list)}/></div>
+          <div className={styles.wrapList}>       <ListTransactions list={list} /></div>
+        </div> :  <ListTransactions list={list} />}
+
       </div>
     </>
   );

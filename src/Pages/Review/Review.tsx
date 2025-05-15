@@ -2,23 +2,23 @@ import styles from "../../App/Styles/Review.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
-import ListTransactions from "../../widget/ListTransactions/ListTransactions";
+import ListTransactions  from "../../widget/ListTransactions/ListTransactions";
 import {ITransactionData} from "../../store/Slice/transactionsSlice/transactionsSlice"
-import { filteredTransactions , groupByTranssaction} from "../../entities/listTransactions";
+import { filteredTransactions , groupByTranssaction,getCategorySums} from "../../entities/listTransactions";
 import { RateButton,IncomeButton } from "../../shared/TransactionButtons/TransactionButtons";
-import Graph from "./graph";
+
+import DataPieChart from "../../shared/Charts/DataPieChart";
 export const Review = () => {
 
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const dispatch = useDispatch();
-
 
   const date  = new Date()
   const {transactionState}  = useSelector(
     (state: RootState) => state.transactionsSlice);
   const {typeTransaction} = useSelector((state:RootState)=>state.modalTransactionSlice)
 
-    const option: object = { month: "long", day: "numeric" };
+    const option: object = { month:  "long", day: "numeric" };
 
     const filterTransition = useCallback(
       (data: Date, transactionState: ITransactionData[]) => {
@@ -63,18 +63,19 @@ export const Review = () => {
   return (
     <>
 
-      <div className={styles.analiticWrap}>
+      <div className={styles.reviewWrap}>
          <h1 className={styles.headerTitle}>
            <div className={styles.buttonsWrap}>
-
           <RateButton  />
           <IncomeButton  />
         </div>
-
           {date.toLocaleDateString("ru-RU", option)}
         </h1>
-          { Object.keys(list).length >  0 && <Graph/> }
-      <ListTransactions  list={list}/>
+          { Object.keys(list).length >  0 && <DataPieChart data={getCategorySums(list)}/> }
+        <div className={styles.wrapList}>
+                <ListTransactions  list={list}/>
+        </div>
+
       </div>
     </>
   );

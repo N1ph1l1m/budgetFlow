@@ -1,13 +1,8 @@
-
-
-
-
 interface ICategory{
     id : number,
     key:string,
     name:string
 }
-
 
 interface ICategoryTransaction{
     rate:ICategory[],

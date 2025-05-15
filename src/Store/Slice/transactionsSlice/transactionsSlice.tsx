@@ -84,7 +84,7 @@ export interface ITransactionData {
         "category": "subscriptions",
         "itemName": "Музыка",
         "price": 25,
-        "date": "2025-05-05T10:12:00Z",
+        "date": "2025-05-05T10:15:00Z",
         "typeOperation": "rate"
       },
       {
@@ -115,8 +115,8 @@ export interface ITransactionData {
         "id": 1742290170000,
         "category": "food",
         "itemName": "Сэндвич",
-        "price": 12,
-        "date": "2025-05-05T12:07:15Z",
+        "price": 15,
+        "date": "2025-05-05T15:07:15Z",
         "typeOperation": "rate"
       },
       {
@@ -124,7 +124,7 @@ export interface ITransactionData {
         "category": "food",
         "itemName": "Йогурт",
         "price": 7,
-        "date": "2025-05-05T12:28:59Z",
+        "date": "2025-05-05T15:28:59Z",
         "typeOperation": "rate"
       },
       {
@@ -132,7 +132,7 @@ export interface ITransactionData {
         "category": "pharmacy",
         "itemName": "Витамины",
         "price": 15,
-        "date": "2025-05-05T12:54:03Z",
+        "date": "2025-05-05T15:54:03Z",
         "typeOperation": "rate"
       },
       {
@@ -238,7 +238,7 @@ export interface ITransactionData {
         category: "gift",
         itemName: "Подарок",
         price: 500,
-        date: "2025-05-07T12:30:00Z",
+        date: "2025-05-07T15:30:00Z",
         typeOperation: "income"
       },
 
@@ -248,15 +248,15 @@ export interface ITransactionData {
         category: "subscriptions",
         itemName: "Фильмы",
         price: 15,
-        date: "2025-05-08T07:50:00Z",
+        date: "2025-05-15T07:50:00Z",
         typeOperation: "rate"
       },
       {
         id: 1742293000002,
         category: "food",
         itemName: "Пицца",
-        price: 120,
-        date: "2025-05-08T13:20:00Z",
+        price: 150,
+        date: "2025-05-15T15:20:00Z",
         typeOperation: "rate"
       },
       {
@@ -264,7 +264,7 @@ export interface ITransactionData {
         category: "investment",
         itemName: "Криптовалюта",
         price: 500,
-        date: "2025-05-08T14:10:00Z",
+        date: "2025-05-15T15:10:00Z",
         typeOperation: "income"
       },
       {
@@ -272,7 +272,7 @@ export interface ITransactionData {
         category: "salary",
         itemName: "Проект",
         price: 2500,
-        date: "2025-05-08T15:00:00Z",
+        date: "2025-05-15T15:00:00Z",
         typeOperation: "income"
       },
 
@@ -282,7 +282,7 @@ export interface ITransactionData {
         category: "clothes",
         itemName: "Рубашка",
         price: 300,
-        date: "2025-05-12T09:00:00Z",
+        date: "2025-05-15T09:00:00Z",
         typeOperation: "rate"
       },
       {
@@ -290,7 +290,7 @@ export interface ITransactionData {
         category: "pets",
         itemName: "Игрушка",
         price: 40,
-        date: "2025-05-12T10:30:00Z",
+        date: "2025-05-15T10:30:00Z",
         typeOperation: "rate"
       },
       {
@@ -298,7 +298,7 @@ export interface ITransactionData {
         category: "secondJod",
         itemName: "Тестирование",
         price: 1000,
-        date: "2025-05-12T11:45:00Z",
+        date: "2025-05-15T11:45:00Z",
         typeOperation: "income"
       },
       {
@@ -306,7 +306,7 @@ export interface ITransactionData {
         category: "gift",
         itemName: "Перевод",
         price: 150,
-        date: "2025-05-12T13:00:00Z",
+        date: "2025-05-15T13:00:00Z",
         typeOperation: "income"
       },
 
@@ -315,7 +315,7 @@ export interface ITransactionData {
         category: "transport",
         itemName: "Автобус",
         price: 5,
-        date: "2025-05-12T07:00:00Z",
+        date: "2025-05-15T07:00:00Z",
         typeOperation: "rate"
       },
       {
@@ -323,7 +323,7 @@ export interface ITransactionData {
         category: "food",
         itemName: "Завтрак",
         price: 20,
-        date: "2025-05-12T08:30:00Z",
+        date: "2025-05-15T08:30:00Z",
         typeOperation: "rate"
       },
       {
@@ -331,7 +331,7 @@ export interface ITransactionData {
         category: "salary",
         itemName: "Основная работа",
         price: 5000,
-        date: "2025-05-12T10:00:00Z",
+        date: "2025-05-15T10:00:00Z",
         typeOperation: "income"
       },
       {
@@ -339,7 +339,7 @@ export interface ITransactionData {
         category: "bonus",
         itemName: "Приз",
         price: 250,
-        date: "2025-05-12T12:00:00Z",
+        date: "2025-05-15T15:00:00Z",
         typeOperation: "income"
       }
     ]

@@ -1,16 +1,16 @@
-import React from 'react';
 import {IoIosArrowDown,} from "react-icons/io";
 import styles from "../../app/styles/ListTransactions.module.css"
 import { useState,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isModalInput } from '../../store/Slice/modalTransaction/modalTransactionSlice';
 import { RootState } from '../../store';
+import { capitalizeFirstLetter } from '../../entities/listTransactions';
+
+
 const ListTransactions = ({list}) => {
     const dispatch = useDispatch()
     const {typeTransaction}  = useSelector((state:RootState)=>state.modalTransactionSlice)
       const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
-
-
 
         useEffect(() => {
     setOpenCategories({});
@@ -40,9 +40,7 @@ const ListTransactions = ({list}) => {
 
 
 
-  function capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+
 
 
 function sumPriceOperation(category:string): number {

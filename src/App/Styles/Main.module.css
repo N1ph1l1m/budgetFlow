@@ -29,5 +29,21 @@ gap:10px;
 .buttonsWrap{
     display: flex;
     width: 500px;
+    justify-content: space-between;
+}
+.listWrapContainer{
+    width: 80%;
+    display: flex;
     justify-content: space-around;
+    align-items:center;
+    flex-direction: row;
+
+
+}
+.wrapGraph{
+    width: 60%;
+
+}
+.wrapList{
+    width: 40%;
 }

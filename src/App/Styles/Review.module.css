@@ -1,91 +1,34 @@
-.analiticWrap{
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items:center;
-    height: auto;
-
-    font-family: "Playfair";
-    /* border:1px solid red; */
-
+.reviewWrap {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  font-family: "Playfair";
+  padding-bottom: 30px;
 }
 
-.headerWrap{
-width: 100%;
-height: 120px;
-display: flex;
-flex-direction: column;
-align-items:center;
+.headerWrap {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.buttonsWrap{
-    display: flex;
-    width: 500px;
-    justify-content: space-around;
+.headerTitle {
+  margin-top: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+.buttonsWrap {
+  display: flex;
+  width: 500px;
+  justify-content: space-around;
 }
 
-.titleHeader{
-    margin-bottom: 10px;
-    font-size: 25px;
-    color:black;
-    font-weight: 600;
-}
-
-.selectWrap{
-    width: 450px;
-    height: 90px;
-    display: flex;
-    flex-direction: row;
-    align-items:center;
-    justify-content: space-around;
-}
-
-.tableWrap{
-    width: 100%;
-    display: flex;
-    align-items:center;
-
-}
-.tableAnaliticBorder{
-    margin: 0px auto;
-
-}
-.tableAnaliticWrap{
-    font-size: 18px;
-    border-collapse: collapse;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.589);
-    background-color:rgb(93,126,88);
-    color:#ffffff;
-}
-th{
-    text-align: center;
-
-}
-.priceWrap{
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-    align-items:center;
-    gap:0px 10px;
-    border:0px solid transparent;
-}
-
-.trashIcon{
-    height: auto;
-    padding: 0px;
-    width: auto;
-    display: none;
-
-}
-
-tr{
-cursor: pointer;
-}
-
-
-.headerTitle{
-    margin-top: 20px;
-    font-size: 20px;
-    text-align: center;
+.wrapList {
+  position: relative;
+  width: 50%;
 }
