@@ -13,19 +13,21 @@ display: flex;
 width: 40%;
 flex-direction: row;
 justify-content: space-around;
+align-items:baseline;
 margin-bottom: 10px;
 
 }
 .navItem{
-
+    position: relative;
     padding: 5px 0px 5px 0px;
     color:#000000;
     font-size: 18px;
     text-align: center;
     font-family: "Playfair";
     cursor: pointer;
-
 }
+
+
 .navItemActive{
   border-bottom: 1px solid rgb(93,126,88);
 }
@@ -55,3 +57,24 @@ margin-bottom: 10px;
     border: none;
 
   }
+.dropDownListWrap{
+
+    position: absolute;
+    background-color:#ffffff;
+    top: 30px;
+    border-radius:5px;
+    font-size: 14px;
+    text-align: left;
+    padding: 4px 5px;
+}
+.dropDownListWrap  li{
+    min-width:120px ;
+    padding: 2px;
+    color:#000000;
+    margin-bottom: 5px;
+    border-radius:5px;
+
+}
+.dropDownListWrap  li:hover{
+    background-color:rgba(128, 128, 128, 0.432);
+}

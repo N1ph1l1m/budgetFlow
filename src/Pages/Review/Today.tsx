@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/Review.module.css";
+import styles from "../../App/Styles/Today.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,8 @@ import { filteredTransactions , groupByTranssaction,getCategorySums} from "../..
 import { RateButton,IncomeButton } from "../../shared/TransactionButtons/TransactionButtons";
 
 import DataPieChart from "../../shared/Charts/DataPieChart";
-export const Review = () => {
+
+export const Today = () => {
 
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const dispatch = useDispatch();
@@ -34,24 +35,7 @@ export const Review = () => {
           updatedMonth,
           transaction: typeTransaction,
         });
-
-        // const filteredRate = filteredTransactions({
-        //   state,
-        //   updatedDay,
-        //   updatedMonth,
-        //   transaction: "rate",
-        // });
-
-        // const filteredIncome = filteredTransactions({
-        //   state,
-        //   updatedDay,
-        //   updatedMonth,
-        //   transaction: "income",
-        // });
-
         setList(groupByTranssaction(filteredList));
-        // setSumRate(sumTransaction(filteredRate));
-        // setSumIncome(sumTransaction(filteredIncome));
       },
           [typeTransaction, setList]
     );

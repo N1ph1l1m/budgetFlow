@@ -30,18 +30,13 @@ const ListTransactions = ({list}) => {
            <span
             style={{color:typeTransaction == 'rate' ?   'red' : 'green' }}
            className={styles.addTransaction}
-          onClick={()=>dispatch(isModalInput())}
+            onClick={()=>dispatch(isModalInput())}
            > Добавьте {typeTransaction == 'rate' ? 'расходы' : 'доходы'}
 
            </span>
         </div>
     </>)
   }
-
-
-
-
-
 
 function sumPriceOperation(category:string): number {
     const items = list[category] || [];

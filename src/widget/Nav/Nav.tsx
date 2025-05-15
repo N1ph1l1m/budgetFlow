@@ -3,10 +3,11 @@ import { InputTransaction } from "../../shared/InputTransaction/InputTransaction
 import { NavLink } from "react-router";
 import Modal from "../ModalWindow/ModalTransaction";
 import { useDispatch, useSelector } from "react-redux";
-
 import { RootState } from "../../store";
 import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import Logo from "../../shared/logo/Logo";
+import { IoIosArrowDown } from "react-icons/io"
+import { useState } from "react";
 type NavProps = {
   isButton: boolean;
   location: string;
@@ -14,9 +15,26 @@ type NavProps = {
 
 export const Nav = ({ isButton, location }: NavProps) => {
   const dispatch = useDispatch();
+  const [isDropDown,setIsDropDown] = useState(false);
   const { modalInput } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
+
+  const DropDownList=()=>{
+return (<>
+{isDropDown &&
+<ul className={styles.dropDownListWrap}>
+       <NavLink to="today/"> <li>Сегодня </li></NavLink>
+        <NavLink to="month/"><li>По месяцам </li></NavLink>
+        <NavLink to="allTime/"><li>Все время</li></NavLink>
+        <NavLink to="custom/"><li>Выбрать период</li></NavLink>
+  </ul>
+              }
+</> )
+  }
+  function toggleDropDown(){
+    setIsDropDown(prev=>!prev)
+  }
 
   return (
     <>
@@ -38,16 +56,18 @@ export const Nav = ({ isButton, location }: NavProps) => {
               Главная
             </li>{" "}
           </NavLink>
-          <NavLink to="review/">
+
             {" "}
             <li
-              className={`${styles.navItem} ${
+              className={`${styles.navItem}   ${
                 location === "/review/" ? styles.navItemActive : ""
               }`}
+              onClick={()=>toggleDropDown()}
             >
-              Обзор
+             Обзор <span><IoIosArrowDown size={12} /></span>
+              {<DropDownList/>}
             </li>{" "}
-          </NavLink>
+
           <NavLink to="setting/">
             <li
               className={`${styles.navItem} ${
