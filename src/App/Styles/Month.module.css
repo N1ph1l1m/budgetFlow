@@ -9,18 +9,18 @@
   padding-bottom: 30px;
 }
 
-.headerWrap {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.headerWrap{
+    margin: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .headerTitle {
-  margin-top: 20px;
   font-size: 20px;
   text-align: center;
+  transform: translateY(-3px);
 }
 .buttonsWrap {
   display: flex;

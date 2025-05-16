@@ -5,11 +5,10 @@ import { createBrowserRouter, RouterProvider,redirect} from "react-router-dom";
 import App from "./pages/App/App"
 import Authorization from "./pages/Authorization/Authorization";
 import Setting from "./pages/Setting/Setting";
-import { Today } from "./pages/Review/Today";
-import Month from "./pages/Review/Month";
+import { Today } from "./pages/Review/Month";
 import AllTime from "./pages/Review/AllTime";
 import Custom from "./pages/Review/Custom";
-
+import Month from "./pages/Review/Month";
 
 function Routers() {
 
@@ -32,13 +31,10 @@ const router = createBrowserRouter ([
         element:<MainPage/>
       },
       {
-        path:"today/",
-        element:<Today/>
+        path:"month/",
+        element:<Month/>
       },
       {
-        path:"month",
-        element:<Month/>
-      },{
         path:"allTime",
         element:<AllTime/>
       },

@@ -6,7 +6,6 @@
     width: 120px;
     font-size: 15px;
     font-weight: 500;
-
     }
 
     .rateTransaction{
@@ -17,6 +16,11 @@
     .incomeTransaction{
         border:1px dashed green;
         background-color:rgba(0, 255, 0, 0.281);
+
+    }
+    .generalTransaction{
+        border:1px dashed blue;
+        background-color:rgba(0, 174, 255, 0.281);
 
     }
     .largeSize{

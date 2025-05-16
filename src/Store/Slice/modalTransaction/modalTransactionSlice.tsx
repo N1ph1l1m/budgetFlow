@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type  typeTransaction = "rate" | "income"
+type  typeTransaction = "rate" | "income" | "general"
 interface IModalTransaction{
     modalInput:boolean,
     modalCategory:boolean ,
@@ -37,6 +37,9 @@ const modalTransactionSlice = createSlice({
         incomeTransaction(state){
             state.typeTransaction = 'income'
         },
+         generalTransaction(state){
+            state.typeTransaction = 'general'
+        },
         setSelectCategory(state,action:PayloadAction<string>){
             state.selectCategory = action.payload
         },
@@ -46,5 +49,5 @@ const modalTransactionSlice = createSlice({
     }
 
 })
-export const {isModalInput,closeModalInput, isModalCategory,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory , resetCategory} = modalTransactionSlice.actions;
+export const {isModalInput,closeModalInput, isModalCategory,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory , resetCategory , generalTransaction} = modalTransactionSlice.actions;
 export default modalTransactionSlice.reducer;

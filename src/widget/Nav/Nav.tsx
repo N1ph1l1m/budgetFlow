@@ -24,10 +24,9 @@ export const Nav = ({ isButton, location }: NavProps) => {
 return (<>
 {isDropDown &&
 <ul className={styles.dropDownListWrap}>
-       <NavLink to="today/"> <li>Сегодня </li></NavLink>
-        <NavLink to="month/"><li>По месяцам </li></NavLink>
-        <NavLink to="allTime/"><li>Все время</li></NavLink>
-        <NavLink to="custom/"><li>Выбрать период</li></NavLink>
+       <NavLink to="month/"> <li>Месяц </li></NavLink>
+        <NavLink to="allTime"><li>Все время  </li></NavLink>
+        <NavLink to="custom/"><li>Период</li></NavLink>
   </ul>
               }
 </> )

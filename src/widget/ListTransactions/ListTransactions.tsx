@@ -10,7 +10,7 @@ import { capitalizeFirstLetter } from '../../entities/listTransactions';
 const ListTransactions = ({list}) => {
     const dispatch = useDispatch()
     const {typeTransaction}  = useSelector((state:RootState)=>state.modalTransactionSlice)
-      const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
+    const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
 
         useEffect(() => {
     setOpenCategories({});
@@ -43,16 +43,15 @@ function sumPriceOperation(category:string): number {
     return items.reduce((total, item) => total + Number(item.price), 0);
   }
 
-    if (Object.keys(list).length === 0) {
+    if (Object.keys(list).length === 0 && typeTransaction !== "general") {
     return (
      <TransactionPlaceholder/>
     );
   }
 
+
     return (
         <>
-
-
          {Object.entries(list).map(([category, items]) => (
           <div className={styles.listWrap} key={category}>
             <div className={styles.headerList}>

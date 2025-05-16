@@ -1,9 +1,10 @@
 import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSlice"
  interface IFilteredTransaction{
   state:ITransactionData[],
-  updatedDay : Date | number,
+  updatedDay?: Date | number,
   updatedMonth :number,
-  transaction:number | string,
+  updatedYear? :number,
+  transaction?:number | string,
 }
 
 
@@ -12,17 +13,43 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
   }
 
 
- export function filteredTransactions({state,updatedDay,updatedMonth,transaction}:IFilteredTransaction){
+ export function filteredTransactions({state,updatedDay,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
    return  state?.filter((item) => {
       const itemDate = new Date(item.date);
       const itemDay = itemDate.getUTCDate();
       const itemMonth = itemDate.getUTCMonth() + 1;
+      const itemYear = itemDate.getUTCFullYear()
+
 
       return (
         itemDay === updatedDay &&
         itemMonth === updatedMonth &&
+        itemYear === updatedYear &&
         item.typeOperation === transaction
       );
+    });
+  }
+   export function filteredTransactionMonth({state,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
+   return  state?.filter((item) => {
+      const itemDate = new Date(item.date);
+      const itemMonth = itemDate.getUTCMonth() + 1;
+      const itemYear = itemDate.getUTCFullYear()
+
+      return (
+        itemMonth === updatedMonth &&
+        itemYear === updatedYear &&
+        item.typeOperation === transaction
+      );
+    });
+  }
+
+  export function filteredTransactionAllMonth({state,updatedMonth,updatedYear,}:IFilteredTransaction){
+   return  state?.filter((item) => {
+      const itemDate = new Date(item.date);
+      const itemMonth = itemDate.getUTCMonth() + 1;
+      const itemYear = itemDate.getUTCFullYear()
+
+      return (itemMonth === updatedMonth && itemYear === updatedYear);
     });
   }
 

@@ -22,11 +22,7 @@ const COLORS = [
           cy="50%"
           outerRadius={120}
           labelLine={false}
-          label={false}
-          animationBegin={100}
-          animationDuration={2000}
-
-        >
+          label={false}>
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}

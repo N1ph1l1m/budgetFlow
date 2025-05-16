@@ -8,6 +8,7 @@ export interface ITransactionData {
   date: string;
   typeOperation: string;
 }
+
 interface ITransaction {
   transactionState: ITransactionData[];
 }
@@ -578,6 +579,130 @@ const initialState: ITransaction = {
       date: "2025-04-08T20:00:00Z",
       typeOperation: "rate",
     },
+    {
+    id: 1742298000011,
+    category: "salary",
+    itemName: "Работа",
+    price: 5000,
+    date: "2025-06-10T09:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000012,
+    category: "food",
+    itemName: "Обед",
+    price: 250,
+    date: "2025-06-10T13:00:00Z",
+    typeOperation: "rate",
+  },
+
+  // Июль
+  {
+    id: 1742298000013,
+    category: "secondJob",
+    itemName: "Фриланс",
+    price: 1200,
+    date: "2025-07-05T15:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000014,
+    category: "entertainment",
+    itemName: "Кино",
+    price: 500,
+    date: "2025-07-05T19:00:00Z",
+    typeOperation: "rate",
+  },
+
+  // Август
+  {
+    id: 1742298000015,
+    category: "gift",
+    itemName: "Подарок",
+    price: 300,
+    date: "2025-08-01T12:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000016,
+    category: "transport",
+    itemName: "Метро",
+    price: 50,
+    date: "2025-08-01T08:30:00Z",
+    typeOperation: "rate",
+  },
+
+  // Сентябрь
+  {
+    id: 1742298000017,
+    category: "salary",
+    itemName: "Работа",
+    price: 5200,
+    date: "2025-09-15T09:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000018,
+    category: "pets",
+    itemName: "Корм",
+    price: 400,
+    date: "2025-09-15T17:00:00Z",
+    typeOperation: "rate",
+  },
+
+  // Октябрь
+  {
+    id: 1742298000019,
+    category: "secondJob",
+    itemName: "Проект",
+    price: 1500,
+    date: "2025-10-20T10:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000020,
+    category: "clothes",
+    itemName: "Куртка",
+    price: 1800,
+    date: "2025-10-20T16:00:00Z",
+    typeOperation: "rate",
+  },
+
+  // Ноябрь
+  {
+    id: 1742298000021,
+    category: "gift",
+    itemName: "Бонус",
+    price: 200,
+    date: "2025-11-03T14:00:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000022,
+    category: "food",
+    itemName: "Ужин",
+    price: 320,
+    date: "2025-11-03T19:30:00Z",
+    typeOperation: "rate",
+  },
+
+  // Декабрь
+  {
+    id: 1742298000023,
+    category: "salary",
+    itemName: "Работа",
+    price: 5500,
+    date: "2025-12-25T09:30:00Z",
+    typeOperation: "income",
+  },
+  {
+    id: 1742298000024,
+    category: "entertainment",
+    itemName: "Подарки на Новый год",
+    price: 1200,
+    date: "2025-12-25T21:00:00Z",
+    typeOperation: "rate",
+  },
   ],
 };
 

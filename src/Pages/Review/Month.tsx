@@ -1,107 +1,103 @@
-import { useSelector } from "react-redux";
+import styles from "../../App/Styles/Month.module.css";
+import { useState, useEffect, useCallback} from "react";
 import { RootState } from "../../store";
-import { useEffect, useState } from "react";
-import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { useSelector} from "react-redux";
+import ListTransactions  from "../../widget/ListTransactions/ListTransactions";
+import {ITransactionData} from "../../store/Slice/transactionsSlice/transactionsSlice"
+import {filteredTransactionMonth, groupByTranssaction,getCategorySums, filteredTransactionAllMonth} from "../../entities/listTransactions";
+import { RateButton,IncomeButton ,GeneralButton } from "../../shared/TransactionButtons/TransactionButtons";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import BarChartComponent from "../../shared/Charts/BarChart";
+import DataPieChart from "../../shared/Charts/DataPieChart";
 
-const Month = () => {
-    const [listMonth,setListMonth] = useState<Record<string, ITransactionData[]>>({});
-    const [sumOperations,setSumOperations] = useState<Record<string, ITransactionData[]>>({});
-    const {transactionState} = useSelector((state:RootState)=>state.transactionsSlice)
-
-
-function groupToMonth() {
-    return transactionState.reduce((acc:Record<string, typeof item[]>, item) => {
-    const option: object = { month: "long" };
-    const dateMonth =new Date(item.date)
-
-    const month = dateMonth.toLocaleDateString("ru-RU", option)
-    if (!acc[month]) {
-      acc[month] = [];
-    }
-    acc[month].push(item);
-    return acc;
-  }, {});
+interface ISumTypeOperation{
+rate:number,
+income:number,
 }
+ const Month = () => {
 
-// function sumPriceOperation() {
-//   const result: Record<string, { rate: number; income: number }> = {};
+  const [list, setList] = useState<Record<string, ITransactionData[]>>({});
+  const [listMonth,setListMonth] = useState<ISumTypeOperation[]>([])
+  const [date,setMonth] = useState(new Date())
 
-//   for (const  i in listMonth) {
-//     const filterRate = listMonth[i].filter(item => item.typeOperation === 'rate');
-//     const filterIncome= listMonth[i].filter(item => item.typeOperation === 'income');
+  const {transactionState}  = useSelector(
+    (state: RootState) => state.transactionsSlice);
+  const {typeTransaction} = useSelector((state:RootState)=>state.modalTransactionSlice)
 
-//     filterRate.forEach(item => {
-//       const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-//       if (!result[month]) {
-//        result[month] = { name:month,rate: 0, income: 0 };
-//       }
-//         result[month].rate += Number(item.price);
-//     });
+  const option: object = { month:  "long",   year: "numeric", };
 
-//      filterIncome.forEach(item => {
-//       const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-//       if (!result[month]) {
-//         result[month] = { name:month,rate: 0, income: 0 };
-//       }
-//     result[month].income += Number(item.price);
-//     });
-//   }
-
-//   return result;
-// }
-
-function sumPriceOperation() {
-  const result: Record<string, { name: string; rate: number; income: number }> = {};
-
-  for (const i in listMonth) {
-    const filterRate = listMonth[i].filter(item => item.typeOperation === 'rate');
-    const filterIncome = listMonth[i].filter(item => item.typeOperation === 'income');
-
-    filterRate.forEach(item => {
-      const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-      if (!result[month]) {
-        result[month] = { name: month, rate: 0, income: 0 };
-      }
-      result[month].rate += Number(item.price);
-    });
-
-    filterIncome.forEach(item => {
-      const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-      if (!result[month]) {
-        result[month] = { name: month, rate: 0, income: 0 };
-      }
-      result[month].income += Number(item.price);
-    });
+  function changeMonth(type:string){
+    const newDate = new Date(date)
+    if(type === "+"){
+      const newMonth  = new Date(newDate.setUTCMonth(date.getUTCMonth()+1))
+      setMonth(newMonth)
+    }
+    if(type === "-"){
+         const newMonth  = new Date(newDate.setUTCMonth(date.getUTCMonth()-1))
+      setMonth(newMonth)
+    }
   }
 
-  // ✅ Преобразуем объект в массив
-  return Object.values(result);
-}
+  function sumTransactionPrice(list:ITransactionData[], typeOperation:string):number{
+    return   list.filter((item)=>item.typeOperation === typeOperation)
+                        .reduce((total,item)=>total + Number(item.price),0)
+  }
 
+  const filterTransition = useCallback(
+      (data: Date, transactionState: ITransactionData[]) => {
+        const state = transactionState;
 
+        const newDate = new Date(data);
+        const updatedMonth = newDate.getUTCMonth() + 1;
+        const updatedYear = newDate.getUTCFullYear()
 
-    useEffect(()=>{
-        setListMonth(groupToMonth())
-    },[])
-
-    useEffect(()=>{
-        setSumOperations(sumPriceOperation())
-
-        // setSumIncome(sumPriceOperation('income'))
-    },[listMonth])
-
-    useEffect(()=>{console.log(sumOperations);},
-    [sumOperations])
-
-    return (
-        <div>
-
-
-            <BarChartComponent data={sumOperations}/>
-
-        </div>
+        const filteredList = filteredTransactionMonth({
+          state,
+          updatedMonth,
+          updatedYear,
+          transaction: typeTransaction,
+        });
+        const filteredAllMonth = filteredTransactionAllMonth({state,updatedMonth,updatedYear})
+        const rateSUm =  sumTransactionPrice(filteredAllMonth,'rate')
+        const incomeSum = sumTransactionPrice(filteredAllMonth,'income')
+        setListMonth([{rate:rateSUm , income:incomeSum}])
+        setList(groupByTranssaction(filteredList));
+      },
+          [typeTransaction, setList]
     );
-};
 
+
+  useEffect(() => {
+    filterTransition(date, transactionState);
+  }, [typeTransaction,date ,transactionState, filterTransition]);
+
+  return (
+    <>
+
+      <div className={styles.reviewWrap}>
+        <header className={styles.headerWrap}>
+            <span className={styles.headerNav} onClick={() => changeMonth("-")}>
+            <IoIosArrowBack color="black" size="20" />
+          </span>
+         <h1 className={styles.headerTitle}>
+          {date.toLocaleDateString("ru-RU", option)}
+        </h1>
+        <span className={styles.headerNav} onClick={() => changeMonth("+")}>
+            <IoIosArrowForward color="black" size="20" />
+          </span>
+        </header>
+           <div className={styles.buttonsWrap}>
+          <RateButton  total={listMonth[0]?.rate} />
+          <GeneralButton/>
+          <IncomeButton  total={listMonth[0]?.income} />
+        </div>
+          { Object.keys(list).length >  0 && <DataPieChart data={getCategorySums(list)}/> }
+        <div className={styles.wrapList}>
+                <ListTransactions  list={list}/>
+        </div>
+        {typeTransaction === "general" &&  <div style={{marginTop:"50px"}}>  <BarChartComponent data = {listMonth} width={400}/></div> }
+      </div>
+    </>
+  );
+};
 export default Month;

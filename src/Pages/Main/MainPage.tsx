@@ -54,11 +54,13 @@ export const MainPage = () => {
       const newDate = new Date(data);
       const updatedDay = newDate.getUTCDate();
       const updatedMonth = newDate.getUTCMonth() + 1;
+      const updatedYear = newDate.getUTCFullYear()
 
       const filteredList = filteredTransactions({
         state,
         updatedDay,
         updatedMonth,
+        updatedYear,
         transaction: typeTransaction,
       });
 
@@ -66,6 +68,7 @@ export const MainPage = () => {
         state,
         updatedDay,
         updatedMonth,
+        updatedYear,
         transaction: "rate",
       });
 
@@ -73,6 +76,7 @@ export const MainPage = () => {
         state,
         updatedDay,
         updatedMonth,
+        updatedYear,
         transaction: "income",
       });
 
@@ -87,7 +91,7 @@ export const MainPage = () => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
 
-  const option: object = { month: "long", day: "numeric" };
+  const option: object = { month: "long", day: "numeric" ,   year: "numeric",};
 
   return (
     <>
@@ -105,8 +109,8 @@ export const MainPage = () => {
         </header>
 
         <div className={styles.buttonsWrap}>
-          <RateButton total={sumRate} large />
-          <IncomeButton total={sumIncome} large />
+          <RateButton total={sumRate ? sumRate : null} large />
+          <IncomeButton total={sumIncome ? sumIncome : null} large />
         </div>
         {Object.keys(list).length >  0  ?
         <div className={styles.listWrapContainer}>
