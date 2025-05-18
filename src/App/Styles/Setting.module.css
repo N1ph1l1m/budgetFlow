@@ -1,0 +1,36 @@
+.wrapSetting {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  padding-top: 50px;
+}
+h1 {
+  font-size: 28px;
+}
+
+.settingItem {
+  max-width: 400px;
+  padding: 5;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 0px;
+  background-color: transparent;
+  /* border: 1px solid red; */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.titleSettingItem {
+  font-size: 26px;
+}
+.selectWallet {
+  background-color: transparent;
+}
+.selectCustom {
+  font-size: 10px;
+  padding: 0px;
+}

@@ -1,7 +1,7 @@
 import styles from "../../app/styles/Authorization.module.css";
 import Logo from "../../shared/logo/Logo";
-import Login from "../../shared/login/Login";
-import SignUp from "../../shared/SignUp/SignUp";
+import Login from "../../Shared/login/Login";
+import SignUp from "../../Shared/SignUp/SignUp";
 import { useState } from "react";
 
 const Authorization = () => {

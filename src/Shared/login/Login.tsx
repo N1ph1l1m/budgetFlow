@@ -2,10 +2,12 @@ import styles from "../../app/styles/Authorization.module.css";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
+import { param } from "../../App/params/param";
+import axios from "axios";
 type typeMessage = "off" | "error" | "success";
-interface ICreateMessage{
-  typeMessage:typeMessage,
-  message:string,
+interface ICreateMessage {
+  typeMessage: typeMessage;
+  message: string;
 }
 const Login = () => {
   const [login, setLogin] = useState("");
@@ -13,10 +15,8 @@ const Login = () => {
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const rightLogin = "admin"
-  const rightPassword = "ghost"
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
     setLogin(e.target.value);
   }
@@ -24,38 +24,40 @@ const Login = () => {
   function handlerPassword(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
- function createMessage({typeMessage,message}:ICreateMessage ){
-        setIsMessage(typeMessage);
-        setTextMessage(message);
+  function createMessage({ typeMessage, message }: ICreateMessage) {
+    setIsMessage(typeMessage);
+    setTextMessage(message);
+  }
+
+  async function loginUser() {
+    try {
+      const URL = `${param.baseUser}auth/token/login/`;
+      const { data } = await axios.post(URL, {
+        username: login,
+        password: password,
+      });
+      localStorage.setItem("token", data.auth_token);
+      localStorage.setItem("username", login);
+      navigate("/", { replace: true });
+    } catch (error) {
+      createMessage({ typeMessage: "error", message: `${error}` });
+    }
+  }
+  function validateForm(): string | null {
+    if (!login && !password) return "Введите логин и пароль";
+    if (!login) return "Введите логин";
+    if (!password) return "Введите пароль";
+    return null;
   }
 
   function handlerSubmit(e: FormEvent<HTMLFormElement>) {
-    try {
-      console.log(login, password);
-      e.preventDefault();
-      if (login.length == 0 && password.length == 0) {
-        createMessage({typeMessage:"error",message:"Введитее логин и пароль  пароль"})
-      } else if (login.length == 0) {
-        createMessage({typeMessage:"error",message:"Введите логин "})
-      } else if (password.length == 0) {
-         createMessage({typeMessage:"error",message:"Введитее пароль"})
-      }else if(login !== rightLogin && password == rightPassword){
-        createMessage({typeMessage:"error",message:"Неверный логин или  пароль"})
-      }else{
-        createMessage({typeMessage:"success",message:"Авторизация успешна"})
-        localStorage.setItem("token",login)
-        setTimeout(()=>{
-          setLogin("")
-          setPassword("")
-          createMessage({typeMessage:"off",message:""})
-          navigate("/", { replace: true });
-          setTextMessage("")},3000)
-       }
-      }
-     catch (error) {
-      createMessage({typeMessage:"error",message:`${error}`})
+    e.preventDefault();
+    const errorMessage = validateForm();
+    if (errorMessage) {
+      createMessage({ typeMessage: "error", message: errorMessage });
+      return;
     }
-
+    loginUser();
   }
 
   return (
