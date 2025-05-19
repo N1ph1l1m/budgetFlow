@@ -29,6 +29,21 @@ const Login = () => {
     setTextMessage(message);
   }
 
+  async function getMe(token:string) {
+    try{
+    const URL = `${param.baseUser}auth/users/me/`;
+      const {data} = await axios.get(URL, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      localStorage.setItem("token",token)
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("id", data.id);
+    }catch(error){
+      createMessage({ typeMessage: "error", message: `${error}` });
+    }
+  }
   async function loginUser() {
     try {
       const URL = `${param.baseUser}auth/token/login/`;
@@ -36,8 +51,7 @@ const Login = () => {
         username: login,
         password: password,
       });
-      localStorage.setItem("token", data.auth_token);
-      localStorage.setItem("username", login);
+      await  getMe(data.auth_token)
       navigate("/", { replace: true });
     } catch (error) {
       createMessage({ typeMessage: "error", message: `${error}` });

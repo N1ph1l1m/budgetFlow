@@ -15,9 +15,9 @@ const SelectCategory = () => {
     <div className={styles.selectCategoryWrap}>
       <div className={styles.headerCategory}>
         <span>
-          <BiCategoryAlt color="green" size="40" />
+            {selectCategory.length > 0 && selectCategory[0].icon  ? <img style={{width:"40px"}} src={selectCategory[0].icon} alt={`iconCategory`}/> : <BiCategoryAlt color="green" size="40" />}
         </span>
-        <span className={styles.titleCategory}>{selectCategory}</span>
+        <span className={styles.titleCategory}>{ selectCategory.length >0 ?  selectCategory[0].name : ""}</span>
       </div>
       <button
         className={styles.isMenuButton}

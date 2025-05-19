@@ -8,12 +8,25 @@ export interface ITransactionData {
   date: string;
   typeOperation: string;
 }
+interface IOwnerCategory{
+  id:number,
+  username:string
+}
 
+export interface ICategory{
+  id:number,
+   name:string,
+  icon:string,
+  type_transaction:string
+  owner_category:IOwnerCategory[]
+}
 interface ITransaction {
   transactionState: ITransactionData[];
+  categoryList:ICategory[]
 }
 
 const initialState: ITransaction = {
+  categoryList:[],
   transactionState: [
     {
       id: 1742288245880,
@@ -719,7 +732,10 @@ const transactionsSlice = createSlice({
       );
       state.transactionState = filteredData;
     },
+    setListCategory(state,action:PayloadAction<ICategory[]>){
+      state.categoryList = action.payload;
+    }
   },
 });
-export const { setTransaction, deleteTransaction } = transactionsSlice.actions;
+export const { setTransaction, deleteTransaction,setListCategory } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

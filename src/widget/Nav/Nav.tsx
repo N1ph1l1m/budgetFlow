@@ -8,6 +8,9 @@ import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactio
 import Logo from "../../shared/logo/Logo";
 import { IoIosArrowDown } from "react-icons/io"
 import { useState } from "react";
+import {getListCategory}from "../../entities/API/getListCategory";
+import { setListCategory } from "../../store/Slice/transactionsSlice/transactionsSlice";
+
 type NavProps = {
   isButton: boolean;
   location: string;
@@ -19,7 +22,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
   const { modalInput } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
-
+  const {categoryList} = useSelector((state:RootState)=>state.transactionsSlice)
   const DropDownList=()=>{
 return (<>
 {isDropDown &&
@@ -34,6 +37,15 @@ return (<>
   function toggleDropDown(){
     setIsDropDown(prev=>!prev)
   }
+
+async  function handlerIsModal(){
+    if(categoryList.length === 0){
+      const data = await getListCategory()
+      dispatch(setListCategory(data))
+    }
+    dispatch(isModalInput())
+}
+
 
   return (
     <>
@@ -84,7 +96,7 @@ return (<>
       >
         <button
           className={styles.addTransactionButton}
-          onClick={() => dispatch(isModalInput())}
+          onClick={() => handlerIsModal()}
         >
           +
         </button>

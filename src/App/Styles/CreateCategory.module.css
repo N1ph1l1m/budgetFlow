@@ -1,0 +1,61 @@
+.wrapCreateCategory{
+    width: 400px;
+    border-radius:5px;
+    background-color:#ffffff;
+    margin:15% auto;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    position:relative;
+    gap: 10px;
+}
+.headeWrap{
+    width: 100%;
+    padding: 5px;
+}
+.titleHeader{
+    font-size: 20px;
+    text-align: center;
+}
+.closeModal{
+    position: absolute;
+    right: 5px;
+    top:5px;
+    background-color:transparent;
+}
+label{
+    font-size: 18px;
+    font-weight: 500;
+}
+.wrapContent{
+    margin-top: 10px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    padding-bottom: 10px;
+}
+.inputName{
+border-radius:5px;
+border:1px solid gray;
+padding: 5px;
+}
+.selectTypeTransaction{
+    border-radius:5px;
+background-color:#ffffff;
+border:1px solid gray;
+padding: 5px;
+}
+.createCategory{
+background-color:green;
+width: 100%;
+padding: 5px;
+border-radius:5px;
+color:#ffffff;
+}
+.messageSuccess{
+    color:green;
+}
+.messageError{
+    color:red;
+}

@@ -6,9 +6,20 @@ import Select from "react-select";
 import pmr from "../../App/Icons/Flag_of_Transnistria_(variant).svg.png";
 import { useNavigate } from "react-router";
 import { FaMoneyBillWave } from "react-icons/fa";
+import Modal from "../../widget/ModalWindow/ModalTransaction";
+import CreateCategory from "../../widget/createCategory/CreateCategory";
+import { useState } from "react";
+
 const Setting = () => {
+  const  [isModalCategory,setIsModalCategory] = useState(false)
   const navigate = useNavigate();
 
+  function hanlderIsModal(){
+    setIsModalCategory(prev=>!prev)
+  }
+  function closeModal(){
+    setIsModalCategory(false)
+  }
   const options = [
     {
       value: "RUP",
@@ -33,14 +44,16 @@ const Setting = () => {
     },
   ];
   return (
-    <div className={styles.wrapSetting}>
+    <>
+    {isModalCategory && <Modal><CreateCategory closeModal={()=>closeModal()}/></Modal>}
+        <div className={styles.wrapSetting}>
       <header>
         <h1>Настройки</h1>
       </header>
 
       <ul className={styles.settingList}>
         <li>
-          <button className={styles.settingItem}>
+          <button className={styles.settingItem} onClick={()=>hanlderIsModal()}>
             <FaRegPlusSquare size={25} />
             <span className={styles.titleSettingItem}>Добавить категорию</span>
           </button>
@@ -64,7 +77,7 @@ const Setting = () => {
           </button>
         </li>
       </ul>
-    </div>
+    </div></>
   );
 };
 

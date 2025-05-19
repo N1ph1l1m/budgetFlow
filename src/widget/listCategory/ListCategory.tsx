@@ -10,14 +10,17 @@ const ListCategory = () => {
 
   const dispatch = useDispatch();
   const {typeTransaction} = useSelector((state:RootState)=>state.modalTransactionSlice)
+  const {categoryList } = useSelector((state:RootState)=>state.transactionsSlice)
 
   function closeModal(){
     dispatch(closeModalCategory())
   }
-  function selectCategory(category:string){
-    dispatch(setSelectCategory(category))
+  function selectCategory(name:string,icon:string){
+    dispatch(setSelectCategory({name:name, icon:icon}))
     closeModal()
   }
+  const filterCategory  = categoryList.filter((item)=> item.type_transaction.name === typeTransaction )
+  console.log(filterCategory);
   return (
     <div className={styles.listWrap}>
       <div className={styles.headerModal}>
@@ -29,9 +32,9 @@ const ListCategory = () => {
         </button>
       </div>
       <ul className={styles.categoryListWrap}>
-        {CateroryTransaction[typeTransaction].map((category) => (
-          <li onClick={()=>selectCategory(category.name)} key={category.id} value={category.key}>
-            {category.name}
+        {filterCategory.map((category) => (
+          <li className={styles.categoryListItem} onClick={()=>selectCategory(category.name , category.icon)} key={category.id} value={category.key}>
+           <img  className={styles.categoryListIcon}src={category.icon} alt={category.id}/> {category.name}
           </li>
         ))}
       </ul>

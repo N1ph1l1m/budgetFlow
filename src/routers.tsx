@@ -28,6 +28,7 @@ function Routers() {
       path: "/",
       element: <App />,
       loader: privateRouter,
+
       children: [
         {
           index: true,
@@ -36,6 +37,7 @@ function Routers() {
         {
           path: "month/",
           element: <Month />,
+
         },
         {
           path: "allTime",
@@ -59,7 +61,8 @@ function Routers() {
 
   return (
     <div className="wrapRoute">
-      <RouterProvider router={router} />
+      <RouterProvider router={router}       />
+
     </div>
   );
 }

@@ -18,7 +18,7 @@ export const InputTransaction = () => {
   const dispatch = useDispatch();
 
   const [itemName, setItemName] = useState("");
-const [price, setPrice] = useState<number | null>(null);
+  const [price, setPrice] = useState<number | null>(null);
 
   const [dateTransaction, setDateTransaction] = useState("");
   const { typeTransaction, selectCategory } = useSelector(
