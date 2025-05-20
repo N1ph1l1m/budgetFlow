@@ -8,20 +8,19 @@ import {
 import App from "./pages/App/App";
 import Authorization from "./pages/Authorization/Authorization";
 import Setting from "./pages/Setting/Setting";
-import { Today } from "./pages/Review/Month";
 import AllTime from "./pages/Review/AllTime";
 import Custom from "./pages/Review/Custom";
 import Month from "./pages/Review/Month";
 
 function Routers() {
   function privateRouter() {
-    console.log("private");
     const token = localStorage.getItem("token");
     if (!token) {
       throw redirect("/authorization/");
     }
     return null;
   }
+
 
   const router = createBrowserRouter([
     {

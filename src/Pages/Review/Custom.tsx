@@ -5,7 +5,7 @@ const Custom = () => {
 
   const getToday = () => {
     const today = new Date();
-    console.log(today);
+    // console.log(today);
     return today.toISOString().split("T")[0]; // "2025-05-16"
   };
 

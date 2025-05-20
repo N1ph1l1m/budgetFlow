@@ -1,6 +1,6 @@
 import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSlice"
  interface IFilteredTransaction{
-  state:ITransactionData[],
+  state:ITransactionData[] | object,
   updatedDay?: Date | number,
   updatedMonth :number,
   updatedYear? :number,
@@ -14,20 +14,22 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
 
 
  export function filteredTransactions({state,updatedDay,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
+
    return  state?.filter((item) => {
       const itemDate = new Date(item.date);
       const itemDay = itemDate.getUTCDate();
       const itemMonth = itemDate.getUTCMonth() + 1;
       const itemYear = itemDate.getUTCFullYear()
 
-
       return (
         itemDay === updatedDay &&
         itemMonth === updatedMonth &&
-        itemYear === updatedYear &&
-        item.typeOperation === transaction
+        itemYear === updatedYear
+        &&
+        item.category.type_transaction.name === transaction
       );
     });
+          // console.log(filter);
   }
    export function filteredTransactionMonth({state,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
    return  state?.filter((item) => {
@@ -37,8 +39,10 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
 
       return (
         itemMonth === updatedMonth &&
-        itemYear === updatedYear &&
-        item.typeOperation === transaction
+        itemYear === updatedYear
+
+        &&
+        item.category.type_transaction.name === transaction
       );
     });
   }
@@ -55,18 +59,20 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
 
 
 export function groupByTranssaction(filteredList:ITransactionData[]){
-    return  filteredList.reduce((acc:Record<string, typeof product[]>, product) => {
-      const category:string = product.category;
+
+  return   filteredList?.reduce((acc:Record<string, typeof product[]>, product) => {
+      const category:string = product.category.name;
       if (!acc[category]) {
         acc[category] = [];
       }
       acc[category].push(product);
       return acc;
     }, {} as Record<string, typeof filteredList[0][]>);
+
   }
 
 
-export function getCategorySums(list:ITransactionData){
+export function getCategorySums(list: Record<string, ITransactionData[]>){
   return   Object.entries(list).map(([category, items]) => {
   const sum = items.reduce((acc, item) => acc + item.price, 0);
   return { name: capitalizeFirstLetter(category), value: sum };

@@ -43,11 +43,9 @@ function sumPriceOperation(category:string): number {
     return items.reduce((total, item) => total + Number(item.price), 0);
   }
 
-    if (Object.keys(list).length === 0 && typeTransaction !== "general") {
-    return (
-     <TransactionPlaceholder/>
-    );
-  }
+if (!list || typeof list !== "object" || Object.keys(list).length === 0 && typeTransaction !== "general") {
+  return <TransactionPlaceholder />;
+}
 
 
     return (
@@ -57,6 +55,7 @@ function sumPriceOperation(category:string): number {
             <div className={styles.headerList}>
               <span className={styles.titleList}>
                 {capitalizeFirstLetter(category)}
+
               </span>
               <div className={styles.listMenu}>
                 <span className={styles.listPrice}>
@@ -76,7 +75,9 @@ function sumPriceOperation(category:string): number {
                 {openCategories[category] &&
                   items.map((item) => (
                     <li className={styles.listItems} key={item.id}>
-                      <span> {capitalizeFirstLetter(item.itemName)} </span>{" "}
+                      <span>
+                        {capitalizeFirstLetter(item.description)}
+                        </span>{" "}
                       <span> {item.price} &#8381;</span>
                     </li>
                   ))}

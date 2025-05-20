@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import transactionsSlice from "./Slice/transactionsSlice/transactionsSlice"
 import modalTransactionSlice from "./Slice/modalTransaction/modalTransactionSlice"
-const store = configureStore({
+export const store = configureStore({
     reducer:{
         transactionsSlice:transactionsSlice,
         modalTransactionSlice:modalTransactionSlice
