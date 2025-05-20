@@ -730,7 +730,7 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     setTransaction(state, action: PayloadAction<ITransactionData>) {
-      state.transactionState.push(action.payload);
+      state.transactionState = [action.payload];
       state.isLoaded = true;
     },
     deleteTransaction(state, actions: PayloadAction<number>) {

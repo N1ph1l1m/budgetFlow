@@ -1,17 +1,41 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import BarChartComponent from "../../shared/Charts/BarChart";
+import { getTransactions } from "../../entities/API/getTransactions";
+import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
 
 const AllTime = () => {
+
+     const dispatch = useDispatch()
+    const {isLoaded} = useSelector((state:RootState)=>state.transactionsSlice)
+
+  useEffect(() => {
+      if (!isLoaded) {
+        getTransactions().then((transactions) => {
+          if (transactions) {
+            dispatch(setTransaction(transactions));
+          }
+        });
+      }
+    }, [isLoaded, dispatch]);
+
     const [listMonth,setListMonth] = useState<Record<string, ITransactionData[]>>({});
     const [sumOperations,setSumOperations] = useState<Record<string, ITransactionData[]>>({});
+
     const {transactionState} = useSelector((state:RootState)=>state.transactionsSlice)
 
 
+     useEffect(()=>{
+        setListMonth(groupToMonth())
+    },[transactionState])
+
+
+
+
 function groupToMonth() {
-    return transactionState.reduce((acc:Record<string, typeof item[]>, item) => {
+    return transactionState[0]?.reduce((acc:Record<string, typeof item[]>, item) => {
     const option: object = { month: "long" };
     const dateMonth =new Date(item.date)
 
@@ -28,8 +52,8 @@ function sumPriceOperation() {
   const result: Record<string, { name: string; rate: number; income: number }> = {};
 
   for (const i in listMonth) {
-    const filterRate = listMonth[i].filter(item => item.typeOperation === 'rate');
-    const filterIncome = listMonth[i].filter(item => item.typeOperation === 'income');
+    const filterRate = listMonth[i].filter(item => item.category.type_transaction.name  === 'rate');
+    const filterIncome = listMonth[i].filter(item => item.category.type_transaction.name  === 'income');
 
     filterRate.forEach(item => {
       const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
@@ -50,9 +74,6 @@ function sumPriceOperation() {
 
   return Object.values(result);
 }
-    useEffect(()=>{
-        setListMonth(groupToMonth())
-    },[])
 
     useEffect(()=>{
         setSumOperations(sumPriceOperation())

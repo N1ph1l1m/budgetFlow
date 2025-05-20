@@ -2,7 +2,6 @@ import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { useState, ChangeEvent } from "react";
-import { v4 as uuidv4 } from "uuid"; // уникальный id
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
 import { closeModalInput,resetCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
@@ -11,8 +10,9 @@ import {
   IncomeButton,
 } from "../TransactionButtons/TransactionButtons";
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
-
+import { createTransactions } from "../../entities/API/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
+import { getTransactions } from "../../entities/API/getTransactions";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export const InputTransaction = () => {
   function closeModal() {
     dispatch(closeModalInput());
   }
-  function addItem() {
+  async function addItem() {
     const date  =    new Date().toISOString();
     if (!selectCategory) {
       alert("Выберите категорию");
@@ -57,18 +57,27 @@ export const InputTransaction = () => {
       alert("Введите цену");
       return;
     }
-
-
-    dispatch(
-      setTransaction({
-        id: parseInt(uuidv4()),
-        category: selectCategory,
-        itemName: itemName,
-        price: price ,
-        date: dateTransaction || date,
-        typeOperation: typeTransaction === "income" ? "income" : "rate",
-      })
+    try {
+    await createTransactions(
+      itemName,
+      price,
+      selectCategory.id,
+      typeTransaction[0].id,
+      dateTransaction || date
     );
+
+
+    const updateTransactions = await getTransactions()
+    console.log(updateTransactions)
+    dispatch(setTransaction( await updateTransactions))
+    closeModal();
+    resetCategory();
+
+  } catch (error: any) {
+    console.error("Ошибка при создании транзакции:", error);
+    alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
+  }
+
     closeModal();
     resetCategory();
   }

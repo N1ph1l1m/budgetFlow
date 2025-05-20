@@ -15,16 +15,16 @@ const ListCategory = () => {
   function closeModal(){
     dispatch(closeModalCategory())
   }
-  function selectCategory(name:string,icon:string){
-    dispatch(setSelectCategory({name:name, icon:icon}))
+  function selectCategory(id:number,name:string,icon:string){
+    dispatch(setSelectCategory({id:id,name:name, icon:icon}))
     closeModal()
   }
-  const filterCategory  = categoryList.filter((item)=> item.type_transaction.name === typeTransaction )
+  const filterCategory  = categoryList.filter((item)=> item.type_transaction.name === typeTransaction[0].name )
   console.log(filterCategory);
   return (
     <div className={styles.listWrap}>
       <div className={styles.headerModal}>
-        <BsClipboard2PlusFill color = {typeTransaction  === "income" ? "rgb(93,126,88)" : "rgb(181,53,52)"  }
+        <BsClipboard2PlusFill color = {typeTransaction[0].name  === "income" ? "rgb(93,126,88)" : "rgb(181,53,52)"  }
                 size="20" />
         <h1 className={styles.titleModal}>Категории</h1>
         <button className={styles.closeModal} onClick={()=>closeModal()}>
@@ -33,7 +33,7 @@ const ListCategory = () => {
       </div>
       <ul className={styles.categoryListWrap}>
         {filterCategory.map((category) => (
-          <li className={styles.categoryListItem} onClick={()=>selectCategory(category.name , category.icon)} key={category.id} value={category.key}>
+          <li className={styles.categoryListItem} onClick={()=>selectCategory( category.id,category.name , category.icon)} key={category.id} value={category.key}>
            <img  className={styles.categoryListIcon}src={category.icon} alt={category.id}/> {category.name}
           </li>
         ))}

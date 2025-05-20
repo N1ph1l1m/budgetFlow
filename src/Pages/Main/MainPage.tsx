@@ -85,7 +85,7 @@ useEffect(() => {
         updatedDay,
         updatedMonth,
         updatedYear,
-        transaction: typeTransaction,
+        transaction: typeTransaction[0].name,
       });
 
       const filteredRate = filteredTransactions({
@@ -114,6 +114,7 @@ useEffect(() => {
   useEffect(() => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
+
 
   const option: object = { month: "long", day: "numeric" ,   year: "numeric",};
   return (

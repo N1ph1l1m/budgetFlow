@@ -73,8 +73,8 @@ export function groupByTranssaction(filteredList:ITransactionData[]){
 
 
 export function getCategorySums(list: Record<string, ITransactionData[]>){
-  return   Object.entries(list).map(([category, items]) => {
+  return   Object.entries(list).map(([description, items]) => {
   const sum = items.reduce((acc, item) => acc + item.price, 0);
-  return { name: capitalizeFirstLetter(category), value: sum };
+  return { name: capitalizeFirstLetter(description), value: sum };
 });
 }
