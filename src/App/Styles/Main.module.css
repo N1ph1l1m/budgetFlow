@@ -1,48 +1,43 @@
-.mainWrap{
-height: auto;
-margin-top: 20px;
-padding: 10px;
-font-family: "Playfair";
-font-weight: 600;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items:center;
-gap:10px;
+.mainWrap {
+  height: auto;
+  margin-top: 20px;
+  padding: 10px;
+  font-family: "Playfair";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.headerWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.headerTitle {
+  font-size: 20px;
+}
+.headerNav {
+  transform: translateY(4px);
+  cursor: pointer;
+}
 
+.buttonsWrap {
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
 }
-.headerWrap{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+.listWrapContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-.headerTitle{
-    font-size: 20px;
+.wrapGraph {
+  width: 60%;
 }
-.headerNav{
-    transform: translateY(4px);
-    cursor: pointer;
-}
-
-.buttonsWrap{
-    display: flex;
-    width: 500px;
-    justify-content: space-between;
-}
-.listWrapContainer{
-    width: 80%;
-    display: flex;
-    justify-content: space-around;
-    align-items:center;
-    flex-direction: row;
-
-
-}
-.wrapGraph{
-    width: 60%;
-
-}
-.wrapList{
-    width: 40%;
+.wrapList {
+  width: 50%;
 }

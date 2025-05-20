@@ -4,7 +4,10 @@ import { setTransaction } from "../../store/Slice/transactionsSlice/transactions
 import { useState, ChangeEvent } from "react";
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
-import { closeModalInput,resetCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import {
+  closeModalInput,
+  resetCategory,
+} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
   IncomeButton,
@@ -25,11 +28,11 @@ export const InputTransaction = () => {
     (state: RootState) => state.modalTransactionSlice
   );
 
- function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
-  const digitsOnly = e.target.value.replace(/\D/g, '');
-  const parsed = parseInt(digitsOnly, 10);
-  setPrice(Number.isNaN(parsed) ? null : parsed);
-}
+  function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
+    const digitsOnly = e.target.value.replace(/\D/g, "");
+    const parsed = parseInt(digitsOnly, 10);
+    setPrice(Number.isNaN(parsed) ? null : parsed);
+  }
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const date = new Date(e.target.value).toISOString();
@@ -43,8 +46,9 @@ export const InputTransaction = () => {
   function closeModal() {
     dispatch(closeModalInput());
   }
+
   async function addItem() {
-    const date  =    new Date().toISOString();
+    const date = new Date().toISOString();
     if (!selectCategory) {
       alert("Выберите категорию");
       return;
@@ -58,25 +62,22 @@ export const InputTransaction = () => {
       return;
     }
     try {
-    await createTransactions(
-      itemName,
-      price,
-      selectCategory.id,
-      typeTransaction[0].id,
-      dateTransaction || date
-    );
+      await createTransactions(
+        itemName,
+        price,
+        selectCategory.id,
+        typeTransaction[0].id,
+        dateTransaction || date
+      );
 
-
-    const updateTransactions = await getTransactions()
-    console.log(updateTransactions)
-    dispatch(setTransaction( await updateTransactions))
-    closeModal();
-    resetCategory();
-
-  } catch (error: any) {
-    console.error("Ошибка при создании транзакции:", error);
-    alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
-  }
+      const updateTransactions = await getTransactions();
+      dispatch(setTransaction(await updateTransactions));
+      closeModal();
+      resetCategory();
+    } catch (error: any) {
+      console.error("Ошибка при создании транзакции:", error);
+      alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
+    }
 
     closeModal();
     resetCategory();
@@ -93,9 +94,8 @@ export const InputTransaction = () => {
         </div>
         <div>
           <input
-
             className={styles.inputPrice}
-            value={price ?? ''}
+            value={price ?? ""}
             onChange={(e) => handlerPrice(e)}
             inputMode="numeric"
             type="text"
@@ -142,7 +142,7 @@ export const InputTransaction = () => {
           className={styles.addItem}
           style={{
             backgroundColor:
-              typeTransaction === "income"
+              typeTransaction[0].name === "income"
                 ? "rgb(93,126,88)"
                 : "rgb(181,53,52)",
           }}

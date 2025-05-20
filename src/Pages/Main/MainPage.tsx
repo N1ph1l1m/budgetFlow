@@ -1,5 +1,5 @@
 import styles from "../../App/Styles/Main.module.css";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useCallback, useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
@@ -15,29 +15,18 @@ import {
 } from "../../entities/listTransactions";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
-import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
-import { getTransactions } from "../../entities/API/getTransactions";
+import { fetchTransactions } from "../../entities/API/getTransactions";
+import { getListCategory } from "../../entities/API/getListCategory";
 export const MainPage = () => {
-
-
-  const dispatch = useDispatch()
-  const {isLoaded} = useSelector((state:RootState)=>state.transactionsSlice)
-
-useEffect(() => {
-    if (!isLoaded) {
-      getTransactions().then((transactions) => {
-        if (transactions) {
-          dispatch(setTransaction(transactions));
-        }
-      });
-    }
-  }, [isLoaded, dispatch]);
-
-
-
-  const { transactionState } = useSelector(
+  const dispatch = useDispatch();
+  const { isLoaded, transactionState, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
+
+  useEffect(() => {
+    fetchTransactions(isLoaded, dispatch);
+    getListCategory(categoryList, dispatch);
+  }, [isLoaded, dispatch, transactionState]);
 
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
@@ -46,7 +35,6 @@ useEffect(() => {
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const [sumRate, setSumRate] = useState<number>(0);
   const [sumIncome, setSumIncome] = useState<number>(0);
-
 
   function changeDay(type: string) {
     const newDate = new Date(date);
@@ -59,29 +47,27 @@ useEffect(() => {
   }
 
   function sumTransaction(filtered: ITransactionData[]): number {
-  return  filtered?.reduce((acc, item) => acc + item.price, 0);
-
+    return filtered?.reduce((acc, item) => acc + item.price, 0);
   }
 
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
+      const state = transactionState[0];
 
-      const state = transactionState[0]
-
-        if (!state) {
-      setList({});
-      setSumRate(0);
-      setSumIncome(0);
-      return;
-    }
+      if (!state) {
+        setList({});
+        setSumRate(0);
+        setSumIncome(0);
+        return;
+      }
 
       const newDate = new Date(data);
       const updatedDay = newDate.getUTCDate();
       const updatedMonth = newDate.getUTCMonth() + 1;
-      const updatedYear = newDate.getUTCFullYear()
+      const updatedYear = newDate.getUTCFullYear();
 
       const filteredList = filteredTransactions({
-        state:state,
+        state: state,
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -115,8 +101,7 @@ useEffect(() => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
 
-
-  const option: object = { month: "long", day: "numeric" ,   year: "numeric",};
+  const option: object = { month: "long", day: "numeric", year: "numeric" };
   return (
     <>
       <div className={styles.mainWrap}>
@@ -136,14 +121,18 @@ useEffect(() => {
           <RateButton total={sumRate ? sumRate : null} large />
           <IncomeButton total={sumIncome ? sumIncome : null} large />
         </div>
-        {Object.keys(list).length >  0  ?
-        <div className={styles.listWrapContainer}>
-          <div className={styles.wrapGraph}>
-            <DataPieChart data={getCategorySums(list)}/>
+        {Object.keys(list).length > 0 ? (
+          <div className={styles.listWrapContainer}>
+            <div className={styles.wrapGraph}>
+              <DataPieChart data={getCategorySums(list)} />
+            </div>
+            <div className={styles.wrapList}>
+              <ListTransactions list={list} />
+            </div>
           </div>
-          <div className={styles.wrapList}><ListTransactions list={list} /></div>
-        </div> :
-        <ListTransactions list={list} />}
+        ) : (
+          <ListTransactions list={list} />
+        )}
       </div>
     </>
   );

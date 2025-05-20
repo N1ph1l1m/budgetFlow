@@ -1,90 +1,107 @@
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import BarChartComponent from "../../shared/Charts/BarChart";
-import { getTransactions } from "../../entities/API/getTransactions";
-import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { fetchTransactions } from "../../entities/API/getTransactions";
 
 const AllTime = () => {
-
-     const dispatch = useDispatch()
-    const {isLoaded} = useSelector((state:RootState)=>state.transactionsSlice)
+  const dispatch = useDispatch();
+  const { isLoaded } = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
 
   useEffect(() => {
-      if (!isLoaded) {
-        getTransactions().then((transactions) => {
-          if (transactions) {
-            dispatch(setTransaction(transactions));
-          }
-        });
-      }
-    }, [isLoaded, dispatch]);
+    fetchTransactions(isLoaded, dispatch);
+  }, [isLoaded, dispatch]);
 
-    const [listMonth,setListMonth] = useState<Record<string, ITransactionData[]>>({});
-    const [sumOperations,setSumOperations] = useState<Record<string, ITransactionData[]>>({});
+  const [listMonth, setListMonth] = useState<
+    Record<string, ITransactionData[]>
+  >({});
+  const [sumOperations, setSumOperations] = useState<
+    Record<string, ITransactionData[]>
+  >({});
 
-    const {transactionState} = useSelector((state:RootState)=>state.transactionsSlice)
+  const { transactionState } = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
 
+  useEffect(() => {
+    setListMonth(groupToMonth());
+  }, [transactionState]);
 
-     useEffect(()=>{
-        setListMonth(groupToMonth())
-    },[transactionState])
+  function groupToMonth() {
+    return transactionState[0]?.reduce(
+      (acc: Record<string, (typeof item)[]>, item) => {
+        const option: object = { month: "long" };
+        const dateMonth = new Date(item.date);
 
-
-
-
-function groupToMonth() {
-    return transactionState[0]?.reduce((acc:Record<string, typeof item[]>, item) => {
-    const option: object = { month: "long" };
-    const dateMonth =new Date(item.date)
-
-    const month = dateMonth.toLocaleDateString("ru-RU", option)
-    if (!acc[month]) {
-      acc[month] = [];
-    }
-    acc[month].push(item);
-    return acc;
-  }, {});
-}
-
-function sumPriceOperation() {
-  const result: Record<string, { name: string; rate: number; income: number }> = {};
-
-  for (const i in listMonth) {
-    const filterRate = listMonth[i].filter(item => item.category.type_transaction.name  === 'rate');
-    const filterIncome = listMonth[i].filter(item => item.category.type_transaction.name  === 'income');
-
-    filterRate.forEach(item => {
-      const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-      if (!result[month]) {
-        result[month] = { name: month, rate: 0, income: 0 };
-      }
-      result[month].rate += Number(item.price);
-    });
-
-    filterIncome.forEach(item => {
-      const month = new Date(item.date).toLocaleDateString("ru-RU", { month: "long" });
-      if (!result[month]) {
-        result[month] = { name: month, rate: 0, income: 0 };
-      }
-      result[month].income += Number(item.price);
-    });
+        const month = dateMonth.toLocaleDateString("ru-RU", option);
+        if (!acc[month]) {
+          acc[month] = [];
+        }
+        acc[month].push(item);
+        return acc;
+      },
+      {}
+    );
   }
 
-  return Object.values(result);
-}
+  function sumPriceOperation() {
+    const result: Record<
+      string,
+      { name: string; rate: number; income: number }
+    > = {};
 
-    useEffect(()=>{
-        setSumOperations(sumPriceOperation())
-    },[listMonth])
+    for (const i in listMonth) {
+      const filterRate = listMonth[i].filter(
+        (item) => item.category.type_transaction.name === "rate"
+      );
+      const filterIncome = listMonth[i].filter(
+        (item) => item.category.type_transaction.name === "income"
+      );
 
+      filterRate.forEach((item) => {
+        const month = new Date(item.date).toLocaleDateString("ru-RU", {
+          month: "long",
+        });
+        if (!result[month]) {
+          result[month] = { name: month, rate: 0, income: 0 };
+        }
+        result[month].rate += Number(item.price);
+      });
 
-    return (
-        <div style={{display:"flex",width:"100px%" , height:"100%", justifyContent:"center",marginTop:"50px"}}>
-           <BarChartComponent data={sumOperations} width={750}/>
-        </div>
-    );
+      filterIncome.forEach((item) => {
+        const month = new Date(item.date).toLocaleDateString("ru-RU", {
+          month: "long",
+        });
+        if (!result[month]) {
+          result[month] = { name: month, rate: 0, income: 0 };
+        }
+        result[month].income += Number(item.price);
+      });
+    }
+
+    return Object.values(result);
+  }
+
+  useEffect(() => {
+    setSumOperations(sumPriceOperation());
+  }, [listMonth]);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "100px%",
+        height: "100%",
+        justifyContent: "center",
+        marginTop: "50px",
+      }}
+    >
+      <BarChartComponent data={sumOperations} width={750} />
+    </div>
+  );
 };
 
 export default AllTime;
