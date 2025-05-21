@@ -18,6 +18,7 @@ const AllTime = () => {
 
   useEffect(() => {
     fetchTransactions({ isLoaded, categoryList, dispatch });
+    changeNamesBar()
   }, [isLoaded, categoryList, dispatch]);
 
   useEffect(() => {
@@ -32,6 +33,17 @@ const AllTime = () => {
     setListMonth(groupToMonth());
   }, [transactionState]);
 
+
+  const  changeNamesBar = ()=> {
+    const span = document.getElementsByClassName("recharts-legend-item-text");
+    if (span.length > 0) {
+
+      const rateSpan = span[0] as HTMLElement;
+      rateSpan.textContent = "Расходы";
+      const incomeSpan = span[1] as HTMLElement;
+      incomeSpan.textContent  = "Доходы"
+    }
+  }
   function groupToMonth() {
     const allTransactions = transactionState.flat();
     return allTransactions.reduce(

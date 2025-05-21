@@ -18,9 +18,12 @@ interface IBartCharInterface{
   data:IDataBart[],
   width?:number
 }
+
+
 const BarChartComponent = ({ data,width }:IBartCharInterface) => {
   return (
     <div>
+
       <BarChart
         width={width || 200}
         height={250}
@@ -37,7 +40,7 @@ const BarChartComponent = ({ data,width }:IBartCharInterface) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="rate" fill="red" />
+        <Bar dataKey="rate" id="rate" label="Расходы" fill="red" />
         <Bar dataKey="income" fill="blue" />
       </BarChart>
     </div>
