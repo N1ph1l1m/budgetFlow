@@ -5,16 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { RootState } from "../../store";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
-import { CgLaptop } from "react-icons/cg";
+import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+interface ListTransactionsProps {
+  list: Record<string, ITransactionData[]>;
+}
 
-const ListTransactions = ({ list }) => {
+
+const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
   const dispatch = useDispatch();
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
-  const { categoryList } = useSelector(
-    (state: RootState) => state.transactionsSlice
-  );
+
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     {}
@@ -63,7 +65,7 @@ const ListTransactions = ({ list }) => {
   ) {
     return <TransactionPlaceholder />;
   }
-  function checkCategoryIcon(items) {
+  function checkCategoryIcon(items:ITransactionData[]):string{
     return items[0].category.icon;
   }
   return (

@@ -19,7 +19,7 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
-import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+
 
 interface ISumTypeOperation {
   rate: number;
@@ -27,15 +27,15 @@ interface ISumTypeOperation {
 }
 const Month = () => {
   const dispatch = useDispatch();
-  const { isLoaded } = useSelector(
+  const { isLoaded,categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
 
   useEffect(() => {
-    fetchTransactions(isLoaded, dispatch);
-  }, [isLoaded, dispatch]);
+    fetchTransactions({isLoaded,categoryList, dispatch});
+  }, [isLoaded, categoryList,dispatch]);
 
-  const [list, setList] = useState<Record<string, ITransactionData[]>>({});
+  const [list, setList] = useState<Record<string,ITransactionData[]>>({});
   const [listMonth, setListMonth] = useState<ISumTypeOperation[]>([]);
   const [date, setMonth] = useState(new Date());
 
@@ -71,26 +71,27 @@ const Month = () => {
 
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
-      const state = transactionState[0];
+
+
 
       const newDate = new Date(data);
       const updatedMonth = newDate.getUTCMonth() + 1;
       const updatedYear = newDate.getUTCFullYear();
 
-      if (!state) {
+      if (!transactionState[0]) {
         setList({});
         setListMonth([]);
         return;
       }
 
       const filteredList = filteredTransactionMonth({
-        state,
+        state:[transactionState[0]],
         updatedMonth,
         updatedYear,
         transaction: typeTransaction[0].name,
       });
       const filteredAllMonth = filteredTransactionAllMonth({
-        state,
+        state:[transactionState[0]],
         updatedMonth,
         updatedYear,
       });

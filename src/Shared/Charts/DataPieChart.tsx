@@ -1,19 +1,28 @@
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import styles from "../../app/styles/DataPieChart.module.css"
 
+interface IDataPie {
+  name: string;
+  value: number;
+}
 
-const   DataPieChart = ({data})=> {
+interface DataPieChartProps {
+  data: IDataPie[];
+}
 
-const COLORS = [
-  '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
-  '#A28CFF', '#FF66C4', '#4BC0C0', '#9966FF',
-  '#FF9F40', '#C9CBCF', '#B5E61D', '#FF6F61',
-  '#6A5ACD', '#40E0D0', '#FF6347', '#FFD700',
-  '#ADFF2F', '#FF1493', '#7FFFD4', '#DC143C'
-];
+const DataPieChart = ({ data }: DataPieChartProps) => {
+
+  const COLORS = [
+    '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
+    '#A28CFF', '#FF66C4', '#4BC0C0', '#9966FF',
+    '#FF9F40', '#C9CBCF', '#B5E61D', '#FF6F61',
+    '#6A5ACD', '#40E0D0', '#FF6347', '#FFD700',
+    '#ADFF2F', '#FF1493', '#7FFFD4', '#DC143C'
+  ];
+
   return (
-    <div className={styles.wrapGraph}   >
-  <PieChart   width={450} height={300}>
+    <div className={styles.wrapGraph}>
+      <PieChart width={450} height={300}>
         <Pie
           data={data}
           dataKey="value"
@@ -22,19 +31,19 @@ const COLORS = [
           cy="50%"
           outerRadius={120}
           labelLine={false}
-          label={false}>
-          {data.map((entry, index) => (
+          label={false}
+        >
+          {data.map((_, index) => (
             <Cell
               key={`cell-${index}`}
               fill={COLORS[index % COLORS.length]}
             />
           ))}
         </Pie>
-        <Legend  layout="vertical" align="right" verticalAlign="middle"  />
+        <Legend layout="vertical" align="right" verticalAlign="middle" />
       </PieChart>
     </div>
-
-
   );
-}
+};
+
 export default DataPieChart;

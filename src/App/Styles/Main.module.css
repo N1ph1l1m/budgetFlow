@@ -18,6 +18,7 @@
 }
 .headerTitle {
   font-size: 20px;
+  text-align: center;
 }
 .headerNav {
   transform: translateY(4px);

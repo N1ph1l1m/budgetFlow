@@ -62,19 +62,13 @@ export const InputTransaction = () => {
       return;
     }
     try {
-      await createTransactions(
-        itemName,
-        price,
-        selectCategory.id,
-        typeTransaction[0].id,
-        dateTransaction || date
-      );
+      await createTransactions({description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || date} );
 
       const updateTransactions = await getTransactions();
       dispatch(setTransaction(await updateTransactions));
       closeModal();
       resetCategory();
-    } catch (error: any) {
+    } catch (error) {
       console.error("Ошибка при создании транзакции:", error);
       alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
     }

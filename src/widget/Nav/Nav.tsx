@@ -9,7 +9,6 @@ import Logo from "../../shared/logo/Logo";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { getListCategory } from "../../entities/API/getListCategory";
-import { setListCategory } from "../../store/Slice/transactionsSlice/transactionsSlice";
 
 type NavProps = {
   isButton: boolean;
@@ -50,7 +49,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
   }
 
   async function handlerIsModal() {
-    getListCategory(categoryList, dispatch);
+    getListCategory({categoryList, dispatch});
     dispatch(isModalInput());
   }
 

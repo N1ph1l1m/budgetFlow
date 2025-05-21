@@ -1,6 +1,7 @@
 import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSlice"
+
  interface IFilteredTransaction{
-  state:ITransactionData[] | object,
+  state:ITransactionData[],
   updatedDay?: Date | number,
   updatedMonth :number,
   updatedYear? :number,
@@ -14,8 +15,8 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
 
 
  export function filteredTransactions({state,updatedDay,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
-
-   return  state?.filter((item) => {
+    const filterTransition = state.flat()
+   return  filterTransition.filter((item) => {
       const itemDate = new Date(item.date);
       const itemDay = itemDate.getUTCDate();
       const itemMonth = itemDate.getUTCMonth() + 1;
@@ -32,7 +33,9 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
           // console.log(filter);
   }
    export function filteredTransactionMonth({state,updatedMonth,updatedYear,transaction}:IFilteredTransaction){
-   return  state?.filter((item) => {
+    const filterMonth  = state.flat();
+
+     return  filterMonth.filter((item) => {
       const itemDate = new Date(item.date);
       const itemMonth = itemDate.getUTCMonth() + 1;
       const itemYear = itemDate.getUTCFullYear()

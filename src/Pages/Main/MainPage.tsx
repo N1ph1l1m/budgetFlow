@@ -16,7 +16,6 @@ import {
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
-import { getListCategory } from "../../entities/API/getListCategory";
 export const MainPage = () => {
   const dispatch = useDispatch();
   const { isLoaded, transactionState, categoryList } = useSelector(
@@ -24,9 +23,8 @@ export const MainPage = () => {
   );
 
   useEffect(() => {
-    fetchTransactions(isLoaded, dispatch);
-    getListCategory(categoryList, dispatch);
-  }, [isLoaded, dispatch, transactionState]);
+    fetchTransactions({isLoaded, categoryList, dispatch});
+  }, [isLoaded, dispatch,categoryList , transactionState]);
 
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
@@ -52,9 +50,8 @@ export const MainPage = () => {
 
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
-      const state = transactionState[0];
 
-      if (!state) {
+      if (!transactionState[0]) {
         setList({});
         setSumRate(0);
         setSumIncome(0);
@@ -67,7 +64,7 @@ export const MainPage = () => {
       const updatedYear = newDate.getUTCFullYear();
 
       const filteredList = filteredTransactions({
-        state: state,
+        state: [transactionState[0]],
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -75,7 +72,7 @@ export const MainPage = () => {
       });
 
       const filteredRate = filteredTransactions({
-        state,
+        state:[transactionState[0]],
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -83,7 +80,7 @@ export const MainPage = () => {
       });
 
       const filteredIncome = filteredTransactions({
-        state,
+        state:[transactionState[0]],
         updatedDay,
         updatedMonth,
         updatedYear,

@@ -3,7 +3,9 @@ import styles from "../../app/styles/CreateCategory.module.css";
 import { IoMdClose } from "react-icons/io";
 import {param} from "../../app/params/param";
 import axios from "axios";
-const CreateCategory = ({ closeModal }) => {
+
+
+const CreateCategory = ({ closeModal}:{closeModal:()=>void}) => {
     type typeMessage = "off" | "error" | "success";
 
 interface ICreateMessage {
@@ -13,7 +15,7 @@ interface ICreateMessage {
 
   const [inputName, setInputName] = useState("");
   const [selectTransaction, setSelectTransaction] = useState("");
-  const [icon, setIcon] = useState<File | null>(null);
+  const [icon, setIcon] = useState<File | string>("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
 
@@ -26,7 +28,7 @@ interface ICreateMessage {
 
     function clearForm(){
         setInputName("")
-        setIcon(null)
+        setIcon("")
         setSelectTransaction("")
         closeModal()
     }
@@ -51,10 +53,16 @@ interface ICreateMessage {
     if (!inputName && !selectTransaction && icon) return "Заполните поля формы";
     if (inputName.trim().length == 0 ) return "Введите название категории";
     if (selectTransaction.trim().length == 0 ) return "Выберите тип транзакции";
+      if (!icon || !(icon instanceof File)) return "Загрузите иконку категории"
     return null;
   }
 
-  async  function sendCreateCategoryRequest(name: string, transaction: string, icon: File){
+  interface ICreateCategory{
+    name: string,
+    transaction: string,
+    icon: File,
+  }
+  async  function sendCreateCategoryRequest({name,transaction,icon}:ICreateCategory){
     const idOwner = localStorage.getItem("id")
      if (!idOwner) {
     createMessage({ typeMessage: "error", message: "Ошибка авторизации" });
@@ -90,7 +98,7 @@ interface ICreateMessage {
       createMessage({ typeMessage: "error", message: errorMessage });
       return;
     }
-    await sendCreateCategoryRequest(inputName,selectTransaction,icon)
+    await sendCreateCategoryRequest({name:inputName,transaction:selectTransaction,icon:icon as File})
     await clearForm()
     }
 

@@ -1,6 +1,15 @@
 import axios from "axios";
 import { param } from "../../app/params/param";
-import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { ICategory, setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { getListCategory } from "./getListCategory";
+import { AddDispatch } from "../../store";
+
+export interface IFetchTransactions{
+  isLoaded?:boolean,
+  categoryList:ICategory[],
+  dispatch:AddDispatch,
+
+}
 
 export async function getTransactions() {
   try {
@@ -12,8 +21,7 @@ export async function getTransactions() {
     console.error(error);
   }
 }
-
-export const fetchTransactions = async (isLoaded, dispatch) => {
+export const fetchTransactions = async ({isLoaded, categoryList, dispatch}:IFetchTransactions) => {
   try {
     if (!isLoaded) {
       const transactions = await getTransactions();
@@ -21,6 +29,7 @@ export const fetchTransactions = async (isLoaded, dispatch) => {
         dispatch(setTransaction(transactions));
       }
     }
+    getListCategory({categoryList,dispatch})
   } catch (error) {
     console.error(error);
   }

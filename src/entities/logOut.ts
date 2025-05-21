@@ -1,5 +1,5 @@
 import axios from "axios";
-import { param } from "../App/params/param";
+import { param } from "../app/params/param";
 
 export async function logOut(navigate: (patch: string) => void) {
   const url = `${param.baseUser}auth/token/logout/`;

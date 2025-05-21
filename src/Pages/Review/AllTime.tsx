@@ -7,20 +7,22 @@ import { fetchTransactions } from "../../entities/API/getTransactions";
 
 const AllTime = () => {
   const dispatch = useDispatch();
-  const { isLoaded } = useSelector(
+  const { isLoaded, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-
-  useEffect(() => {
-    fetchTransactions(isLoaded, dispatch);
-  }, [isLoaded, dispatch]);
-
+  const [sumOperations, setSumOperations] = useState<SumOperation[]>([]);
   const [listMonth, setListMonth] = useState<
     Record<string, ITransactionData[]>
   >({});
-  const [sumOperations, setSumOperations] = useState<
-    Record<string, ITransactionData[]>
-  >({});
+  type SumOperation = { name: string; rate: number; income: number };
+
+  useEffect(() => {
+    fetchTransactions({ isLoaded, categoryList, dispatch });
+  }, [isLoaded, categoryList, dispatch]);
+
+  useEffect(() => {
+    setSumOperations(sumPriceOperation());
+  }, [listMonth]);
 
   const { transactionState } = useSelector(
     (state: RootState) => state.transactionsSlice
@@ -31,7 +33,8 @@ const AllTime = () => {
   }, [transactionState]);
 
   function groupToMonth() {
-    return transactionState[0]?.reduce(
+    const allTransactions = transactionState.flat();
+    return allTransactions.reduce(
       (acc: Record<string, (typeof item)[]>, item) => {
         const option: object = { month: "long" };
         const dateMonth = new Date(item.date);
@@ -84,10 +87,6 @@ const AllTime = () => {
 
     return Object.values(result);
   }
-
-  useEffect(() => {
-    setSumOperations(sumPriceOperation());
-  }, [listMonth]);
 
   return (
     <div

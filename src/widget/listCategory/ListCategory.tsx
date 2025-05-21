@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   closeModalCategory,
+  ISelectCategory,
   setSelectCategory,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
-import { CateroryTransaction } from "../../app/data/Data";
 import { IoMdClose } from "react-icons/io";
 import { BsClipboard2PlusFill } from "react-icons/bs";
 const ListCategory = () => {
@@ -21,8 +21,8 @@ const ListCategory = () => {
   function closeModal() {
     dispatch(closeModalCategory());
   }
-  function selectCategory(id: number, name: string, icon: string) {
-    dispatch(setSelectCategory({ id: id, name: name, icon: icon }));
+  function selectCategory(category:ISelectCategory) {
+    dispatch(setSelectCategory([category]));
     closeModal();
   }
   const filterCategory = categoryList.filter(
@@ -49,15 +49,15 @@ const ListCategory = () => {
           <li
             className={styles.categoryListItem}
             onClick={() =>
-              selectCategory(category.id, category.name, category.icon)
+              selectCategory({id:category.id, name:category.name, icon:category.icon})
             }
             key={category.id}
-            value={category.key}
+            value={category.id}
           >
             <img
               className={styles.categoryListIcon}
               src={category.icon}
-              alt={category.id}
+              alt={`${category.id}`}
             />{" "}
             {category.name}
           </li>

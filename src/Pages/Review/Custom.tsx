@@ -1,12 +1,22 @@
-import { ChangeEvent, useState } from "react";
-
+import { ChangeEvent, useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
+import { RootState } from "../../store";
+import {fetchTransactions} from "../../entities/API/getTransactions"
 const Custom = () => {
 
+  const dispatch = useDispatch();
+  const { isLoaded,categoryList } = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
+
+  useEffect(() => {
+    fetchTransactions({isLoaded,categoryList, dispatch});
+  }, [isLoaded, categoryList,dispatch]);
 
   const getToday = () => {
     const today = new Date();
-    // console.log(today);
-    return today.toISOString().split("T")[0]; // "2025-05-16"
+
+    return today.toISOString().split("T")[0];
   };
 
   const [startDate, setStartDate] = useState<string>(getToday());

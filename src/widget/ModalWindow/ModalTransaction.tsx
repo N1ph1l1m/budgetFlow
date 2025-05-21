@@ -1,7 +1,7 @@
 
 import styles from "../../App/Styles/ModalTransaction.module.css"
-
-const Modal = ({children}) => {
+import { PropsWithChildren } from "react";
+const Modal = ({children}:PropsWithChildren) => {
     return (
         <div className={styles.modal}>
                 {children}

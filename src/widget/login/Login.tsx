@@ -2,7 +2,7 @@ import styles from "../../app/styles/Authorization.module.css";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
-import { param } from "../../App/params/param";
+import { param } from "../../app/params/param";
 import axios from "axios";
 type typeMessage = "off" | "error" | "success";
 interface ICreateMessage {
