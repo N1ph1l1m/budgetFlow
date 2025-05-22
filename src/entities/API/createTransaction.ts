@@ -17,7 +17,8 @@ export async function createTransactions({
   date,
 }: ICreateTransactions) {
   try {
-    const url = `${param.baseUser}/budget/create_transaction/`;
+    const url = `${param.baseUser}budget/create_transaction/`;
+    console.log(date);
     const { data } = await axios.post(url, {
       description: description,
       price: price,

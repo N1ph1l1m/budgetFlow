@@ -1,0 +1,45 @@
+.customWrap{
+width:100%;
+height: 100%;
+font-family: "Playfair";
+display: flex;
+flex-direction: column;
+align-items:center
+}
+
+.headerWrap{
+      font-family: "Playfair";
+    margin: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.titleHeader{
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+.inputDate{
+    padding: 5px;
+    background-color: transparent;
+    font-size: 16px;
+}
+.customButtom{
+ padding: 5px;
+ font-size: 16px;
+ background-color:rgb(93,126,88);
+ border-radius: 5px;
+ color: #ffffff;
+ margin-left: 10px;
+
+}
+.buttonsWrap {
+  display: flex;
+  width: 500px;
+  justify-content: space-around;
+}
+
+.contentWrap{
+border:1px solid red;
+}

@@ -3,7 +3,7 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
  interface IFilteredTransaction{
   state:ITransactionData[],
   updatedDay?: Date | number,
-  updatedMonth :number,
+  updatedMonth? :number,
   updatedYear? :number,
   transaction?:number | string,
 }
@@ -48,6 +48,12 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
         item.category.type_transaction.name === transaction
       );
     });
+  }
+
+  export function filteredTransactionsCustom({state,transaction}){
+const filterCustome = state?.flat()
+    console.log(transaction);
+ return filterCustome?.filter((item)=> item.category.type_transaction.name === transaction)
   }
 
   export function filteredTransactionAllMonth({state,updatedMonth,updatedYear,}:IFilteredTransaction){

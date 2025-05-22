@@ -71,9 +71,6 @@ const Month = () => {
 
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
-
-
-
       const newDate = new Date(data);
       const updatedMonth = newDate.getUTCMonth() + 1;
       const updatedYear = newDate.getUTCFullYear();
@@ -106,6 +103,8 @@ const Month = () => {
   useEffect(() => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
+
+  // useEffect(()=>{console.log(list);},[list])
 
   return (
     <>

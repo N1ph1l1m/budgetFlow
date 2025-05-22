@@ -34,10 +34,20 @@ export const InputTransaction = () => {
     setPrice(Number.isNaN(parsed) ? null : parsed);
   }
 
-  function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
-    const date = new Date(e.target.value).toISOString();
-    setDateTransaction(date);
-  }
+function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
+  const format  = formatDate(e.target.value)
+  setDateTransaction(format);
+}
+
+function formatDate(date){
+   const inputDate = new Date(date);
+
+  const year = inputDate.getFullYear();
+  const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+  const day = String(inputDate.getDate()).padStart(2, "0");
+
+  return  `${year}-${month}-${day}`;
+}
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
     setItemName(e.target.value);
@@ -62,7 +72,7 @@ export const InputTransaction = () => {
       return;
     }
     try {
-      await createTransactions({description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || date} );
+      await createTransactions({description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || formatDate(date)} );
 
       const updateTransactions = await getTransactions();
       dispatch(setTransaction(await updateTransactions));

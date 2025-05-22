@@ -66,7 +66,7 @@ const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
     return <TransactionPlaceholder />;
   }
   function checkCategoryIcon(items:ITransactionData[]):string{
-    return items[0].category.icon;
+    return items[0].category.icon
   }
   return (
     <>
