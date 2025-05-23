@@ -1,6 +1,6 @@
 import axios from "axios";
 import { param } from "../../app/params/param";
-import { ICategory, setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { ICategory,setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { getListCategory } from "./getListCategory";
 import { AddDispatch } from "../../store";
 
@@ -24,9 +24,11 @@ export async function getTransactions() {
 export const fetchTransactions = async ({isLoaded, categoryList, dispatch}:IFetchTransactions) => {
   try {
     if (!isLoaded) {
-      const transactions = await getTransactions();
-      if (transactions) {
-        dispatch(setTransaction(transactions));
+      const transactionsAll = await getTransactions();
+      const userId = localStorage.getItem("id")
+      const transactionsUser= transactionsAll.filter((item: { owner_transaction: string | null; })=>item.owner_transaction == userId)
+      if (transactionsUser) {
+        dispatch(setTransaction(transactionsUser));
       }
     }
     getListCategory({categoryList,dispatch})

@@ -1,9 +1,12 @@
+import styles from "../../app/styles/ListTransactions.module.css"
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
+import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 
 const AllTime = () => {
   const dispatch = useDispatch();
@@ -44,6 +47,7 @@ const AllTime = () => {
       incomeSpan.textContent  = "Доходы"
     }
   }
+
   function groupToMonth() {
     const allTransactions = transactionState.flat();
     return allTransactions.reduce(
@@ -65,8 +69,7 @@ const AllTime = () => {
   function sumPriceOperation() {
     const result: Record<
       string,
-      { name: string; rate: number; income: number }
-    > = {};
+      { name: string; rate: number; income: number } > = {};
 
     for (const i in listMonth) {
       const filterRate = listMonth[i].filter(
@@ -100,6 +103,8 @@ const AllTime = () => {
     return Object.values(result);
   }
 
+
+
   return (
     <div
       style={{
@@ -110,7 +115,7 @@ const AllTime = () => {
         marginTop: "50px",
       }}
     >
-      <BarChartComponent data={sumOperations} width={750} />
+       {sumOperations.length == 0 ?<TransactionPlaceholder /> :  <BarChartComponent data={sumOperations} width={750} />}
     </div>
   );
 };

@@ -58,6 +58,7 @@ function formatDate(date:string){
   }
 
   async function addItem() {
+    const userId = localStorage.getItem("id")
     const date = new Date().toISOString();
     if (!selectCategory) {
       alert("Выберите категорию");
@@ -72,7 +73,8 @@ function formatDate(date:string){
       return;
     }
     try {
-      await createTransactions({description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || formatDate(date)} );
+      await createTransactions({
+  owner_transaction:userId,   description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || formatDate(date)} );
 
       const updateTransactions = await getTransactions();
       dispatch(setTransaction(await updateTransactions));

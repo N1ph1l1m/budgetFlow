@@ -19,6 +19,7 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
+import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 
 
 interface ISumTypeOperation {
@@ -135,8 +136,10 @@ const Month = () => {
         </div>
         {typeTransaction[0].name === "general" && (
           <div style={{ marginTop: "50px" }}>
-            {" "}
-            <BarChartComponent data={listMonth} width={400} />
+            {listMonth.length ==0  ?  <TransactionPlaceholder/> :
+                      <BarChartComponent data={listMonth} width={400} />}
+
+
           </div>
         )}
       </div>

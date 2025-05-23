@@ -27,12 +27,14 @@ export interface ITransactionData{
 
 
 interface ITransaction {
+  current:string,
   transactionState: ITransactionData[];
   categoryList:ICategory[]
   isLoaded:boolean
 }
 
 const initialState: ITransaction = {
+  current:"PMR",
   categoryList:[],
   isLoaded:false,
   transactionState:[]
@@ -54,8 +56,11 @@ const transactionsSlice = createSlice({
     },
     setListCategory(state,action:PayloadAction<ICategory[]>){
       state.categoryList = action.payload;
+    },
+    setCurrent(state,action:PayloadAction<string>){
+      state.current = action.payload
     }
   },
 });
-export const { setTransaction, deleteTransaction,setListCategory } = transactionsSlice.actions;
+export const { setTransaction, deleteTransaction,setListCategory, setCurrent } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

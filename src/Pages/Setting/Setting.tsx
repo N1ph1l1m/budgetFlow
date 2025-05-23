@@ -3,16 +3,38 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { logOut } from "../../entities/logOut";
 import Select from "react-select";
-import pmr from "../../App/Icons/Flag_of_Transnistria_(variant).svg.png";
+import pmr from "../../App/icons/pmr.png"
+import rus from "../../app/icons/russia.png";
+import usa from "../../app/icons/usa.png";
+import euro from "../../app/icons/euro.png";
 import { useNavigate } from "react-router";
 import { FaMoneyBillWave } from "react-icons/fa";
 import Modal from "../../widget/ModalWindow/ModalTransaction";
 import CreateCategory from "../../widget/createCategory/CreateCategory";
-import { useState } from "react";
+import { useState,useEffect, SetStateAction } from "react";
+import { useDispatch,useSelector } from "react-redux";
+import { setCurrent} from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { RootState } from "../../store";
+interface SelectItemProps {
+  imageSrc: string;
+  title: string;
+}
+
+const SelectItem: React.FC<SelectItemProps> = ({ imageSrc, title }) => {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <img src={imageSrc} style={{ width: 20 }} alt="pmr" />
+      {title}
+    </div>
+  );
+};
 
 const Setting = () => {
   const  [isModalCategory,setIsModalCategory] = useState(false)
+  const [selectСurrency,setCurrency] = useState<SetStateAction<string>>("PMR")
   const navigate = useNavigate();
+  const {current}  = useSelector((state:RootState)=>state.transactionsSlice)
+  const dispatch = useDispatch()
 
   function hanlderIsModal(){
     setIsModalCategory(prev=>!prev)
@@ -23,26 +45,24 @@ const Setting = () => {
   const options = [
     {
       value: "RUP",
-      label: (
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <img src={pmr} style={{ width: 20 }} alt="pmr" />
-          PMR
-        </div>
-      ),
+      label: <SelectItem imageSrc={`${pmr}`} title="PMR"/>
+      ,
     },
     {
       value: "RUB",
-      label: <span>🇷🇺 RUB</span>,
+      label:  <SelectItem imageSrc={`${rus}`} title="RUB"/>,
     },
     {
       value: "USD",
-      label: <span>🇺🇸 USD</span>,
+      label:  <SelectItem imageSrc={`${usa}`} title="USD"/>,
     },
     {
       value: "EUR",
-      label: <span> 🇪🇺 EUR</span>,
+      label: <SelectItem imageSrc={`${euro}`} title="EUR"/>,
     },
   ];
+
+  useEffect(()=>{dispatch(setCurrent(selectСurrency))},[selectСurrency])
   return (
     <>
     {isModalCategory && <Modal><CreateCategory closeModal={()=>closeModal()}/></Modal>}
@@ -64,7 +84,7 @@ const Setting = () => {
           <Select
             className={styles.selectCustom}
             options={options}
-            onChange={(selected) => console.log(selected?.value)}
+            onChange={(selected) => setCurrency(selected?.value ?? "PMR")}
           />
         </li>
         <li>
@@ -77,6 +97,7 @@ const Setting = () => {
           </button>
         </li>
       </ul>
+      <span>{current}</span>
     </div></>
   );
 };

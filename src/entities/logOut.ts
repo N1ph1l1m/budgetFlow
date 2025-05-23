@@ -16,6 +16,7 @@ export async function logOut(navigate: (patch: string) => void) {
     );
     if (response.status === 204) {
       console.log("LogOut success");
+          localStorage.removeItem("id");
       localStorage.removeItem("token");
       localStorage.removeItem("username");
       navigate("/authorization/");

@@ -9,11 +9,14 @@ const Authorization = () => {
   function switchLogIn() {
     setIsLogIn((prev) => !prev);
   }
+  function resetIsLogin(){
+    setIsLogIn(true)
+  }
   return (
     <div className={styles.mainWrap}>
       <div className={styles.wrapContent}>
         <Logo large disableLink />
-        {isLogIn ? <Login /> : <SignUp />}
+        {isLogIn ? <Login /> : <SignUp  switchToLogin = {resetIsLogin}/>}
         {isLogIn ? (
           <span>
             No account?{" "}

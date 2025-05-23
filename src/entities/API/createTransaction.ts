@@ -2,6 +2,7 @@ import axios from "axios";
 import { param } from "../../app/params/param";
 
 interface ICreateTransactions {
+  owner_transaction:number,
   description: string;
   price: number;
   category: number;
@@ -10,6 +11,7 @@ interface ICreateTransactions {
 }
 
 export async function createTransactions({
+  owner_transaction,
   description,
   price,
   category,
@@ -20,6 +22,7 @@ export async function createTransactions({
     const url = `${param.baseUser}budget/create_transaction/`;
     console.log(date);
     const { data } = await axios.post(url, {
+      owner_transaction:  owner_transaction,
       description: description,
       price: price,
       date: date,

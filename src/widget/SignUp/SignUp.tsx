@@ -1,14 +1,15 @@
 import styles from "../../app/styles/Authorization.module.css";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
-
+import {param} from "../..//app/params/param"
+import axios from "axios";
 type typeMessage = "off" | "error" | "success";
 interface ICreateMessage{
   typeMessage:typeMessage,
   message:string,
 }
 
-const SignUp = () => {
+const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,6 +19,25 @@ const SignUp = () => {
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
     setLogin(e.target.value);
   }
+
+ async function createUser() {
+  const url = `${param.baseUser}register/`;
+  try {
+    const response = await axios.post(url, {
+      username: login,
+      password: password,
+      confirm_password:confirmPassword
+    });
+
+    const data = response.data;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Ошибка при создании пользователя:", error);
+    throw error;
+  }
+}
+
 
   function handlerPassword(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
@@ -29,31 +49,49 @@ const SignUp = () => {
         setIsMessage(typeMessage);
         setTextMessage(message);
   }
-  function handlerSubmit(e: FormEvent<HTMLFormElement>) {
-    try {
-      e.preventDefault();
-      if (login.length == 0) {
-        createMessage({typeMessage:"error",message:"Введите логин "})
-      } else if (password.length == 0) {
-           createMessage({typeMessage:"error",message:"Введитее пароль"})
-      } else if (confirmPassword.length == 0) {
-        createMessage({typeMessage:"error",message:"Подтвердите пароль"})
-      } else if (password !== confirmPassword) {
-        createMessage({typeMessage:"error",message:"Пароли не совпадают"})
-      } else if (password == confirmPassword && login.length > 0) {
-        createMessage({typeMessage:"success",message:"Регистрация успешна выполнена"})
-        setTimeout(() => {
-        setIsMessage("off");
-        setTextMessage("");
-        setLogin("")
-        setPassword("")
-        setConfirmPassword("")
-      }, 3000);
+
+
+async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+
+  try {
+    if (!login || !password || !confirmPassword) {
+      createMessage({ typeMessage: "error", message: "Заполните все поля." });
+      return;
+    }
+
+    await createUser();
+
+    createMessage({ typeMessage: "success", message: "Регистрация успешно выполнена" });
+
+    setTimeout(() => {
+      setIsMessage("off");
+      setTextMessage("");
+      setLogin("");
+      setPassword("");
+      setConfirmPassword("");
+      switchToLogin();
+    }, 2000);
+
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      const errors = error.response.data;
+      for (const key in errors) {
+        const messages = errors[key];
+        if (Array.isArray(messages)) {
+          messages.forEach((msg) => {
+            createMessage({ typeMessage: "error", message: msg });
+          });
+        } else {
+          createMessage({ typeMessage: "error", message: messages });
+        }
       }
-    } catch (error) {
-      createMessage({typeMessage:"error",message:`${error}`})
+    } else {
+      createMessage({ typeMessage: "error", message: "Произошла ошибка на сервере." });
     }
   }
+}
+
 
   return (
     <form onSubmit={handlerSubmit} className={styles.formWrap}>
