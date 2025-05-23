@@ -64,6 +64,7 @@ const Month = () => {
     list: ITransactionData[],
     typeOperation: string
   ): number {
+
     return list
       ?.filter((item) => item.category.type_transaction.name === typeOperation)
       .reduce((total, item) => total + Number(item.price), 0);
@@ -88,7 +89,7 @@ const Month = () => {
         transaction: typeTransaction[0].name,
       });
       const filteredAllMonth = filteredTransactionAllMonth({
-        state:[transactionState[0]],
+        state:transactionState,
         updatedMonth,
         updatedYear,
       });
@@ -96,6 +97,7 @@ const Month = () => {
       const incomeSum = sumTransactionPrice(filteredAllMonth, "income");
       setListMonth([{ rate: rateSUm, income: incomeSum }]);
       setList(groupByTranssaction(filteredList));
+
     },
     [typeTransaction, setList]
   );

@@ -39,7 +39,7 @@ function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
   setDateTransaction(format);
 }
 
-function formatDate(date){
+function formatDate(date:string){
    const inputDate = new Date(date);
 
   const year = inputDate.getFullYear();

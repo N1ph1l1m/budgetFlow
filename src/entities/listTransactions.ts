@@ -50,14 +50,23 @@ import {ITransactionData}  from "../store/Slice/transactionsSlice/transactionsSl
     });
   }
 
-  export function filteredTransactionsCustom({state,transaction}){
-const filterCustome = state?.flat()
-    console.log(transaction);
- return filterCustome?.filter((item)=> item.category.type_transaction.name === transaction)
-  }
+
+export function filteredTransactionsCustom({
+  state,
+  transaction,
+}: {
+  state: ITransactionData[];
+  transaction: string;
+}): ITransactionData[] {
+  return state.filter(
+    (item) => item.category?.type_transaction?.name === transaction
+  );
+}
 
   export function filteredTransactionAllMonth({state,updatedMonth,updatedYear,}:IFilteredTransaction){
-   return  state?.filter((item) => {
+
+   return  state?.flat()
+   .filter((item) => {
       const itemDate = new Date(item.date);
       const itemMonth = itemDate.getUTCMonth() + 1;
       const itemYear = itemDate.getUTCFullYear()
