@@ -34,20 +34,20 @@ export const InputTransaction = () => {
     setPrice(Number.isNaN(parsed) ? null : parsed);
   }
 
-function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
-  const format  = formatDate(e.target.value)
-  setDateTransaction(format);
-}
+  function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
+    const format = formatDate(e.target.value);
+    setDateTransaction(format);
+  }
 
-function formatDate(date:string){
-   const inputDate = new Date(date);
+  function formatDate(date: string) {
+    const inputDate = new Date(date);
 
-  const year = inputDate.getFullYear();
-  const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-  const day = String(inputDate.getDate()).padStart(2, "0");
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+    const day = String(inputDate.getDate()).padStart(2, "0");
 
-  return  `${year}-${month}-${day}`;
-}
+    return `${year}-${month}-${day}`;
+  }
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
     setItemName(e.target.value);
@@ -58,7 +58,7 @@ function formatDate(date:string){
   }
 
   async function addItem() {
-    const userId = localStorage.getItem("id")
+    const userId = localStorage.getItem("id");
     const date = new Date().toISOString();
     if (!selectCategory) {
       alert("Выберите категорию");
@@ -74,7 +74,13 @@ function formatDate(date:string){
     }
     try {
       await createTransactions({
-  owner_transaction:userId,   description:itemName,price:price,category:selectCategory[0].id,type_operation:typeTransaction[0].id,date:dateTransaction || formatDate(date)} );
+        owner_transaction: Number(userId),
+        description: itemName,
+        price: price,
+        category: selectCategory[0].id,
+        type_operation: typeTransaction[0].id,
+        date: dateTransaction || formatDate(date),
+      });
 
       const updateTransactions = await getTransactions();
       dispatch(setTransaction(await updateTransactions));

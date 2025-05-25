@@ -1,23 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface  ITypeTransaction{
-  id:number,
-  name:string,
+interface ITypeTransaction {
+  id: number;
+  name: string;
 }
 
-export interface ICategory{
-  id:number,
-  name:string,
-  icon:string,
-  type_transaction:ITypeTransaction,
-  owner_category:IOwnerCategory[],
+export interface ICategory {
+  id: number;
+  name: string;
+  icon: string;
+  type_transaction: ITypeTransaction;
+  owner_category: IOwnerCategory[];
 }
-interface IOwnerCategory{
-  id:number,
-  username?:string
+interface IOwnerCategory {
+  id: number;
+  username?: string;
 }
 
-export interface ITransactionData{
+export interface ITransactionData {
   id: number;
   category: ICategory;
   description: string;
@@ -25,19 +25,18 @@ export interface ITransactionData{
   date: string;
 }
 
-
 interface ITransaction {
-  current:string,
+  current: string;
   transactionState: ITransactionData[];
-  categoryList:ICategory[]
-  isLoaded:boolean
+  categoryList: ICategory[];
+  isLoaded: boolean;
 }
 
 const initialState: ITransaction = {
-  current:"PMR",
-  categoryList:[],
-  isLoaded:false,
-  transactionState:[]
+  current: "R",
+  categoryList: [],
+  isLoaded: false,
+  transactionState: [],
 };
 
 const transactionsSlice = createSlice({
@@ -54,13 +53,18 @@ const transactionsSlice = createSlice({
       );
       state.transactionState = filteredData;
     },
-    setListCategory(state,action:PayloadAction<ICategory[]>){
+    setListCategory(state, action: PayloadAction<ICategory[]>) {
       state.categoryList = action.payload;
     },
-    setCurrent(state,action:PayloadAction<string>){
-      state.current = action.payload
-    }
+    setCurrent(state, action: PayloadAction<string>) {
+      state.current = action.payload;
+    },
   },
 });
-export const { setTransaction, deleteTransaction,setListCategory, setCurrent } = transactionsSlice.actions;
+export const {
+  setTransaction,
+  deleteTransaction,
+  setListCategory,
+  setCurrent,
+} = transactionsSlice.actions;
 export default transactionsSlice.reducer;

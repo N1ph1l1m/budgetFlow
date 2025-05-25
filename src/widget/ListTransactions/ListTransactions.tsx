@@ -10,13 +10,14 @@ interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
 }
 
-
-const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
+const ListTransactions: React.FC<ListTransactionsProps> = ({ list }) => {
   const dispatch = useDispatch();
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
-
+  const { current } = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     {}
@@ -65,8 +66,8 @@ const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
   ) {
     return <TransactionPlaceholder />;
   }
-  function checkCategoryIcon(items:ITransactionData[]):string{
-    return items[0].category.icon
+  function checkCategoryIcon(items: ITransactionData[]): string {
+    return items[0].category.icon;
   }
   return (
     <>
@@ -86,8 +87,9 @@ const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
 
             <div className={styles.listMenu}>
               <span className={styles.listPrice}>
-                {sumPriceOperation(category)} &#8381;
+                {sumPriceOperation(category)} {current}
               </span>
+
               <span
                 className={styles.listIcon}
                 onClick={() => toggleCategory(category)}
@@ -103,7 +105,10 @@ const ListTransactions:React.FC<ListTransactionsProps> = ({ list}) => {
                 items.map((item) => (
                   <li className={styles.listItems} key={item.id}>
                     <span>{capitalizeFirstLetter(item.description)}</span>{" "}
-                    <span> {item.price} &#8381;</span>
+                    <span>
+                      {" "}
+                      {item.price} {current}
+                    </span>
                   </li>
                 ))}
             </ul>
