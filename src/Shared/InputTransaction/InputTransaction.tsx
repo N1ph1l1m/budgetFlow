@@ -1,13 +1,15 @@
 import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
-import {  ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
 import {
   closeModalInput,
   resetCategory,
-  setTransactionName,setPriceTransaction,setDateTransaction,
+  setTransactionName,
+  setPriceTransaction,
+  setDateTransaction,
+  resetUpdate,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
@@ -17,45 +19,47 @@ import SelectCategory from "../../widget/selectCategory/SelectCategory";
 import { createTransactions } from "../../entities/API/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
 import { getTransactions } from "../../entities/API/getTransactions";
+import { formatDate } from "../../entities/formarDateToServer";
+import { updateTransactions } from "../../entities/API/updateTransaction";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
 
-  const { typeTransaction, selectCategory, transactionName,price,dateTransaction} = useSelector(
-    (state: RootState) => state.modalTransactionSlice
-  );
+  const {
+    typeTransaction,
+    selectCategory,
+    transactionName,
+    price,
+    dateTransaction,
+    isUpdate,
+    transaction_id,
+  } = useSelector((state: RootState) => state.modalTransactionSlice);
 
+  // useEffect(() => {
+  //   console.log(dateTransaction);
+  // }, []);
 
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
     const parsed = parseInt(digitsOnly, 10);
-    dispatch(setPriceTransaction(Number.isNaN(parsed) ? null : parsed))
+    dispatch(setPriceTransaction(Number.isNaN(parsed) ? null : parsed));
   }
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const format = formatDate(e.target.value);
-    dispatch(setDateTransaction(format))
-  }
-
-  function formatDate(date: string) {
-    const inputDate = new Date(date);
-
-    const year = inputDate.getFullYear();
-    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-    const day = String(inputDate.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
+    dispatch(setDateTransaction(format));
   }
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
-    dispatch(setTransactionName(e.target.value))
+    dispatch(setTransactionName(e.target.value));
   }
 
   function closeModal() {
     dispatch(closeModalInput());
+    dispatch(resetUpdate());
   }
 
-  async function addItem() {
+  async function submitTransaction() {
     const userId = localStorage.getItem("id");
     const date = new Date().toISOString();
     if (!selectCategory) {
@@ -71,19 +75,24 @@ export const InputTransaction = () => {
       return;
     }
     try {
-      await createTransactions({
-        owner_transaction: Number(userId),
-        description: transactionName,
-        price: price,
-        category: selectCategory[0].id,
-        type_operation: typeTransaction.id,
-        date: dateTransaction || formatDate(date),
-      });
-
-      const updateTransactions = await getTransactions();
-      dispatch(setTransaction(await updateTransactions));
-      closeModal();
-      resetCategory();
+      if (isUpdate) {
+        await updateTransactions({
+          id: transaction_id,
+          description: transactionName,
+          date: formatDate(date),
+          price: price,
+        });
+      } else {
+        await createTransactions({
+          owner_transaction: Number(userId),
+          description: transactionName,
+          price: price,
+          category: selectCategory[0].id,
+          type_operation: typeTransaction.id,
+          date: dateTransaction || formatDate(date),
+          dispatch,
+        });
+      }
     } catch (error) {
       console.error("Ошибка при создании транзакции:", error);
       alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
@@ -148,7 +157,7 @@ export const InputTransaction = () => {
           />
         </div>
         <button
-          onClick={() => addItem()}
+          onClick={() => submitTransaction()}
           className={styles.addItem}
           style={{
             backgroundColor:

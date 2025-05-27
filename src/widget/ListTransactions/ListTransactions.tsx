@@ -2,28 +2,41 @@ import { IoIosArrowDown } from "react-icons/io";
 import styles from "../../app/styles/ListTransactions.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ISelectCategory, isModalInput, setDateTransaction, setPriceTransaction, setSelectCategory, setTransactionName } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import {
+  ISelectCategory,
+  isModalInput,
+  setDateTransaction,
+  setPriceTransaction,
+  setSelectCategory,
+  setTransactionName,
+  setIsUpdate,
+  setTransactionId,
+} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { RootState } from "../../store";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { MdDelete } from "react-icons/md";
 import { GoPencil } from "react-icons/go";
 import React from "react";
+import { formatDate } from "../../entities/formarDateToServer";
 interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
   deleteItem: (id: number) => void;
 }
-  interface IUpdateTransaction{
-    id:number,
-    nameTransaction:string,
-    priceTransaction:number,
-    dateTransaction:string,
-    category:ISelectCategory[]
-  }
+interface IUpdateTransaction {
+  id: number;
+  nameTransaction: string;
+  priceTransaction: number;
+  dateTransaction: string;
+  category: ISelectCategory[];
+}
 
-const ListTransactions: React.FC<ListTransactionsProps> = ({ list,deleteItem }) => {
+const ListTransactions: React.FC<ListTransactionsProps> = ({
+  list,
+  deleteItem,
+}) => {
   const dispatch = useDispatch();
-  const { typeTransaction,modalInput } = useSelector(
+  const { typeTransaction, modalInput } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
   const { current } = useSelector(
@@ -34,7 +47,6 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({ list,deleteItem }) 
     {}
   );
   const [activeMenuItemId, setActiveMenuItemId] = useState<number | null>(null);
-
 
   useEffect(() => {
     setOpenCategories({});
@@ -81,28 +93,60 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({ list,deleteItem }) 
   }
   function checkCategoryIcon(items: ITransactionData[]) {
     if (items.length !== 0) {
-  return items[0]?.category.icon;
-}
+      return items[0]?.category.icon;
+    }
   }
 
-  function handlerIsMenuRedactor(id:number){
-  setActiveMenuItemId(prevId => (prevId === id ? null : id));
+  function handlerIsMenuRedactor(id: number) {
+    setActiveMenuItemId((prevId) => (prevId === id ? null : id));
   }
-function updateTransactions({nameTransaction,priceTransaction,dateTransaction,category}:IUpdateTransaction){
-    dispatch(isModalInput())
-    dispatch(setTransactionName(nameTransaction))
-    dispatch(setPriceTransaction(priceTransaction))
-    dispatch(setDateTransaction(dateTransaction))
-    dispatch(setSelectCategory(category))
+  function updateTransactions({
+    id,
+    nameTransaction,
+    priceTransaction,
+    dateTransaction,
+    category,
+  }: IUpdateTransaction) {
+    dispatch(setTransactionId(id));
+    dispatch(isModalInput());
+    dispatch(setIsUpdate());
+    dispatch(setTransactionName(nameTransaction));
+    dispatch(setPriceTransaction(priceTransaction));
+    dispatch(setDateTransaction(formatDate(dateTransaction)));
+    dispatch(setSelectCategory(category));
   }
 
-
-  const MenuRedactor = ({id,nameTransaction,priceTransaction,dateTransaction,category}:IUpdateTransaction) =>{
-    return(<ul className={styles.menuRedactor}>
-      <li onClick={()=>updateTransactions({nameTransaction,priceTransaction,dateTransaction,category})}> <GoPencil   size={10} color="black"/><span>Редактировать</span></li>
-      <li onClick={()=>deleteItem(id)} ><MdDelete   size={10} color="red"/><span>Удалить</span> </li>
-    </ul>)
-  }
+  const MenuRedactor = ({
+    id,
+    nameTransaction,
+    priceTransaction,
+    dateTransaction,
+    category,
+  }: IUpdateTransaction) => {
+    return (
+      <ul className={styles.menuRedactor}>
+        <li
+          onClick={() =>
+            updateTransactions({
+              id,
+              nameTransaction,
+              priceTransaction,
+              dateTransaction,
+              category,
+            })
+          }
+        >
+          {" "}
+          <GoPencil size={10} color="black" />
+          <span>Редактировать</span>
+        </li>
+        <li onClick={() => deleteItem(id)}>
+          <MdDelete size={10} color="red" />
+          <span>Удалить</span>{" "}
+        </li>
+      </ul>
+    );
+  };
   return (
     <>
       {Object.entries(list).map(([category, items]) => (
@@ -136,26 +180,29 @@ function updateTransactions({nameTransaction,priceTransaction,dateTransaction,ca
             <ul>
               {openCategories[category] &&
                 items.map((item) => (
-                    <li className={styles.listItems} key={item.id}  >
+                  <li className={styles.listItems} key={item.id}>
                     <span>{capitalizeFirstLetter(item.description)}</span>{" "}
-                   <div className={styles.wrapPriceRedactor}>
-                     <span>
-
-                      {item.price} {current}
-                    </span>
-                    <button   className={styles.menuRedactorButton}
-                    onClick={()=>handlerIsMenuRedactor(item.id)} >...</button>
-                    {activeMenuItemId === item.id  &&
-                     <MenuRedactor
-                     id={item.id}
-                     nameTransaction = {item.description}
-                     priceTransaction = {item.price}
-                     dateTransaction = {item.date}
-                     category = {[item.category]}
-                     />}
-                   </div>
+                    <div className={styles.wrapPriceRedactor}>
+                      <span>
+                        {item.price} {current}
+                      </span>
+                      <button
+                        className={styles.menuRedactorButton}
+                        onClick={() => handlerIsMenuRedactor(item.id)}
+                      >
+                        ...
+                      </button>
+                      {activeMenuItemId === item.id && (
+                        <MenuRedactor
+                          id={item.id}
+                          nameTransaction={item.description}
+                          priceTransaction={item.price}
+                          dateTransaction={item.date}
+                          category={[item.category]}
+                        />
+                      )}
+                    </div>
                   </li>
-
                 ))}
             </ul>
           }
