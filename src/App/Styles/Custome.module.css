@@ -25,15 +25,7 @@ align-items:center
     background-color: transparent;
     font-size: 16px;
 }
-.customButtom{
- padding: 5px;
- font-size: 16px;
- background-color:rgb(93,126,88);
- border-radius: 5px;
- color: #ffffff;
- margin-left: 10px;
 
-}
 .buttonsWrap {
   display: flex;
   width: 500px;
@@ -46,4 +38,8 @@ border:1px solid red;
 
 .wrapList {
   width: 50%;
+}
+.wrapCustom{
+display: flex;
+align-items:baseline;
 }

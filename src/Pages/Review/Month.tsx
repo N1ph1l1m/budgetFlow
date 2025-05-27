@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
-import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { deleteTransaction, ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import {
   filteredTransactionMonth,
   groupByTranssaction,
@@ -84,10 +84,10 @@ const Month = () => {
       }
 
       const filteredList = filteredTransactionMonth({
-        state:[transactionState[0]],
+        state:transactionState,
         updatedMonth,
         updatedYear,
-        transaction: typeTransaction[0].name,
+        transaction: typeTransaction.name,
       });
       const filteredAllMonth = filteredTransactionAllMonth({
         state:transactionState,
@@ -107,8 +107,10 @@ const Month = () => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
 
-  // useEffect(()=>{console.log(list);},[list])
 
+  function deleteItem(id:number){
+    dispatch(deleteTransaction(id))
+  }
   return (
     <>
       <div className={styles.reviewWrap}>
@@ -132,14 +134,12 @@ const Month = () => {
           <DataPieChart data={getCategorySums(list)} />
         )}
         <div className={styles.wrapList}>
-          <ListTransactions list={list} />
+          <ListTransactions list={list}  deleteItem={deleteItem}/>
         </div>
-        {typeTransaction[0].name === "general" && (
+        {typeTransaction.name === "general" && (
           <div style={{ marginTop: "50px" }}>
             {listMonth.length ==0  ?  <TransactionPlaceholder/> :
                       <BarChartComponent data={listMonth} width={400} />}
-
-
           </div>
         )}
       </div>

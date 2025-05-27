@@ -41,7 +41,7 @@ const BarChartComponent = ({ data,width }:IBartCharInterface) => {
         <Tooltip />
         <Legend />
         <Bar dataKey="rate" id="rate" label="Расходы" fill="red" />
-        <Bar dataKey="income" fill="blue" />
+        <Bar dataKey="income" fill="green" />
       </BarChart>
     </div>
   );

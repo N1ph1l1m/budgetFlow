@@ -1,14 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
+import styles from "../../app/styles/AllTime.module.css"
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
+import { capitalizeFirstLetter } from "../../entities/listTransactions";
+import { MdCalendarMonth } from "react-icons/md";
 
 const AllTime = () => {
   const dispatch = useDispatch();
-  const { isLoaded, categoryList } = useSelector(
+  const { isLoaded, categoryList , transactionState,current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
   const [sumOperations, setSumOperations] = useState<SumOperation[]>([]);
@@ -24,15 +27,17 @@ const AllTime = () => {
 
   useEffect(() => {
     setSumOperations(sumPriceOperation());
+
   }, [listMonth]);
 
-  const { transactionState } = useSelector(
-    (state: RootState) => state.transactionsSlice
-  );
+
 
   useEffect(() => {
     setListMonth(groupToMonth());
+    console.log(listMonth);
   }, [transactionState]);
+
+
 
   const changeNamesBar = () => {
     const span = document.getElementsByClassName("recharts-legend-item-text");
@@ -45,22 +50,35 @@ const AllTime = () => {
   };
 
   function groupToMonth() {
-    const allTransactions = transactionState.flat();
-    return allTransactions.reduce(
-      (acc: Record<string, (typeof item)[]>, item) => {
-        const option: object = { month: "long" };
-        const dateMonth = new Date(item.date);
+  const allTransactions = transactionState.flat();
 
-        const month = dateMonth.toLocaleDateString("ru-RU", option);
-        if (!acc[month]) {
-          acc[month] = [];
-        }
-        acc[month].push(item);
-        return acc;
-      },
-      {}
-    );
-  }
+  const monthMap = allTransactions.reduce((acc: Record<string, { monthIndex: number, items: typeof allTransactions }>, item) => {
+    const date = new Date(item.date);
+    const monthName = date.toLocaleDateString("ru-RU", { month: "long" });
+    const monthIndex = date.getMonth();
+
+    if (!acc[monthName]) {
+      acc[monthName] = {
+        monthIndex,
+        items: [],
+      };
+    }
+
+    acc[monthName].items.push(item);
+    return acc;
+  }, {});
+
+
+  const sorted = Object.entries(monthMap)
+    .sort((a, b) => a[1].monthIndex - b[1].monthIndex)
+    .reduce((acc, [monthName, data]) => {
+      acc[monthName] = data.items;
+      return acc;
+    }, {} as Record<string, typeof allTransactions>);
+
+  return sorted;
+}
+
 
   function sumPriceOperation() {
     const result: Record<
@@ -100,23 +118,35 @@ const AllTime = () => {
     return Object.values(result);
   }
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100px%",
-        height: "100%",
-        justifyContent: "center",
-        marginTop: "50px",
-      }}
+  const  listAllTransaction = ()=>{
+
+    return(<>
+    <div className={styles.listMonthWrap} >
+      {sumOperations.map((item)=>(
+          <ul className={styles.listMonth}>
+            <li className={styles.listTitle}><span><MdCalendarMonth size={16}  /></span> {capitalizeFirstLetter(item.name)}</li>
+            <li > <span style={{color:"red"}}>Расходы:</span> {item.rate}{current}</li>
+            <li><span style={{color:"green"}}>Доходы :</span>{item.income}{current}</li>
+          </ul>
+        ))}
+        </div>
+    </>)
+  }
+
+ return (
+  sumOperations.length === 0 ? (
+    <TransactionPlaceholder />
+  ) : (
+    <div className={styles.wrapAllTime}
     >
-      {sumOperations.length == 0 ? (
-        <TransactionPlaceholder />
-      ) : (
-        <BarChartComponent data={sumOperations} width={750} />
-      )}
+      <BarChartComponent data={sumOperations} width={750} />
+
+        {listAllTransaction()}
+
     </div>
-  );
+  )
+);
+
 };
 
 export default AllTime;

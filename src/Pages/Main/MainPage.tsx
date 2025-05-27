@@ -2,7 +2,7 @@ import styles from "../../App/Styles/Main.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useCallback, useEffect, useState } from "react";
-import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { deleteTransaction, ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import {
   RateButton,
@@ -16,6 +16,7 @@ import {
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
+import { deleteTransactionToId } from "../../entities/API/deleteTransaction";
 export const MainPage = () => {
   const dispatch = useDispatch();
   const { isLoaded, transactionState, categoryList } = useSelector(
@@ -51,7 +52,7 @@ export const MainPage = () => {
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
 
-      if (!transactionState[0]) {
+      if (!transactionState) {
         setList({});
         setSumRate(0);
         setSumIncome(0);
@@ -64,15 +65,15 @@ export const MainPage = () => {
       const updatedYear = newDate.getUTCFullYear();
 
       const filteredList = filteredTransactions({
-        state: [transactionState[0]],
+        state: transactionState,
         updatedDay,
         updatedMonth,
         updatedYear,
-        transaction: typeTransaction[0].name,
+        transaction: typeTransaction.name,
       });
 
       const filteredRate = filteredTransactions({
-        state:[transactionState[0]],
+        state:transactionState,
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -80,7 +81,7 @@ export const MainPage = () => {
       });
 
       const filteredIncome = filteredTransactions({
-        state:[transactionState[0]],
+        state:transactionState,
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -93,6 +94,19 @@ export const MainPage = () => {
     },
     [typeTransaction, setList, setSumRate, setSumIncome]
   );
+
+  async function deleteItem(id:number){
+    try{
+  const request =  await deleteTransactionToId(id)
+    if(request === 204){
+    dispatch(deleteTransaction(id))
+    }else{console.log("Error delete transaction");}
+    }catch(error){
+      console.error(error)
+    }
+
+
+  }
 
   useEffect(() => {
     filterTransition(date, transactionState);
@@ -124,11 +138,11 @@ export const MainPage = () => {
               <DataPieChart data={getCategorySums(list)} />
             </div>
             <div className={styles.wrapList}>
-              <ListTransactions list={list} />
+              <ListTransactions list={list}  deleteItem={deleteItem}    />
             </div>
           </div>
         ) : (
-          <ListTransactions list={list} />
+          <ListTransactions list={list}  deleteItem={deleteItem}/>
         )}
       </div>
     </>

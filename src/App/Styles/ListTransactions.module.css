@@ -53,6 +53,7 @@
   transform: translateY(3px);
 }
 .listItems {
+  position: relative;
   padding: 5px 10px;
   font-size: 16px;
   display: flex;
@@ -81,4 +82,46 @@
   margin-top: 15px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.wrapPriceRedactor{
+display: flex;
+align-items:center;
+/* border:1px solid red; */
+width: 90px;
+justify-content: space-between;
+}
+.menuRedactorButton{
+  cursor: pointer;
+  padding: 0px;
+  background-color: transparent;
+}
+.menuRedactor{
+  position: absolute;
+  right: -110px;
+  top: 15px;
+  font-size: 10px;
+  display: flex;
+  align-items:flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 3px;
+  background-color:#ffffff;
+  border-radius: 5px;
+
+}
+
+.menuRedactor  li{
+  padding: 5px;
+}
+.menuRedactor  span{
+  margin-left: 5px;
+}
+.menuRedactor  li:hover{
+  background-color:rgba(128, 128, 128, 0.611);
+  width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+
 }

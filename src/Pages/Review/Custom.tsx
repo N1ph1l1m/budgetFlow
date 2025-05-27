@@ -1,4 +1,4 @@
-import { ChangeEvent, useState,useEffect, FormEvent } from "react";
+import { ChangeEvent, useState,useEffect } from "react";
 import { useDispatch, useSelector,} from "react-redux";
 import { RootState } from "../../store";
 import { fetchTransactions } from "../../entities/API/getTransactions";
@@ -13,6 +13,7 @@ import {
 } from "../../shared/TransactionButtons/TransactionButtons";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import BarChartComponent from "../../shared/Charts/BarChart";
+import { deleteTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
 const Custom = () => {
   const dispatch = useDispatch();
   const { isLoaded, categoryList, transactionState } = useSelector(
@@ -37,13 +38,11 @@ const Custom = () => {
   const [startDate, setStartDate] = useState<string>(getToday());
   const [endDate, setEndDate] = useState<string>(getToday());
   const [list, setList] = useState<Record<string,ITransactionData[]>>({});
-  const [dataCustome, setDataCustome] = useState<ITransactionData[]>([]);
   const [listSumTransactions,setListSumTransactions] = useState<ISumTypeOperation[]>([])
 
 
   function getCustomList() {
-    const transaction = [transactionState[0]].flat();
-    const result = transaction?.filter((item) => {
+    const result = transactionState?.filter((item) => {
       const itemDate = item.date;
       return itemDate >= startDate && itemDate <= endDate;
     });
@@ -58,13 +57,6 @@ const Custom = () => {
     setEndDate(e.target.value);
   }
 
-
-  function showCustomData(e: FormEvent) {
-    e.preventDefault();
-    const getCustomeData = getCustomList()
-    setDataCustome(getCustomeData)
-
-  }
     function sumTransactionPrice(
     list: ITransactionData[],
     typeOperation: string
@@ -75,16 +67,38 @@ const Custom = () => {
   }
 
 
-  useEffect(()=>{
-     const filterType  =    filteredTransactionsCustom({state:dataCustome,transaction:typeTransaction[0].name})
-      setList(groupByTranssaction(filterType))
-      const rateSum  = sumTransactionPrice(dataCustome,"rate")
-      const incomeSum  = sumTransactionPrice(dataCustome,"income")
-      setListSumTransactions([{ rate: rateSum, income: incomeSum }]);
+useEffect(() => {
+  const getCustomeData = getCustomList();
 
-  },
-[dataCustome,typeTransaction[0].name])
+  const filterType = filteredTransactionsCustom({
+    state: getCustomeData,
+    transaction: typeTransaction.name,
+  });
+  setList(groupByTranssaction(filterType));
 
+  const rateSum = sumTransactionPrice(getCustomeData, "rate");
+  const incomeSum = sumTransactionPrice(getCustomeData, "income");
+  setListSumTransactions([{ rate: rateSum, income: incomeSum }]);
+}, [transactionState, typeTransaction.name, startDate, endDate]);
+
+
+useEffect(() => {
+  const getCustomeData = getCustomList();
+
+  const filterType = filteredTransactionsCustom({
+    state: getCustomeData,
+    transaction: typeTransaction.name,
+  });
+  setList(groupByTranssaction(filterType));
+
+  const rateSum = sumTransactionPrice(getCustomeData, "rate");
+  const incomeSum = sumTransactionPrice(getCustomeData, "income");
+  setListSumTransactions([{ rate: rateSum, income: incomeSum }]);
+}, [transactionState, typeTransaction.name, startDate, endDate]);
+
+  function deleteItem(id:number){
+    dispatch(deleteTransaction(id))
+  }
 
 
 
@@ -92,7 +106,7 @@ const Custom = () => {
     <div className={styles.customWrap}>
       <header className={styles.headerWrap}>
         <h2 className={styles.titleHeader}>Отчет за период</h2>
-        <form onSubmit={showCustomData}>
+        <div className={styles.wrapCustom}>
           <label htmlFor="start">
             <span>За период с </span>
           </label>
@@ -114,10 +128,8 @@ const Custom = () => {
             id="end"
             type="date"
           />
-          <button type="submit" className={styles.customButtom}>
-            Показать{" "}
-          </button>
-        </form>
+
+        </div>
       </header>
 
       <div className={styles.buttonsWrap}>
@@ -129,9 +141,9 @@ const Custom = () => {
           <DataPieChart data={getCategorySums(list)} />
         )}
     <div className={styles.wrapList}>
-          <ListTransactions list={list} />
+          <ListTransactions list={list} deleteItem={deleteItem} />
         </div>
-          {typeTransaction[0].name === "general" && (
+          {typeTransaction.name === "general" && (
           <div style={{ marginTop: "50px" }}>
             {" "}
             <BarChartComponent data={listSumTransactions} width={400} />

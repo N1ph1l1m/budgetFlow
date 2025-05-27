@@ -26,14 +26,14 @@ const ListCategory = () => {
     closeModal();
   }
   const filterCategory = categoryList.filter(
-    (item) => item.type_transaction.name === typeTransaction[0].name
+    (item) => item.type_transaction.name === typeTransaction.name
   );
   return (
     <div className={styles.listWrap}>
       <div className={styles.headerModal}>
         <BsClipboard2PlusFill
           color={
-            typeTransaction[0].name === "income"
+            typeTransaction.name === "income"
               ? "rgb(93,126,88)"
               : "rgb(181,53,52)"
           }

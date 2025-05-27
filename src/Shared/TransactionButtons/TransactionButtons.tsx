@@ -17,7 +17,7 @@ export const RateButton = ({total,large}:IButtonTransaction)=>{
                 className={
                   `${styles.typeTransactButton}
                    ${large  ? styles.largeSize : ""}
-                   ${typeTransaction[0].name  === "rate" ? styles.rateTransaction : ""}`
+                   ${typeTransaction.name  === "rate" ? styles.rateTransaction : ""}`
                   }
                 onClick={()=>dispatch(rateTransaction())}
               >
@@ -35,7 +35,7 @@ export const IncomeButton = ({total , large}:IButtonTransaction) =>{
                 className={
                 `${styles.typeTransactButton}
                  ${large  ? styles.largeSize : ""}
-                 ${typeTransaction[0].name === "income" ? styles.incomeTransaction : "" }`
+                 ${typeTransaction.name === "income" ? styles.incomeTransaction : "" }`
                 }
                 onClick={()=>dispatch(incomeTransaction())}
               >
@@ -49,7 +49,7 @@ export const  GeneralButton = ({large}:IButtonTransaction)=>{
   className={
                 `${styles.typeTransactButton}
                  ${large  ? styles.largeSize : ""}
-                ${typeTransaction[0].name  === "general" ? styles.generalTransaction : "" }
+                ${typeTransaction.name  === "general" ? styles.generalTransaction : "" }
                  `
                 }
      onClick={()=>dispatch(generalTransaction())}

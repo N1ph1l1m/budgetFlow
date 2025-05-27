@@ -1,0 +1,29 @@
+.wrapAllTime{
+    margin-top: 20px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        gap: 10px;
+}
+.listMonthWrap{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    gap:10px;
+}
+.listMonth{
+border:1px solid rgba(128, 128, 128, 0.425);
+padding: 10px;
+font-size: 16px;
+background-color: #ffd28a8e;
+border-radius: 5px;
+}
+.listTitle{
+display: flex;
+align-items:center;
+font-size: 16px;
+margin-bottom: 10px;
+}

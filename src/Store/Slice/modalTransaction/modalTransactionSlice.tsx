@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { setTransaction } from "../transactionsSlice/transactionsSlice";
 
 
 interface TypeTransaction{
@@ -13,15 +14,21 @@ export interface ISelectCategory{
 }
 interface IModalTransaction{
     modalInput:boolean,
+    transactionName :string,
+    price:number | null,
+    dateTransaction:string,
     modalCategory:boolean ,
-    typeTransaction:TypeTransaction[],
+    typeTransaction:TypeTransaction,
     selectCategory:ISelectCategory[],
 }
 
 const initialState:IModalTransaction  = {
     modalInput:false,
+    transactionName:"",
+    price:null,
+    dateTransaction:"",
     modalCategory:false,
-    typeTransaction:[{id:1,name:"rate"}],
+    typeTransaction:{id:1,name:"rate"},
     selectCategory:[]
 }
 
@@ -35,6 +42,15 @@ const modalTransactionSlice = createSlice({
         closeModalInput(state){
             state.modalInput = false;
         },
+        setTransactionName(state,action:PayloadAction<string>){
+            state.transactionName  = action.payload
+        },
+        setPriceTransaction(state,action:PayloadAction<number|null>){
+            state.price = action.payload
+        },
+        setDateTransaction(state,action:PayloadAction<string>){
+            state.dateTransaction = action.payload
+        },
         isModalCategory(state){
             state.modalCategory = true;
         },
@@ -42,13 +58,13 @@ const modalTransactionSlice = createSlice({
             state.modalCategory = false;
         },
         rateTransaction(state){
-            state.typeTransaction = [{id:1,name:"rate"}]
+            state.typeTransaction = {id:1,name:"rate"}
         },
         incomeTransaction(state){
-            state.typeTransaction = [{id:2,name:"income"}]
+            state.typeTransaction = {id:2,name:"income"}
         },
          generalTransaction(state){
-            state.typeTransaction = [{id:3,name:"general"}]
+            state.typeTransaction = {id:3,name:"general"}
         },
         setSelectCategory(state,action:PayloadAction<ISelectCategory[]>){
             state.selectCategory = action.payload;
@@ -59,5 +75,6 @@ const modalTransactionSlice = createSlice({
     }
 
 })
-export const {isModalInput,closeModalInput, isModalCategory,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory , resetCategory , generalTransaction} = modalTransactionSlice.actions;
+export const {isModalInput,closeModalInput, isModalCategory,
+    setTransactionName,setPriceTransaction, setDateTransaction,closeModalCategory, rateTransaction, incomeTransaction,setSelectCategory , resetCategory , generalTransaction} = modalTransactionSlice.actions;
 export default modalTransactionSlice.reducer;

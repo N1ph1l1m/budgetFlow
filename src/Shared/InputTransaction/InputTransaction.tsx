@@ -1,12 +1,13 @@
 import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
-import { useState, ChangeEvent } from "react";
+import {  ChangeEvent } from "react";
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
 import {
   closeModalInput,
   resetCategory,
+  setTransactionName,setPriceTransaction,setDateTransaction,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
@@ -20,23 +21,20 @@ import { getTransactions } from "../../entities/API/getTransactions";
 export const InputTransaction = () => {
   const dispatch = useDispatch();
 
-  const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
-
-  const [dateTransaction, setDateTransaction] = useState("");
-  const { typeTransaction, selectCategory } = useSelector(
+  const { typeTransaction, selectCategory, transactionName,price,dateTransaction} = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
+
 
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
     const parsed = parseInt(digitsOnly, 10);
-    setPrice(Number.isNaN(parsed) ? null : parsed);
+    dispatch(setPriceTransaction(Number.isNaN(parsed) ? null : parsed))
   }
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const format = formatDate(e.target.value);
-    setDateTransaction(format);
+    dispatch(setDateTransaction(format))
   }
 
   function formatDate(date: string) {
@@ -50,7 +48,7 @@ export const InputTransaction = () => {
   }
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
-    setItemName(e.target.value);
+    dispatch(setTransactionName(e.target.value))
   }
 
   function closeModal() {
@@ -64,7 +62,7 @@ export const InputTransaction = () => {
       alert("Выберите категорию");
       return;
     }
-    if (!itemName) {
+    if (!transactionName) {
       alert("Введите наименование товара/услуги");
       return;
     }
@@ -75,10 +73,10 @@ export const InputTransaction = () => {
     try {
       await createTransactions({
         owner_transaction: Number(userId),
-        description: itemName,
+        description: transactionName,
         price: price,
         category: selectCategory[0].id,
-        type_operation: typeTransaction[0].id,
+        type_operation: typeTransaction.id,
         date: dateTransaction || formatDate(date),
       });
 
@@ -144,7 +142,7 @@ export const InputTransaction = () => {
             placeholder="Описание"
             className={styles.inputDescription}
             onChange={(e) => handlerItemName(e)}
-            value={itemName}
+            value={transactionName}
             type="text"
             name="nameItem"
           />
@@ -154,7 +152,7 @@ export const InputTransaction = () => {
           className={styles.addItem}
           style={{
             backgroundColor:
-              typeTransaction[0].name === "income"
+              typeTransaction.name === "income"
                 ? "rgb(93,126,88)"
                 : "rgb(181,53,52)",
           }}
