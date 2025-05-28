@@ -5,13 +5,14 @@ import { RootState } from "../../store";
 import {
   closeModalCategory,
   ISelectCategory,
-  setSelectCategory,
+  setCategoryTransaction,
+  updateCategoryTransaction,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { IoMdClose } from "react-icons/io";
 import { BsClipboard2PlusFill } from "react-icons/bs";
 const ListCategory = () => {
   const dispatch = useDispatch();
-  const { typeTransaction } = useSelector(
+  const { typeTransaction,isUpdate } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
   const { categoryList } = useSelector(
@@ -22,7 +23,11 @@ const ListCategory = () => {
     dispatch(closeModalCategory());
   }
   function selectCategory(category:ISelectCategory) {
-    dispatch(setSelectCategory([category]));
+    if(isUpdate){
+      dispatch(updateCategoryTransaction(category.id))
+    }else{
+     dispatch(setCategoryTransaction(category));
+    }
     closeModal();
   }
   const filterCategory = categoryList.filter(
@@ -48,8 +53,7 @@ const ListCategory = () => {
         {filterCategory.map((category) => (
           <li
             className={styles.categoryListItem}
-            onClick={() =>
-              selectCategory({id:category.id, name:category.name, icon:category.icon})
+            onClick={() =>(selectCategory({ id: category.id, name: category.name, icon: category.icon }))
             }
             key={category.id}
             value={category.id}

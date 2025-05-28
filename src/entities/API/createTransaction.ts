@@ -5,7 +5,6 @@ import { getTransactions } from "./getTransactions";
 import { AddDispatch } from "../../store";
 import {
   closeModalInput,
-  resetCategory,
   resetUpdate,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 
@@ -13,16 +12,15 @@ interface ICreateTransactions {
   owner_transaction: number;
   description: string;
   price: number;
-  category: number;
+  category: number | null;
   type_operation: number;
   date: string;
   dispatch: AddDispatch;
 }
 
-function closeModal(dispatch) {
+function closeModal(dispatch:AddDispatch) {
   dispatch(closeModalInput());
   dispatch(resetUpdate());
-  dispatch(resetCategory());
 }
 
 export async function createTransactions({
@@ -36,16 +34,16 @@ export async function createTransactions({
 }: ICreateTransactions) {
   try {
     const url = `${param.baseUser}budget/create_transaction/`;
-    console.log(date);
-    const { data } = await axios.post(url, {
+    const response = await axios.post(url, {
       owner_transaction: owner_transaction,
       description: description,
       price: price,
       date: date,
-      category: category,
+      category: category || null ,
       type_operation: type_operation,
     });
-    if (data.status === 201) {
+    const data =  response
+    if (data.status === 201 || data.status === 200) {
       const updateTransactions = await getTransactions();
       dispatch(setTransaction(await updateTransactions));
       closeModal(dispatch);

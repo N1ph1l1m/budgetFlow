@@ -6,18 +6,19 @@ import styles from "../../App/Styles/SelectCategory.module.css";
 import Modal from "../ModalWindow/ModalTransaction";
 import { isModalCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 const SelectCategory = () => {
-  const { modalCategory, selectCategory } = useSelector(
+  const { modalCategory,} = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
+  const {category} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
   const dispatch = useDispatch();
 
   return (
     <div className={styles.selectCategoryWrap}>
       <div className={styles.headerCategory}>
         <span>
-            {selectCategory.length !==0  ? <img style={{width:"40px"}} src={selectCategory[0].icon} alt={`iconCategory`}/> : <BiCategoryAlt color="green" size="40" />}
+            {category.icon ? <img style={{width:"40px"}} src={category.icon} alt={`iconCategory`}/> : <BiCategoryAlt color="green" size="40" />}
         </span>
-        <span className={styles.titleCategory}>{  selectCategory.length !== 0 ?  selectCategory[0].name : ""}</span>
+        <span className={styles.titleCategory}>{  category?  category.name : ""}</span>
       </div>
       <button
         className={styles.isMenuButton}

@@ -1,37 +1,52 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+
 interface TypeTransaction {
   id: number;
   name: string;
 }
 
 export interface ISelectCategory {
-  id: number;
+  id: number | null;
   name: string;
   icon: string;
 }
-interface IModalTransaction {
-  modalInput: boolean;
-  transaction_id: number | null;
-  transactionName: string;
-  price: number | null;
-  dateTransaction: string;
-  modalCategory: boolean;
-  isUpdate: boolean;
-  typeTransaction: TypeTransaction;
-  selectCategory: ISelectCategory[];
+
+
+export interface ITransactionParametrs{
+  transaction_id: number |null,
+  description: string,
+  price: number| null,
+  date: string,
+  category: ISelectCategory,
+  type_operation:number |null,
 }
 
+
+interface IModalTransaction {
+  modalInput: boolean;
+  isUpdate: boolean;
+  modalCategory: boolean;
+  typeTransaction: TypeTransaction;
+  transactionParametrs:ITransactionParametrs,
+  updateCategory:number|null,
+
+}
 const initialState: IModalTransaction = {
   modalInput: false,
-  transaction_id: null,
-  transactionName: "",
-  price: null,
-  dateTransaction: "",
-  modalCategory: false,
   isUpdate: false,
+  modalCategory: false,
   typeTransaction: { id: 1, name: "rate" },
-  selectCategory: [],
+  transactionParametrs:{
+    transaction_id: null,
+    description: "",
+    price: null,
+    date: "",
+    category: {id:null,name:"",icon:""} ,
+    type_operation:null,
+  },
+  updateCategory:null
+
 };
 
 const modalTransactionSlice = createSlice({
@@ -43,24 +58,10 @@ const modalTransactionSlice = createSlice({
     },
     closeModalInput(state) {
       state.modalInput = false;
+             state.updateCategory = null
     },
     setIsUpdate(state) {
       state.isUpdate = true;
-    },
-    resetUpdate(state) {
-      state.isUpdate = false;
-    },
-    setTransactionId(state, action: PayloadAction<number>) {
-      state.transaction_id = action.payload;
-    },
-    setTransactionName(state, action: PayloadAction<string>) {
-      state.transactionName = action.payload;
-    },
-    setPriceTransaction(state, action: PayloadAction<number | null>) {
-      state.price = action.payload;
-    },
-    setDateTransaction(state, action: PayloadAction<string>) {
-      state.dateTransaction = action.payload;
     },
     isModalCategory(state) {
       state.modalCategory = true;
@@ -68,20 +69,44 @@ const modalTransactionSlice = createSlice({
     closeModalCategory(state) {
       state.modalCategory = false;
     },
+    setDescriptionTransaction(state,action:PayloadAction<string>){
+        state.transactionParametrs.description = action.payload
+    },
+    setDateTransaction(state,action:PayloadAction<string>){
+    state.transactionParametrs.date = action.payload;
+    },
+    setCategoryTransaction(state,action:PayloadAction<ISelectCategory>){
+        state.transactionParametrs.category = action.payload;
+    },
+    updateCategoryTransaction(state,action:PayloadAction<number | null>){
+        state.updateCategory = action.payload;
+    },
+    setPriceTransaction(state,action:PayloadAction<number>){
+        state.transactionParametrs.price= action.payload;
+    },
+    setUpdateParametrs(state,action:PayloadAction<ITransactionParametrs>){
+        state.transactionParametrs = action.payload;
+    },
     rateTransaction(state) {
-      state.typeTransaction = { id: 1, name: "rate" };
+        state.typeTransaction = { id: 1, name: "rate" };
     },
     incomeTransaction(state) {
-      state.typeTransaction = { id: 2, name: "income" };
+        state.typeTransaction = { id: 2, name: "income" };
     },
     generalTransaction(state) {
       state.typeTransaction = { id: 3, name: "general" };
     },
-    setSelectCategory(state, action: PayloadAction<ISelectCategory[]>) {
-      state.selectCategory = action.payload;
-    },
-    resetCategory(state) {
-      state.selectCategory = [];
+    resetUpdate(state){
+        state.transactionParametrs = {
+        transaction_id: null,
+        description: "",
+        price: null,
+        date: "",
+        category: {id:null,name:"",icon:""},
+        type_operation:null,
+        }
+        state.updateCategory = null
+
     },
   },
 });
@@ -91,15 +116,15 @@ export const {
   isModalCategory,
   setIsUpdate,
   resetUpdate,
-  setTransactionName,
-  setTransactionId,
+  setDescriptionTransaction,
   setPriceTransaction,
   setDateTransaction,
+  setCategoryTransaction,
+  setUpdateParametrs,
   closeModalCategory,
   rateTransaction,
   incomeTransaction,
-  setSelectCategory,
-  resetCategory,
   generalTransaction,
+  updateCategoryTransaction,
 } = modalTransactionSlice.actions;
 export default modalTransactionSlice.reducer;

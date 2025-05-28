@@ -1,15 +1,14 @@
 import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
 import {
   closeModalInput,
-  resetCategory,
-  setTransactionName,
-  setPriceTransaction,
-  setDateTransaction,
   resetUpdate,
+  setDateTransaction,
+  setDescriptionTransaction,
+  setPriceTransaction,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import {
   RateButton,
@@ -18,7 +17,6 @@ import {
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
 import { createTransactions } from "../../entities/API/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
-import { getTransactions } from "../../entities/API/getTransactions";
 import { formatDate } from "../../entities/formarDateToServer";
 import { updateTransactions } from "../../entities/API/updateTransaction";
 
@@ -27,13 +25,11 @@ export const InputTransaction = () => {
 
   const {
     typeTransaction,
-    selectCategory,
-    transactionName,
-    price,
-    dateTransaction,
     isUpdate,
-    transaction_id,
+    updateCategory
   } = useSelector((state: RootState) => state.modalTransactionSlice);
+
+const {description,date,price,category,type_operation,transaction_id} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
 
   // useEffect(() => {
   //   console.log(dateTransaction);
@@ -42,16 +38,16 @@ export const InputTransaction = () => {
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
     const parsed = parseInt(digitsOnly, 10);
-    dispatch(setPriceTransaction(Number.isNaN(parsed) ? null : parsed));
+    dispatch(setPriceTransaction(parsed))
   }
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const format = formatDate(e.target.value);
-    dispatch(setDateTransaction(format));
+    dispatch(setDateTransaction(format))
   }
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
-    dispatch(setTransactionName(e.target.value));
+    dispatch(setDescriptionTransaction(e.target.value))
   }
 
   function closeModal() {
@@ -61,12 +57,13 @@ export const InputTransaction = () => {
 
   async function submitTransaction() {
     const userId = localStorage.getItem("id");
-    const date = new Date().toISOString();
-    if (!selectCategory) {
+      const dateNow = new Date().toISOString();
+
+    if (!category) {
       alert("Выберите категорию");
       return;
     }
-    if (!transactionName) {
+    if (!description) {
       alert("Введите наименование товара/услуги");
       return;
     }
@@ -75,21 +72,25 @@ export const InputTransaction = () => {
       return;
     }
     try {
+
       if (isUpdate) {
         await updateTransactions({
-          id: transaction_id,
-          description: transactionName,
+         transactionParametrs:{ transaction_id,
+          description,
           date: formatDate(date),
+          category: updateCategory ? updateCategory : category?.id ?? null,
           price: price,
+          type_operation},
+          dispatch,
         });
       } else {
         await createTransactions({
           owner_transaction: Number(userId),
-          description: transactionName,
+          description: description,
           price: price,
-          category: selectCategory[0].id,
+          category:  category.id,
           type_operation: typeTransaction.id,
-          date: dateTransaction || formatDate(date),
+          date:  formatDate(dateNow)||  formatDate(date)  ,
           dispatch,
         });
       }
@@ -99,7 +100,7 @@ export const InputTransaction = () => {
     }
 
     closeModal();
-    resetCategory();
+    // resetCategory();
   }
 
   return (
@@ -151,7 +152,7 @@ export const InputTransaction = () => {
             placeholder="Описание"
             className={styles.inputDescription}
             onChange={(e) => handlerItemName(e)}
-            value={transactionName}
+            value={description}
             type="text"
             name="nameItem"
           />

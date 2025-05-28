@@ -3,14 +3,10 @@ import styles from "../../app/styles/ListTransactions.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  ISelectCategory,
   isModalInput,
-  setDateTransaction,
-  setPriceTransaction,
-  setSelectCategory,
-  setTransactionName,
   setIsUpdate,
-  setTransactionId,
+  setUpdateParametrs,
+  ITransactionParametrs,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { RootState } from "../../store";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
@@ -18,17 +14,10 @@ import { ITransactionData } from "../../store/Slice/transactionsSlice/transactio
 import { MdDelete } from "react-icons/md";
 import { GoPencil } from "react-icons/go";
 import React from "react";
-import { formatDate } from "../../entities/formarDateToServer";
+
 interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
-  deleteItem: (id: number) => void;
-}
-interface IUpdateTransaction {
-  id: number;
-  nameTransaction: string;
-  priceTransaction: number;
-  dateTransaction: string;
-  category: ISelectCategory[];
+  deleteItem: (id: number) => void | Promise<void>;
 }
 
 const ListTransactions: React.FC<ListTransactionsProps> = ({
@@ -36,7 +25,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
   deleteItem,
 }) => {
   const dispatch = useDispatch();
-  const { typeTransaction, modalInput } = useSelector(
+  const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
   const { current } = useSelector(
@@ -101,38 +90,46 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
     setActiveMenuItemId((prevId) => (prevId === id ? null : id));
   }
   function updateTransactions({
-    id,
-    nameTransaction,
-    priceTransaction,
-    dateTransaction,
+    transaction_id,
+    description,
+    price,
+    date,
     category,
-  }: IUpdateTransaction) {
-    dispatch(setTransactionId(id));
+    type_operation,
+  }: ITransactionParametrs) {
     dispatch(isModalInput());
     dispatch(setIsUpdate());
-    dispatch(setTransactionName(nameTransaction));
-    dispatch(setPriceTransaction(priceTransaction));
-    dispatch(setDateTransaction(formatDate(dateTransaction)));
-    dispatch(setSelectCategory(category));
+    dispatch(setUpdateParametrs({
+      transaction_id,
+      description,
+      price,
+      date,
+      category,
+      type_operation}))
+
+
   }
 
   const MenuRedactor = ({
-    id,
-    nameTransaction,
-    priceTransaction,
-    dateTransaction,
+    transaction_id,
+    description,
+    price,
+    date,
     category,
-  }: IUpdateTransaction) => {
+    type_operation
+  }: ITransactionParametrs) => {
+
     return (
       <ul className={styles.menuRedactor}>
         <li
           onClick={() =>
             updateTransactions({
-              id,
-              nameTransaction,
-              priceTransaction,
-              dateTransaction,
-              category,
+            transaction_id,
+            description,
+            price,
+            date,
+            category,
+            type_operation
             })
           }
         >
@@ -140,10 +137,10 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
           <GoPencil size={10} color="black" />
           <span>Редактировать</span>
         </li>
-        <li onClick={() => deleteItem(id)}>
+       {transaction_id &&  <li  onClick={() => deleteItem(transaction_id)}>
           <MdDelete size={10} color="red" />
           <span>Удалить</span>{" "}
-        </li>
+        </li>}
       </ul>
     );
   };
@@ -194,11 +191,12 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                       </button>
                       {activeMenuItemId === item.id && (
                         <MenuRedactor
-                          id={item.id}
-                          nameTransaction={item.description}
-                          priceTransaction={item.price}
-                          dateTransaction={item.date}
-                          category={[item.category]}
+                          transaction_id={item.id}
+                          description={item.description}
+                          price={item.price}
+                          date={item.date}
+                          category={item.category}
+                          type_operation={item.category.type_transaction.id}
                         />
                       )}
                     </div>
