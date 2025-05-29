@@ -140,15 +140,15 @@ useEffect(() => {
         {Object.keys(list).length > 0 && (
           <DataPieChart data={getCategorySums(list)} />
         )}
-    <div className={styles.wrapList}>
-          <ListTransactions list={list} deleteItem={deleteItem} />
-        </div>
-          {typeTransaction.name === "general" && (
+
+          {typeTransaction.name === "general" ? (
           <div style={{ marginTop: "50px" }}>
             {" "}
             <BarChartComponent data={listSumTransactions} width={400} />
           </div>
-        )}
+        ):  <div className={styles.wrapList}>
+          <ListTransactions list={list} deleteItem={deleteItem} />
+        </div>}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import styles from "../../app/styles/DataPieChart.module.css"
+import { useEffect, useState } from 'react';
 
 interface IDataPie {
   name: string;
@@ -20,6 +21,22 @@ const DataPieChart = ({ data }: DataPieChartProps) => {
     '#ADFF2F', '#FF1493', '#7FFFD4', '#DC143C'
   ];
 
+const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className={styles.wrapGraph}>
       <PieChart width={450} height={300}>
@@ -29,7 +46,7 @@ const DataPieChart = ({ data }: DataPieChartProps) => {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={120}
+          outerRadius={width <= 501 ? 80:120}
           labelLine={false}
           label={false}
         >
@@ -40,7 +57,7 @@ const DataPieChart = ({ data }: DataPieChartProps) => {
             />
           ))}
         </Pie>
-        <Legend layout="vertical" align="right" verticalAlign="middle" />
+        <Legend layout="vertical" align={width <= 501 ? "center":"right"} verticalAlign={width <=501 ? "bottom":"middle"}  />
       </PieChart>
     </div>
   );

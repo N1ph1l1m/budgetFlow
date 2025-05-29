@@ -169,7 +169,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                 className={styles.listIcon}
                 onClick={() => toggleCategory(category)}
               >
-                <IoIosArrowDown size="20" />
+                <IoIosArrowDown style={{zIndex:"1"}} size="20" />
               </span>
             </div>
           </div>
@@ -188,8 +188,9 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                         onClick={() => handlerIsMenuRedactor(item.id)}
                       >
                         ...
+
                       </button>
-                      {activeMenuItemId === item.id && (
+{activeMenuItemId === item.id && (
                         <MenuRedactor
                           transaction_id={item.id}
                           description={item.description}

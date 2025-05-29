@@ -34,7 +34,7 @@ function Routers() {
           element: <MainPage />,
         },
         {
-          path: "month/",
+          path: "month",
           element: <Month />,
 
         },

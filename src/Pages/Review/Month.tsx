@@ -133,15 +133,16 @@ const Month = () => {
         {Object.keys(list).length > 0 && (
           <DataPieChart data={getCategorySums(list)} />
         )}
-        <div className={styles.wrapList}>
-          <ListTransactions list={list}  deleteItem={deleteItem}/>
-        </div>
-        {typeTransaction.name === "general" && (
+
+        {typeTransaction.name === "general" ? (
           <div style={{ marginTop: "50px" }}>
             {listMonth.length ==0  ?  <TransactionPlaceholder/> :
                       <BarChartComponent data={listMonth} width={400} />}
           </div>
-        )}
+        ) :
+        <div className={styles.wrapList}>
+          <ListTransactions list={list}  deleteItem={deleteItem}/>
+        </div> }
       </div>
     </>
   );

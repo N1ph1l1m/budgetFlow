@@ -58,7 +58,8 @@ const modalTransactionSlice = createSlice({
     },
     closeModalInput(state) {
       state.modalInput = false;
-             state.updateCategory = null
+      state.updateCategory = null
+      state.isUpdate = false
     },
     setIsUpdate(state) {
       state.isUpdate = true;
@@ -106,7 +107,7 @@ const modalTransactionSlice = createSlice({
         type_operation:null,
         }
         state.updateCategory = null
-
+        state.isUpdate = false
     },
   },
 });

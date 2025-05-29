@@ -27,14 +27,9 @@ const AllTime = () => {
 
   useEffect(() => {
     setSumOperations(sumPriceOperation());
-
   }, [listMonth]);
-
-
-
   useEffect(() => {
     setListMonth(groupToMonth());
-    console.log(listMonth);
   }, [transactionState]);
 
 
@@ -78,8 +73,6 @@ const AllTime = () => {
 
   return sorted;
 }
-
-
   function sumPriceOperation() {
     const result: Record<
       string,
@@ -123,9 +116,9 @@ const AllTime = () => {
     return(<>
     <div className={styles.listMonthWrap} >
       {sumOperations.map((item)=>(
-          <ul className={styles.listMonth}>
+          <ul className={styles.listMonth} key={item.name}>
             <li className={styles.listTitle}><span><MdCalendarMonth size={16}  /></span> {capitalizeFirstLetter(item.name)}</li>
-            <li > <span style={{color:"red"}}>Расходы:</span> {item.rate}{current}</li>
+            <li> <span style={{color:"red"}}>Расходы:</span> {item.rate}{current}</li>
             <li><span style={{color:"green"}}>Доходы :</span>{item.income}{current}</li>
           </ul>
         ))}

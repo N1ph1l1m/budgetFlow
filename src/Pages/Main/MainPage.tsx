@@ -134,9 +134,9 @@ export const MainPage = () => {
         </div>
         {Object.keys(list).length > 0 ? (
           <div className={styles.listWrapContainer}>
-            <div className={styles.wrapGraph}>
+
               <DataPieChart data={getCategorySums(list)} />
-            </div>
+
             <div className={styles.wrapList}>
               <ListTransactions list={list}  deleteItem={deleteItem}    />
             </div>

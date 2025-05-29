@@ -17,12 +17,13 @@
 .headerList {
   width: 100%;
   padding: 5px;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   position: relative;
+
 }
 
 .wrapIconTitle {
@@ -37,10 +38,12 @@
 .titleList {
   font-weight: 500;
   font-size: 20px;
+  z-index: 1;
 }
 .listPrice {
   transform: translateY(-3px);
   font-size: 20px;
+
 }
 .listMenu {
   width: 100px;
@@ -51,10 +54,12 @@
 
 .listIcon {
   transform: translateY(3px);
+
 }
 .listItems {
   position: relative;
   padding: 5px 10px;
+  z-index: 10;
   font-size: 16px;
   display: flex;
   justify-content: space-between;
@@ -87,36 +92,41 @@
 .wrapPriceRedactor{
 display: flex;
 align-items:center;
-/* border:1px solid red; */
 width: 90px;
 justify-content: space-between;
+position: relative;
 }
 .menuRedactorButton{
   cursor: pointer;
   padding: 0px;
+  position: relative;
   background-color: transparent;
 }
-.menuRedactor{
+.menuRedactor {
   position: absolute;
-  right: -110px;
+  left: -140px;
   top: 15px;
-  font-size: 10px;
+  font-size: 16px;
   display: flex;
-  align-items:flex-start;
+  align-items: flex-start;
   flex-direction: column;
   justify-content: flex-start;
   gap: 5px;
   padding: 3px;
-  background-color:#ffffff;
+  background-color: #ffffff;
   border-radius: 5px;
-
+  width: 200px;
+ z-index: 1000;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* для визуального слоя */
 }
 
 .menuRedactor  li{
   padding: 5px;
+  background-color:#ffffff;
 }
 .menuRedactor  span{
   margin-left: 5px;
+  background-color:#ffffff;
 }
 .menuRedactor  li:hover{
   background-color:rgba(128, 128, 128, 0.611);
