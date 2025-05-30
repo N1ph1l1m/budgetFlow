@@ -33,7 +33,7 @@ interface ITransaction {
 }
 
 const initialState: ITransaction = {
-  current: "R",
+  current: "₽",
   categoryList: [],
   isLoaded: false,
   transactionState: [],

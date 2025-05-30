@@ -1,5 +1,6 @@
 import { IoIosArrowDown } from "react-icons/io";
 import styles from "../../app/styles/ListTransactions.module.css";
+
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -134,11 +135,11 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
           }
         >
           {" "}
-          <GoPencil size={10} color="black" />
+          <GoPencil size={13} color="black" />
           <span>Редактировать</span>
         </li>
        {transaction_id &&  <li  onClick={() => deleteItem(transaction_id)}>
-          <MdDelete size={10} color="red" />
+          <MdDelete size={13} color="red" />
           <span>Удалить</span>{" "}
         </li>}
       </ul>
@@ -169,7 +170,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                 className={styles.listIcon}
                 onClick={() => toggleCategory(category)}
               >
-                <IoIosArrowDown style={{zIndex:"1"}} size="20" />
+                <IoIosArrowDown  size="20" />
               </span>
             </div>
           </div>
@@ -180,17 +181,15 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                   <li className={styles.listItems} key={item.id}>
                     <span>{capitalizeFirstLetter(item.description)}</span>{" "}
                     <div className={styles.wrapPriceRedactor}>
-                      <span>
+                      <span className={styles.itemPrice} >
                         {item.price} {current}
                       </span>
-                      <button
-                        className={styles.menuRedactorButton}
-                        onClick={() => handlerIsMenuRedactor(item.id)}
-                      >
-                        ...
-
-                      </button>
-{activeMenuItemId === item.id && (
+                      <div className={styles.meduRedactorWrap}>
+                         <button
+                        className={styles.menuRedactorButton} onClick={() => handlerIsMenuRedactor(item.id)}
+                        style={{color:activeMenuItemId === item.id   ?  "red" :""}}
+                        >...</button>
+                      {activeMenuItemId === item.id && (
                         <MenuRedactor
                           transaction_id={item.id}
                           description={item.description}
@@ -200,6 +199,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                           type_operation={item.category.type_transaction.id}
                         />
                       )}
+                      </div>
                     </div>
                   </li>
                 ))}

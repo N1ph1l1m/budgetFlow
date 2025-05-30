@@ -14,6 +14,7 @@ import {
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import { deleteTransaction } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 const Custom = () => {
   const dispatch = useDispatch();
   const { isLoaded, categoryList, transactionState } = useSelector(
@@ -100,6 +101,7 @@ useEffect(() => {
     dispatch(deleteTransaction(id))
   }
 
+  useEffect(()=>{console.log(listSumTransactions);},[listSumTransactions])
 
 
   return (
@@ -143,8 +145,7 @@ useEffect(() => {
 
           {typeTransaction.name === "general" ? (
           <div style={{ marginTop: "50px" }}>
-            {" "}
-            <BarChartComponent data={listSumTransactions} width={400} />
+            {listSumTransactions[0]?.rate == 0 && listSumTransactions[0]?.income == 0   ? <TransactionPlaceholder/> :<BarChartComponent data={listSumTransactions} width={400} />}
           </div>
         ):  <div className={styles.wrapList}>
           <ListTransactions list={list} deleteItem={deleteItem} />

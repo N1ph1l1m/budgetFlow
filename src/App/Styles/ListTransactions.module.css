@@ -1,28 +1,15 @@
 .listWrap {
   width: 100%;
-  opacity: 0;
-  animation: fadeIn 0.4s ease-out forwards;
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 .headerList {
+  /* border:1px solid red; */
   width: 100%;
   padding: 5px;
-  /* overflow: hidden; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: relative;
 
 }
 
@@ -38,14 +25,14 @@
 .titleList {
   font-weight: 500;
   font-size: 20px;
-  z-index: 1;
-}
-.listPrice {
-  transform: translateY(-3px);
-  font-size: 20px;
 
 }
+.listPrice {
+  /* transform: translateY(-3px); */
+  font-size: 20px;
+}
 .listMenu {
+
   width: 100px;
   display: flex;
   align-items: baseline;
@@ -54,23 +41,19 @@
 
 .listIcon {
   transform: translateY(3px);
-
 }
 .listItems {
-  position: relative;
   padding: 5px 10px;
   z-index: 10;
   font-size: 16px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
-  animation: fadeIn 0.4s ease-out forwards;
 }
 
 .transactionPlaceholderWrap {
   margin-top: 20px;
 }
-
 
 .transactionPlaceholderWrap > span {
   display: block;
@@ -78,7 +61,7 @@
   font-size: 18px;
   font-weight: 400;
 }
-.titleInput{
+.titleInput {
   margin-top: 10px;
   text-decoration: underline;
   cursor: pointer;
@@ -88,24 +71,24 @@
   font-weight: 600;
   cursor: pointer;
 }
-
-.wrapPriceRedactor{
-display: flex;
-align-items:center;
-width: 90px;
-justify-content: space-between;
-position: relative;
+.meduRedactorWrap {
+  position: relative;
 }
-.menuRedactorButton{
+.wrapPriceRedactor {
+  display: flex;
+  align-items: center;
+  width: 90px;
+  justify-content: space-between;
+}
+.menuRedactorButton {
   cursor: pointer;
   padding: 0px;
-  position: relative;
   background-color: transparent;
 }
 .menuRedactor {
   position: absolute;
-  left: -140px;
-  top: 15px;
+  left: -180px;
+  top: 25px;
   font-size: 16px;
   display: flex;
   align-items: flex-start;
@@ -115,23 +98,36 @@ position: relative;
   padding: 3px;
   background-color: #ffffff;
   border-radius: 5px;
-  width: 200px;
- z-index: 1000;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* для визуального слоя */
+  width: 160px;
+  z-index: 1000;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.212);
 }
 
-.menuRedactor  li{
+.menuRedactor li {
   padding: 5px;
-  background-color:#ffffff;
+  background-color: #ffffff;
 }
-.menuRedactor  span{
+.menuRedactor span {
   margin-left: 5px;
-  background-color:#ffffff;
+  background-color: #ffffff;
 }
-.menuRedactor  li:hover{
-  background-color:rgba(128, 128, 128, 0.611);
+.menuRedactor li:hover {
+  background-color: rgba(128, 128, 128, 0.611);
   width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media screen and (max-width:310px){
+ .headerList ,.listItems{
+    width: 80vw;
+    flex-direction: column;
+    align-items:flex-start;
+  }
+  .menuRedactor{
+    font-size: 12px;
+    left: -80px;
+    top:40px;
+  }
 
 }

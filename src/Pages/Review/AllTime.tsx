@@ -9,6 +9,7 @@ import TransactionPlaceholder from "../../shared/TransactionPlaceholder/Transact
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { MdCalendarMonth } from "react-icons/md";
 
+
 const AllTime = () => {
   const dispatch = useDispatch();
   const { isLoaded, categoryList , transactionState,current } = useSelector(
@@ -115,6 +116,7 @@ const AllTime = () => {
 
     return(<>
     <div className={styles.listMonthWrap} >
+
       {sumOperations.map((item)=>(
           <ul className={styles.listMonth} key={item.name}>
             <li className={styles.listTitle}><span><MdCalendarMonth size={16}  /></span> {capitalizeFirstLetter(item.name)}</li>

@@ -43,12 +43,8 @@ const Setting = () => {
   }
   const options = [
     {
-      value: "P",
-      label: <SelectItem imageSrc={`${pmr}`} title="PMR" />,
-    },
-    {
       value: "₽",
-      label: <SelectItem imageSrc={`${rus}`} title="RUB" />,
+      label: <SelectItem imageSrc={`${pmr}`} title="PMR" />,
     },
     {
       value: "$",

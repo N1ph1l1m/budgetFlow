@@ -1,5 +1,5 @@
 import styles from "../../App/Styles/Month.module.css";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
@@ -108,6 +108,8 @@ const Month = () => {
   }, [typeTransaction, date, transactionState, filterTransition]);
 
 
+
+
   function deleteItem(id:number){
     dispatch(deleteTransaction(id))
   }
@@ -136,8 +138,8 @@ const Month = () => {
 
         {typeTransaction.name === "general" ? (
           <div style={{ marginTop: "50px" }}>
-            {listMonth.length ==0  ?  <TransactionPlaceholder/> :
-                      <BarChartComponent data={listMonth} width={400} />}
+            {listMonth[0]?.rate ==0 && listMonth[0]?.income == 0  ? <TransactionPlaceholder/> : <BarChartComponent data={listMonth} width={200} />
+                      }
           </div>
         ) :
         <div className={styles.wrapList}>

@@ -1,15 +1,16 @@
 .mainWrap{
     margin: 0px auto;
-    max-width:850px;
-    height: 100vh;
-    /* overflow: scroll; */
-    overflow-y: auto hidden;
+    /* max-width:850px; */
+    overflow: scroll;
+    overflow-y: scroll hidden;
+    	background-color:#F9F9F9;
     z-index: 1;
 
 }
 .outletWrap{
-    /* border:1px solid red; */
-    /* background-color:#ffffff; */
+
+height: 100vh;
+
 }
 
 

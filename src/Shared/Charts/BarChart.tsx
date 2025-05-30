@@ -1,3 +1,4 @@
+import { useState,useEffect } from "react";
 import {
   BarChart,
   CartesianGrid,
@@ -7,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-
 interface IDataBart{
   name?:string,
   rate:number,
@@ -20,12 +20,45 @@ interface IBartCharInterface{
 }
 
 
+
+
 const BarChartComponent = ({ data,width }:IBartCharInterface) => {
+
+  const [widthWindow, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const  adaptivBar =()=>{
+    if(widthWindow <= 360)
+      {return 250}
+    else if(widthWindow <= 520){
+      return 400
+    }else if(widthWindow <= 700){
+      return 550
+    }else if(width){
+      return Number(width)
+    }else{
+      return 200
+    }
+  }
   return (
     <div>
 
+
       <BarChart
-        width={width || 200}
+        width={adaptivBar()}
         height={250}
         data={data}
         margin={{
