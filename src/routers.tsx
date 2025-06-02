@@ -11,6 +11,7 @@ import Setting from "./pages/Setting/Setting";
 import AllTime from "./pages/Review/AllTime";
 import Custom from "./pages/Review/Custom";
 import Month from "./pages/Review/Month";
+import Search from "./pages/Review/Search";
 
 function Routers() {
   function privateRouter() {
@@ -49,6 +50,10 @@ function Routers() {
         {
           path: "setting",
           element: <Setting />,
+        },
+         {
+          path: "search",
+          element: <Search />,
         },
       ],
     },

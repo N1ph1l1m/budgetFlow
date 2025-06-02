@@ -97,6 +97,9 @@ const modalTransactionSlice = createSlice({
     generalTransaction(state) {
       state.typeTransaction = { id: 3, name: "general" };
     },
+    resetCategory(state){
+      state.transactionParametrs.category = {id:null,name:"",icon:""}
+    },
     resetUpdate(state){
         state.transactionParametrs = {
         transaction_id: null,
@@ -117,6 +120,7 @@ export const {
   isModalCategory,
   setIsUpdate,
   resetUpdate,
+  resetCategory,
   setDescriptionTransaction,
   setPriceTransaction,
   setDateTransaction,

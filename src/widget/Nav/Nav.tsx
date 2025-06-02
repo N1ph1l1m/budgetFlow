@@ -40,6 +40,9 @@ export const Nav = ({ isButton, location }: NavProps) => {
             <NavLink to="custom/">
               <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >Период</li>
             </NavLink>
+             <NavLink to="search/">
+              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >Поиск</li>
+            </NavLink>
           </ul>
         )}
       </>
