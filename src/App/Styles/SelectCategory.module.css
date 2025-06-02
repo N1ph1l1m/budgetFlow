@@ -8,7 +8,7 @@ border:1px solid rgba(128, 128, 128, 0.5);
 border-radius:10px;
 gap: 8px;
 background-color:rgba(93, 126, 88, 0.349);
-width: 50%;
+width: 100%;
 }
 .headerCategory{
 display: flex;

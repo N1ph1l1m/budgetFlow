@@ -131,7 +131,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
         </div>
 
         <div className={styles.inputMainWrap}>
-          <SelectCategory />
+          <div className={styles.selectWrap}>     <SelectCategory /></div>
           <div className={styles.inputDateWrap}>
             <div className={styles.headerDataInput}>
               <FaCalendarDays color="#fcb831 " size="40" />
