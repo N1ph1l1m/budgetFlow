@@ -1,20 +1,13 @@
 import { IoIosArrowDown } from "react-icons/io";
 import styles from "../../app/styles/ListTransactions.module.css";
-
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  isModalInput,
-  setIsUpdate,
-  setUpdateParametrs,
-  ITransactionParametrs,
-} from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import { isModalInput,} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { RootState } from "../../store";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
-import { MdDelete } from "react-icons/md";
-import { GoPencil } from "react-icons/go";
 import React from "react";
+import { MenuRedactor } from "../../shared/MenuRedactor/MenuRedactor";
 
 interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
@@ -90,61 +83,6 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
   function handlerIsMenuRedactor(id: number) {
     setActiveMenuItemId((prevId) => (prevId === id ? null : id));
   }
-  function updateTransactions({
-    transaction_id,
-    description,
-    price,
-    date,
-    category,
-    type_operation,
-  }: ITransactionParametrs) {
-    dispatch(isModalInput());
-    dispatch(setIsUpdate());
-    dispatch(setUpdateParametrs({
-      transaction_id,
-      description,
-      price,
-      date,
-      category,
-      type_operation}))
-
-
-  }
-
-  const MenuRedactor = ({
-    transaction_id,
-    description,
-    price,
-    date,
-    category,
-    type_operation
-  }: ITransactionParametrs) => {
-
-    return (
-      <ul className={styles.menuRedactor}>
-        <li
-          onClick={() =>
-            updateTransactions({
-            transaction_id,
-            description,
-            price,
-            date,
-            category,
-            type_operation
-            })
-          }
-        >
-          {" "}
-          <GoPencil size={13} color="black" />
-          <span>Редактировать</span>
-        </li>
-       {transaction_id &&  <li  onClick={() => deleteItem(transaction_id)}>
-          <MdDelete size={13} color="red" />
-          <span>Удалить</span>{" "}
-        </li>}
-      </ul>
-    );
-  };
   return (
     <>
       {Object.entries(list).map(([category, items]) => (
@@ -190,14 +128,17 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                         style={{color:activeMenuItemId === item.id   ?  "red" :""}}
                         >...</button>
                       {activeMenuItemId === item.id && (
-                        <MenuRedactor
-                          transaction_id={item.id}
-                          description={item.description}
-                          price={item.price}
-                          date={item.date}
-                          category={item.category}
-                          type_operation={item.category.type_transaction.id}
-                        />
+                     <MenuRedactor
+                        transactionParam={{
+                          transaction_id: item.id,
+                          description: item.description,
+                          price: item.price,
+                          date: item.date,
+                          category: item.category,
+                          type_operation: item.category.type_transaction.id
+                        }}
+                        deleteItem={()=>deleteItem(item.id)}
+                      />
                       )}
                       </div>
                     </div>

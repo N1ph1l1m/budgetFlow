@@ -1,21 +1,110 @@
-
-.searchWrap{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.searchWrap {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Playfair";
+   margin-top: 20px;
+   align-items:center;
+   justify-content: flex-start;
+   gap:20px;
 }
-.searchInput{
-    border:1px solid black;
-    padding: 5px;
-    border-radius: 5px;
+.searchInput {
+  border: 1px solid #e0e0e0;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  width: 350px;
+
+}
+.wrapList {
+  width: 500px;
+  background-color: #ffffff;
+  padding: 5px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
 }
 
-.resultWrap{
-    margin-top: 10px;
-    display: flex;
-    width: 600px;
-    justify-content: space-around;
-    border:1px solid black;
+.resultWrap {
+  position: relative;
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  gap: 15px;
+}
 
+.resultWrap::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 1px;
+  background-color: #cecdcd;
+  z-index: 0;
+}
+
+
+
+.resultWrap:last-child::before {
+  background-color: transparent;
+}
+
+.resultItem {
+  padding: 0px;
+  text-align: left;
+  width: 120px;
+  font-size: 18px;
+      border-radius: 0px;
+}
+
+.resultWrap img {
+  width: 40px;
+}
+
+.wrapButtonMenu {
+  width: 20px;
+  background-color: transparent;
+  position: relative;
+}
+.wrapButtonMenu button {
+  background-color: transparent;
+  padding: 0;
+}
+
+@media screen and (max-width:470px) {
+    .wrapList {
+        width: 90%;
+    }
+    .resultWrap{
+        gap:5px;
+    }
+    .resultItem {
+        font-size: 14px;
+    }
+    .resultWrap img {
+  width: 30px;
+}
+}
+
+@media screen and (max-width:405px) {
+    .resultItem {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width:360px) {
+    .resultItem {
+        font-size: 10px;
+    }
+      .searchInput{
+        width: 80%;
+        font-size: 16px;
+      }
 }

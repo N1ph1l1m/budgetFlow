@@ -1,0 +1,38 @@
+.menuRedactor {
+  position: absolute;
+  left: -180px;
+  top: 25px;
+  font-size: 16px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 3px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  width: 160px;
+  z-index: 1000;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.212);
+}
+
+.menuRedactor li {
+  padding: 5px;
+  cursor: pointer;
+}
+.menuRedactor span {
+  margin-left: 5px;
+}
+.menuRedactor li:hover {
+  background-color: rgba(128, 128, 128, 0.611);
+  width: 100%;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 310px) {
+  .menuRedactor {
+    font-size: 12px;
+    left: -80px;
+    top: 40px;
+  }
+}

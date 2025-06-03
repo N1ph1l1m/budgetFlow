@@ -1,9 +1,7 @@
 .listWrap {
   width: 100%;
-
 }
 .headerList {
-  /* border:1px solid red; */
   width: 100%;
   padding: 5px;
   display: flex;
@@ -28,7 +26,6 @@
 
 }
 .listPrice {
-  /* transform: translateY(-3px); */
   font-size: 20px;
 }
 .listMenu {

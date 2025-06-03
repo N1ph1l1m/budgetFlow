@@ -4,7 +4,6 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import { logOut } from "../../entities/logOut";
 import Select from "react-select";
 import pmr from "../../App/icons/pmr.png";
-import rus from "../../app/icons/russia.png";
 import usa from "../../app/icons/usa.png";
 import euro from "../../app/icons/euro.png";
 import { useNavigate } from "react-router";

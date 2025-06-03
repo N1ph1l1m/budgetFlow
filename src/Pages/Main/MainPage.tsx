@@ -2,7 +2,7 @@ import styles from "../../App/Styles/Main.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useCallback, useEffect, useState } from "react";
-import { deleteTransaction, ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import {
   RateButton,
@@ -16,7 +16,7 @@ import {
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
-import { deleteTransactionToId } from "../../entities/API/deleteTransaction";
+import { deleteItem} from "../../entities/API/deleteTransaction";
 export const MainPage = () => {
   const dispatch = useDispatch();
   const { isLoaded, transactionState, categoryList } = useSelector(
@@ -95,16 +95,8 @@ export const MainPage = () => {
     [typeTransaction, setList, setSumRate, setSumIncome]
   );
 
-  async function deleteItem(id:number){
-    try{
-  const request =  await deleteTransactionToId(id)
-    if(request === 204){
-    dispatch(deleteTransaction(id))
-    }else{console.log("Error delete transaction");}
-    }catch(error){
-      console.error(error)
-    }
-
+  async function deleteTransaction(id:number){
+    deleteItem(id,dispatch)
 
   }
 
@@ -138,11 +130,11 @@ export const MainPage = () => {
               <DataPieChart data={getCategorySums(list)} />
 
             <div className={styles.wrapList}>
-              <ListTransactions list={list}  deleteItem={deleteItem}    />
+              <ListTransactions list={list}  deleteItem={deleteTransaction}    />
             </div>
           </div>
         ) : (
-          <ListTransactions list={list}  deleteItem={deleteItem}/>
+          <ListTransactions list={list}  deleteItem={deleteTransaction}/>
         )}
       </div>
     </>

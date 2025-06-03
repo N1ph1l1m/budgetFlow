@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
-import { deleteTransaction, ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import {ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import {
   filteredTransactionMonth,
   groupByTranssaction,
@@ -20,6 +20,7 @@ import BarChartComponent from "../../shared/Charts/BarChart";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
+import { deleteItem } from "../../entities/API/deleteTransaction";
 
 
 interface ISumTypeOperation {
@@ -47,7 +48,7 @@ const Month = () => {
     (state: RootState) => state.modalTransactionSlice
   );
 
-  const option: object = { month: "long", year: "numeric" };
+  const option: object = {  month: "long", year: "numeric" };
 
   function changeMonth(type: string) {
     const newDate = new Date(date);
@@ -107,11 +108,8 @@ const Month = () => {
     filterTransition(date, transactionState);
   }, [typeTransaction, date, transactionState, filterTransition]);
 
-
-
-
-  function deleteItem(id:number){
-    dispatch(deleteTransaction(id))
+  function deleteTransaction(id:number):void{
+    deleteItem(id,dispatch)
   }
   return (
     <>
@@ -143,7 +141,7 @@ const Month = () => {
           </div>
         ) :
         <div className={styles.wrapList}>
-          <ListTransactions list={list}  deleteItem={deleteItem}/>
+          <ListTransactions list={list}  deleteItem={deleteTransaction}/>
         </div> }
       </div>
     </>
