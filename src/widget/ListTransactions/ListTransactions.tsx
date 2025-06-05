@@ -2,7 +2,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import styles from "../../app/styles/ListTransactions.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isModalInput,} from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { RootState } from "../../store";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
@@ -26,7 +26,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
   const { current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-    const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     {}
@@ -57,7 +57,10 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
             onClick={() => dispatch(isModalInput())}
           >
             {" "}
-            Добавьте {typeTransaction.name == "rate" ? `${t("rate").toLocaleLowerCase()}` : `${t("income").toLocaleLowerCase()}`}
+            {t("add")}{" "}
+            {typeTransaction.name == "rate"
+              ? `${t("rate").toLocaleLowerCase()}`
+              : `${t("income").toLocaleLowerCase()}`}
           </span>
         </div>
       </>
@@ -110,7 +113,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                 className={styles.listIcon}
                 onClick={() => toggleCategory(category)}
               >
-                <IoIosArrowDown  size="20" />
+                <IoIosArrowDown size="20" />
               </span>
             </div>
           </div>
@@ -121,27 +124,32 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                   <li className={styles.listItems} key={item.id}>
                     <span>{capitalizeFirstLetter(item.description)}</span>{" "}
                     <div className={styles.wrapPriceRedactor}>
-                      <span className={styles.itemPrice} >
+                      <span className={styles.itemPrice}>
                         {item.price} {current}
                       </span>
                       <div className={styles.meduRedactorWrap}>
-                         <button
-                        className={styles.menuRedactorButton} onClick={() => handlerIsMenuRedactor(item.id)}
-                        style={{color:activeMenuItemId === item.id   ?  "red" :""}}
-                        >...</button>
-                      {activeMenuItemId === item.id && (
-                     <MenuRedactor
-                        transactionParam={{
-                          transaction_id: item.id,
-                          description: item.description,
-                          price: item.price,
-                          date: item.date,
-                          category: item.category,
-                          type_operation: item.category.type_transaction.id
-                        }}
-                        deleteItem={()=>deleteItem(item.id)}
-                      />
-                      )}
+                        <button
+                          className={styles.menuRedactorButton}
+                          onClick={() => handlerIsMenuRedactor(item.id)}
+                          style={{
+                            color: activeMenuItemId === item.id ? "red" : "",
+                          }}
+                        >
+                          ...
+                        </button>
+                        {activeMenuItemId === item.id && (
+                          <MenuRedactor
+                            transactionParam={{
+                              transaction_id: item.id,
+                              description: item.description,
+                              price: item.price,
+                              date: item.date,
+                              category: item.category,
+                              type_operation: item.category.type_transaction.id,
+                            }}
+                            deleteItem={() => deleteItem(item.id)}
+                          />
+                        )}
                       </div>
                     </div>
                   </li>

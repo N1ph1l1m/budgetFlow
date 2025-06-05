@@ -1,19 +1,19 @@
 {
-    "setting":"Настройки",
-    "addCategory":"Добавить категорию",
-    "current":"Валюта",
-    "language":"Язык",
-    "quit":"Выйти",
-     "review":"Обзор",
-         "main":"Главная",
-         "month":"Месяц",
-    "allTime":"Все время",
-    "period":"Период",
-    "search":"Поиск",
-     "income":"Доходы",
-    "rate":"Расходы",
-    "general":"Общая",
+  "setting": "Настройки",
+  "addCategory": "Добавить категорию",
+  "current": "Валюта",
+  "language": "Язык",
+  "quit": "Выйти",
+  "review": "Обзор",
+  "main": "Главная",
+  "month": "Месяц",
+  "allTime": "Все время",
+  "period": "Период",
+  "search": "Поиск",
+  "income": "Доходы",
+  "rate": "Расходы",
+  "general": "Общая",
+  "add": "Добавьте",
 
- "transactionPlaceholderTitle":"Нет операций за текущий период"
-
+  "transactionPlaceholderTitle": "Нет операций за текущий период"
 }

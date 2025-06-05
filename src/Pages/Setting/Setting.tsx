@@ -6,7 +6,7 @@ import Select from "react-select";
 import pmr from "../../App/icons/pmr.png";
 import usa from "../../app/icons/usa.png";
 import euro from "../../app/icons/euro.png";
-import russia from "../../app/icons/russia.png"
+import russia from "../../app/icons/russia.png";
 import { useNavigate } from "react-router";
 import { FaMoneyBillWave } from "react-icons/fa";
 import Modal from "../../widget/ModalWindow/ModalTransaction";
@@ -33,7 +33,7 @@ const SelectItem: React.FC<SelectItemProps> = ({ imageSrc, title }) => {
 const Setting = () => {
   const [isModalCategory, setIsModalCategory] = useState(false);
   const [selectСurrency, setCurrency] = useState<string>("₽");
-  const {t,i18n} = useTranslation()
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Setting = () => {
     },
   ];
 
-    const optionsLanguage = [
+  const optionsLanguage = [
     {
       value: "ru",
       label: <SelectItem imageSrc={`${russia}`} title="RUS" />,
@@ -70,9 +70,9 @@ const Setting = () => {
     },
   ];
 
-  const changeLanguage = (language:string)=>{
-    i18n.changeLanguage(language)
-  }
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+  };
 
   useEffect(() => {
     dispatch(setCurrent(selectСurrency));
@@ -103,16 +103,16 @@ const Setting = () => {
           </li>
           <li className={styles.settingItem}>
             <FaMoneyBillWave size={25} />
-            <span className={styles.titleSettingItem}>{t("current")}</span>
+            <p className={styles.titleSettingItem}>{t("current")}</p>
             <Select
               className={styles.selectCustom}
               options={optionsCurrent}
               onChange={(selected) => setCurrency(selected?.value ?? "₽")}
             />
           </li>
-           <li className={styles.settingItem}>
+          <li className={styles.settingItem}>
             <FaFlagUsa size={25} />
-            <span className={styles.titleSettingItem}>{t("language")}</span>
+            <p className={styles.titleSettingItem}>{t("language")}</p>
             <Select
               className={styles.selectCustom}
               options={optionsLanguage}
@@ -125,7 +125,7 @@ const Setting = () => {
               onClick={() => logOut(navigate)}
             >
               <RiLogoutBoxRLine size={25} />
-              <span className={styles.titleSettingItem}>{t("quit")}</span>
+              <p className={styles.titleSettingItem}>{t("quit")}</p>
             </button>
           </li>
         </ul>

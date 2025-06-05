@@ -13,7 +13,7 @@
     "income":"Income",
     "rate":"Rate",
     "general":"General",
-
+    "add":"Add",
 
     "transactionPlaceholderTitle":"No transactions for the current period"
 }
