@@ -8,6 +8,7 @@ import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import React from "react";
 import { MenuRedactor } from "../../shared/MenuRedactor/MenuRedactor";
+import { useTranslation } from "react-i18next";
 
 interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
@@ -25,6 +26,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
   const { current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
+    const {t} = useTranslation()
 
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     {}
@@ -46,7 +48,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
     return (
       <>
         <div className={styles.transactionPlaceholderWrap}>
-          <span>Нет операций за текущий период</span>
+          <span>{t("transactionPlaceholderTitle")}</span>
           <span
             style={{
               color: typeTransaction.name == "rate" ? "red" : "green",
@@ -55,7 +57,7 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
             onClick={() => dispatch(isModalInput())}
           >
             {" "}
-            Добавьте {typeTransaction.name == "rate" ? "расходы" : "доходы"}
+            Добавьте {typeTransaction.name == "rate" ? `${t("rate").toLocaleLowerCase()}` : `${t("income").toLocaleLowerCase()}`}
           </span>
         </div>
       </>

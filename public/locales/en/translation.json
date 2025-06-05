@@ -1,0 +1,19 @@
+{
+    "setting":"Setting",
+    "addCategory":"Add category",
+    "current":"Current",
+    "language":"Language",
+    "quit":"Quit",
+    "review":"Review",
+    "main":"Main",
+    "month":"Month",
+    "allTime":"All time",
+    "period":"Period",
+    "search":"Search",
+    "income":"Income",
+    "rate":"Rate",
+    "general":"General",
+
+
+    "transactionPlaceholderTitle":"No transactions for the current period"
+}

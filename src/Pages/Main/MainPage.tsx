@@ -17,15 +17,19 @@ import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
 import { deleteItem} from "../../entities/API/deleteTransaction";
+import { useTranslation } from "react-i18next";
 export const MainPage = () => {
   const dispatch = useDispatch();
   const { isLoaded, transactionState, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-
+  const {t,i18n} = useTranslation()
   useEffect(() => {
     fetchTransactions({isLoaded, categoryList, dispatch});
+    console.log(i18n.language);
   }, [isLoaded, dispatch,categoryList , transactionState]);
+
+
 
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
@@ -34,6 +38,7 @@ export const MainPage = () => {
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const [sumRate, setSumRate] = useState<number>(0);
   const [sumIncome, setSumIncome] = useState<number>(0);
+
 
   function changeDay(type: string) {
     const newDate = new Date(date);
@@ -113,7 +118,7 @@ export const MainPage = () => {
             <IoIosArrowBack color="black" size="20" />
           </span>
           <h1 className={styles.headerTitle}>
-            {date.toLocaleDateString("ru-RU", option)}
+            {date.toLocaleDateString( i18n.language == "ru" ? "ru-RU": "en-EN", option)}
           </h1>
           <span className={styles.headerNav} onClick={() => changeDay("+")}>
             <IoIosArrowForward color="black" size="20" />

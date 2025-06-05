@@ -19,7 +19,7 @@ const Search = () => {
 
   const [activeMenuItemId, setActiveMenuItemId] = useState<number | null>(null);
 
-  const [transactionName, setTransactionName] = useState("бул");
+  const [transactionName, setTransactionName] = useState("");
   const [resultList, setResultList] = useState<ITransactionData[]>([]);
 
   const { transactionState, current } = useSelector(

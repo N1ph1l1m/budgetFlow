@@ -10,12 +10,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { getListCategory } from "../../entities/API/getListCategory";
 import { BurgerMenu } from "../../shared/BurgerMenu/BurgerMenu";
+import { useTranslation } from "react-i18next";
 type NavProps = {
   isButton: boolean;
   location: string;
 };
 
 export const Nav = ({ isButton, location }: NavProps) => {
+
   const dispatch = useDispatch();
   const [isDropDown, setIsDropDown] = useState(false);
   const [isBurger,setIsBurger] = useState(false)
@@ -25,6 +27,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
   const { categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
+    const {t} = useTranslation()
   const DropDownList = () => {
     return (
       <>
@@ -32,16 +35,16 @@ export const Nav = ({ isButton, location }: NavProps) => {
           <ul className={styles.dropDownListWrap}>
             <NavLink to="month/">
               {" "}
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() }>Месяц </li>
+              <li   onClick={()=>isBurger &&  handlerBurgerMenu() }>{t("month")} </li>
             </NavLink>
             <NavLink to="allTime">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >Все время </li>
+              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("allTime")}</li>
             </NavLink>
             <NavLink to="custom/">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >Период</li>
+              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("period")}</li>
             </NavLink>
              <NavLink to="search/">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >Поиск</li>
+              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("search")}</li>
             </NavLink>
           </ul>
         )}
@@ -70,7 +73,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
                 location === "/" ? styles.navItemActive : ""
               }`}
             >
-              Главная
+              {t("main")}
             </li>{" "}
           </NavLink>{" "}
           <li
@@ -79,7 +82,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
             }`}
             onClick={() => toggleDropDown()}
           >
-            Обзор{" "}
+            {t("review")}
             <span>
               <IoIosArrowDown size={12} />
             </span>
@@ -92,7 +95,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
                 location === "/setting/" ? styles.navItemActive : ""
               }`}
             >
-              Настройки
+             {t("setting")}
             </li>
           </NavLink>
           </>)
