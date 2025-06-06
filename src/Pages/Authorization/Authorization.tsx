@@ -1,9 +1,9 @@
+import { useTranslation } from "react-i18next";
 import styles from "../../app/styles/Authorization.module.css";
 import Logo from "../../shared/logo/Logo";
 import Login from "../../widget/login/Login";
 import SignUp from "../../widget/SignUp/SignUp";
 import { useState } from "react";
-
 const Authorization = () => {
   const [isLogIn, setIsLogIn] = useState(true);
   function switchLogIn() {
@@ -12,30 +12,43 @@ const Authorization = () => {
   function resetIsLogin(){
     setIsLogIn(true)
   }
+    const {t,i18n} = useTranslation()
+   const changeLanguage = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(e.target.value);
+  };
   return (
     <div className={styles.mainWrap}>
       <div className={styles.wrapContent}>
+          <div className={styles.wrapButtonLang}>
+            <select  onChange={(e)=>changeLanguage(e)}>
+          <option value={"ru"}>RU</option>
+          <option value={"en"}>EN</option>
+        </select>
+        </div>
+
+
         <Logo large disableLink />
+
         {isLogIn ? <Login /> : <SignUp  switchToLogin = {resetIsLogin}/>}
         {isLogIn ? (
           <span>
-            No account?{" "}
+            {t("noAccount")}
             <button
               onClick={() => switchLogIn()}
               className={styles.switchTypeForm}
             >
-              Sign up
+             {t("signUp")}
             </button>
           </span>
         ) : (
           <span>
-            {" "}
-            Have an account?{" "}
+            {t("haveAnAccount")}
+
             <button
               onClick={() => switchLogIn()}
               className={styles.switchTypeForm}
             >
-              Log in{" "}
+              {t("logIn")}
             </button>
           </span>
         )}

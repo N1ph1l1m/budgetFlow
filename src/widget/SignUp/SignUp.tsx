@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import {param} from "../../app/params/param"
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import i18next, { changeLanguage } from "i18next";
 type typeMessage = "off" | "error" | "success";
 interface ICreateMessage{
   typeMessage:typeMessage,
@@ -15,6 +17,7 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
+   const {t,i18n} = useTranslation()
 
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
     setLogin(e.target.value);
@@ -33,7 +36,7 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error("Ошибка при создании пользователя:", error);
+    console.error(`${t("errorCreateUse")}`, error);
     throw error;
   }
 }
@@ -51,18 +54,39 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   }
 
 
+  function errorChangeLang(message:string):string{
+    switch(message){
+        case "Пароль должен быть не короче 8 символов.":
+        return `${t("errorShortPass")}`
+        case "A user with that username already exists.":
+        return `${t("errorUserExists")}`
+        case "Пароль не должен состоять только из цифр.":
+        return `${t("errorPassOnlyDigits")}`
+
+        case "Пароль не должен состоять только из букв.":
+        return `${t("errorPassOnlyLetters")}`
+
+        case "Пароли не совпадают.":
+        return `${t("errorPasswordsMismatch")}`
+
+        default:
+         return message;
+    }
+
+  }
+
 async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
   e.preventDefault();
 
   try {
     if (!login || !password || !confirmPassword) {
-      createMessage({ typeMessage: "error", message: "Заполните все поля." });
+      createMessage({ typeMessage: "error", message: `${t("errorFillAllInputs")}`});
       return;
     }
 
     await createUser();
 
-    createMessage({ typeMessage: "success", message: "Регистрация успешно выполнена" });
+    createMessage({ typeMessage: "success", message: `${t("registerSuccess")}` });
 
     setTimeout(() => {
       setIsMessage("off");
@@ -80,14 +104,15 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         const messages = errors[key];
         if (Array.isArray(messages)) {
           messages.forEach((msg) => {
-            createMessage({ typeMessage: "error", message: msg });
+            createMessage({ typeMessage: "error", message: errorChangeLang(msg) });
           });
+          console.log(messages[0])
         } else {
           createMessage({ typeMessage: "error", message: messages });
         }
       }
     } else {
-      createMessage({ typeMessage: "error", message: "Произошла ошибка на сервере." });
+      createMessage({ typeMessage: "error", message: `${t("errorByServer")}` });
     }
   }
 }
@@ -95,7 +120,7 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
 
   return (
     <form onSubmit={handlerSubmit} className={styles.formWrap}>
-      <h3 className={styles.titleForm}>Sign Up</h3>
+      <h3 className={styles.titleForm}> {t("signUp")}</h3>
       {isMesssage !== "off" && (
         <span
           className={`${
@@ -113,7 +138,7 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         value={login}
         id="login"
         type="text"
-        placeholder="Login"
+        placeholder={t("login")}
       />
       <input
         className={styles.inputForm}
@@ -121,7 +146,7 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         value={password}
         id="password"
         type="password"
-        placeholder="Password"
+        placeholder={t("password")}
       />
       <input
         className={styles.inputForm}
@@ -129,10 +154,10 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         value={confirmPassword}
         id="password"
         type="password"
-        placeholder="Confirm password"
+        placeholder={t("confirmPass")}
       />
       <button className={styles.submitForm} type="submit">
-        Confirm
+        {t("signUp")}
       </button>
     </form>
   );

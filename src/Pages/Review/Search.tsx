@@ -7,7 +7,9 @@ import { fetchTransactions } from "../../entities/API/getTransactions";
 import { deleteItem } from "../../entities/API/deleteTransaction";
 import { MenuRedactor } from "../../shared/MenuRedactor/MenuRedactor";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
+import { useTranslation } from "react-i18next";
 const Search = () => {
+
   const dispatch = useDispatch();
   const { isLoaded, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
@@ -18,13 +20,12 @@ const Search = () => {
   }, [isLoaded, categoryList, dispatch]);
 
   const [activeMenuItemId, setActiveMenuItemId] = useState<number | null>(null);
-
   const [transactionName, setTransactionName] = useState("");
   const [resultList, setResultList] = useState<ITransactionData[]>([]);
-
   const { transactionState, current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
+  const {t,i18n} = useTranslation()
 
   function findTransactions() {
     if (transactionName.length >= 2) {
@@ -42,7 +43,7 @@ const Search = () => {
 
   function transformDate(date: string) {
     const transform = new Date(date);
-    return transform.toLocaleDateString("ru-RU", option);
+    return transform.toLocaleDateString(i18n.language =="ru"?"ru-RU" :"en-EN", option);
   }
 
   function handlerIsMenuRedactor(id: number) {
@@ -116,12 +117,12 @@ const Search = () => {
 
   return (
     <div className={styles.searchWrap}>
-      <h1>Поиск транзакции</h1>
+      <h1>{t("searchTittle")}</h1>
       <input
         className={styles.searchInput}
         onChange={(e) => handlerInput(e)}
         value={transactionName}
-        placeholder="Введите название транзакции"
+        placeholder={`${t("searchPlaceHolder")}`}
       />
       {renderList()}
     </div>

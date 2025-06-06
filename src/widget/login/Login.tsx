@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { param } from "../../app/params/param";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 type typeMessage = "off" | "error" | "success";
 interface ICreateMessage {
   typeMessage: typeMessage;
@@ -14,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
+  const {t,i18n} = useTranslation()
 
   const navigate = useNavigate();
 
@@ -58,9 +60,9 @@ const Login = () => {
     }
   }
   function validateForm(): string | null {
-    if (!login && !password) return "Введите логин и пароль";
-    if (!login) return "Введите логин";
-    if (!password) return "Введите пароль";
+    if (!login && !password) return `${t("errorInputLog/Pass")}`
+    if (!login) return `${t("errorInputLogin")}`;
+    if (!password) return `${t("errorInputPassword")}`;
     return null;
   }
 
@@ -76,7 +78,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handlerSubmit} className={styles.formWrap}>
-      <h3 className={styles.titleForm}>Log in </h3>
+      <h3 className={styles.titleForm}>{t("logIn")} </h3>
       {isMesssage !== "off" && (
         <span
           className={`${
@@ -94,7 +96,7 @@ const Login = () => {
         value={login}
         id="login"
         type="text"
-        placeholder="Login"
+        placeholder={`${t("login")}`}
       />
       <input
         className={styles.inputForm}
@@ -102,10 +104,10 @@ const Login = () => {
         value={password}
         id="password"
         type="password"
-        placeholder="Password"
+        placeholder={`${t("password")}`}
       />
       <button className={styles.submitForm} type="submit">
-        Let's go
+        {t("logIn")}
       </button>
     </form>
   );

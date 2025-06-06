@@ -5,13 +5,14 @@ import ListCategory from "../listCategory/ListCategory";
 import styles from "../../App/Styles/SelectCategory.module.css";
 import Modal from "../ModalWindow/ModalTransaction";
 import { isModalCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import { useTranslation } from "react-i18next";
 const SelectCategory = () => {
   const { modalCategory,} = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
   const {category} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
   const dispatch = useDispatch();
-
+  const {t} = useTranslation()
   return (
     <div className={styles.selectCategoryWrap}>
       <div className={styles.headerCategory}>
@@ -25,7 +26,7 @@ const SelectCategory = () => {
         onClick={() => dispatch(isModalCategory())}
       >
         {" "}
-        Выбрать категорию
+        {t("selectCategory")}
       </button>
       {modalCategory && (
         <Modal>

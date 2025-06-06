@@ -19,6 +19,7 @@ import { createTransactions } from "../../entities/API/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
 import { formatDate } from "../../entities/formarDateToServer";
 import { updateTransactions } from "../../entities/API/updateTransaction";
+import { useTranslation } from "react-i18next";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export const InputTransaction = () => {
     isUpdate,
     updateCategory
   } = useSelector((state: RootState) => state.modalTransactionSlice);
-
+  const {t} = useTranslation()
 const {description,date,price,category,type_operation,transaction_id} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
 
   // useEffect(() => {
@@ -60,15 +61,15 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
       const dateNow = new Date().toISOString();
 
     if (!category) {
-      alert("Выберите категорию");
+      alert(t("selectCategory"));
       return;
     }
     if (!description) {
-      alert("Введите наименование товара/услуги");
+      alert(t("enterTransaction"));
       return;
     }
     if (!price) {
-      alert("Введите цену");
+      alert(t("enterPrice"));
       return;
     }
     try {
@@ -96,18 +97,17 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
       }
     } catch (error) {
       console.error("Ошибка при создании транзакции:", error);
-      alert("Произошла ошибка при добавлении транзакции. Попробуйте ещё раз.");
+      alert(t("errorInputTransaction"));
     }
 
     closeModal();
-    // resetCategory();
   }
 
   return (
     <>
       <div className={styles.mainWrap}>
         <div className={styles.headerModal}>
-          <h1 className={styles.titleModal}>Новая транзакция</h1>
+          <h1 className={styles.titleModal}>{t("newTransaction")}</h1>
           <button className={styles.closeModal} onClick={() => closeModal()}>
             <IoMdClose color="black" size="20" />
           </button>
@@ -136,7 +136,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
             <div className={styles.headerDataInput}>
               <FaCalendarDays color="#fcb831 " size="40" />
               <label htmlFor="dateTransaction">
-                <span className={styles.inputTitle}>Дата </span>
+                <span className={styles.inputTitle}>{t("date")}</span>
               </label>
             </div>
 
@@ -149,7 +149,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
         </div>
         <div>
           <input
-            placeholder="Описание"
+            placeholder={t("description")}
             className={styles.inputDescription}
             onChange={(e) => handlerItemName(e)}
             value={description}
@@ -167,7 +167,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
                 : "rgb(181,53,52)",
           }}
         >
-          Добавить{" "}
+         {t("addTransaction")}
         </button>
       </div>
     </>

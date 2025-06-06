@@ -20,6 +20,7 @@ import DataPieChart from "../../shared/Charts/DataPieChart";
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 import { deleteItem } from "../../entities/API/deleteTransaction";
 import BarChartComponent from "../../shared/Charts/BarChart";
+import { useTranslation } from "react-i18next";
 const Custom = () => {
   const dispatch = useDispatch();
   const { isLoaded, categoryList, transactionState } = useSelector(
@@ -49,6 +50,7 @@ const Custom = () => {
   const [listSumTransactions, setListSumTransactions] = useState<
     ISumTypeOperation[]
   >([]);
+    const {t,i18n} = useTranslation()
 
   function getCustomList() {
     const result = transactionState?.filter((item) => {
@@ -115,10 +117,10 @@ const Custom = () => {
   return (
     <div className={styles.customWrap}>
       <header className={styles.headerWrap}>
-        <h2 className={styles.titleHeader}>Отчет за период</h2>
+        <h2 className={styles.titleHeader}>{t("report")}</h2>
         <div className={styles.wrapCustom}>
           <label htmlFor="start">
-            <span>За период с </span>
+            <span>{t("forThePeriod")}</span>
           </label>
           <input
             className={styles.inputDate}
@@ -129,7 +131,7 @@ const Custom = () => {
           />
 
           <label htmlFor="end">
-            <span>по </span>
+            <span>{t("by")} </span>
           </label>
           <input
             className={styles.inputDate}

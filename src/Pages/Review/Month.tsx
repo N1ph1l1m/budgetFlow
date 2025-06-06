@@ -21,6 +21,7 @@ import DataPieChart from "../../shared/Charts/DataPieChart";
 import { fetchTransactions } from "../../entities/API/getTransactions";
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 import { deleteItem } from "../../entities/API/deleteTransaction";
+import { useTranslation } from "react-i18next";
 
 
 interface ISumTypeOperation {
@@ -37,6 +38,7 @@ const Month = () => {
     fetchTransactions({isLoaded,categoryList, dispatch});
   }, [isLoaded, categoryList,dispatch]);
 
+  const {t,i18n} = useTranslation()
   const [list, setList] = useState<Record<string,ITransactionData[]>>({});
   const [listMonth, setListMonth] = useState<ISumTypeOperation[]>([]);
   const [date, setMonth] = useState(new Date());
@@ -119,7 +121,7 @@ const Month = () => {
             <IoIosArrowBack color="black" size="20" />
           </span>
           <h1 className={styles.headerTitle}>
-            {date.toLocaleDateString("ru-RU", option)}
+              {date.toLocaleDateString( i18n.language == "ru" ? "ru-RU": "en-EN", option)}
           </h1>
           <span className={styles.headerNav} onClick={() => changeMonth("+")}>
             <IoIosArrowForward color="black" size="20" />

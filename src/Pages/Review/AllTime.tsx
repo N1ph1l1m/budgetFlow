@@ -8,10 +8,12 @@ import { fetchTransactions } from "../../entities/API/getTransactions";
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
 import { capitalizeFirstLetter } from "../../entities/listTransactions";
 import { MdCalendarMonth } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 
 const AllTime = () => {
   const dispatch = useDispatch();
+  const {t,i18n} = useTranslation()
   const { isLoaded, categoryList , transactionState,current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
@@ -30,6 +32,7 @@ const AllTime = () => {
     setSumOperations(sumPriceOperation());
   }, [listMonth]);
   useEffect(() => {
+     changeNamesBar();
     setListMonth(groupToMonth());
   }, [transactionState]);
 
@@ -39,9 +42,9 @@ const AllTime = () => {
     const span = document.getElementsByClassName("recharts-legend-item-text");
     if (span.length > 0) {
       const rateSpan = span[0] as HTMLElement;
-      rateSpan.textContent = "Расходы";
+      rateSpan.textContent =`${t("rate")}`
       const incomeSpan = span[1] as HTMLElement;
-      incomeSpan.textContent = "Доходы";
+      incomeSpan.textContent = `${t("income")}`
     }
   };
 
@@ -50,7 +53,7 @@ const AllTime = () => {
 
   const monthMap = allTransactions.reduce((acc: Record<string, { monthIndex: number, items: typeof allTransactions }>, item) => {
     const date = new Date(item.date);
-    const monthName = date.toLocaleDateString("ru-RU", { month: "long" });
+    const monthName = date.toLocaleDateString( i18n.language == "ru" ? "ru-RU": "en-EN", { month: "long" });
     const monthIndex = date.getMonth();
 
     if (!acc[monthName]) {
@@ -89,7 +92,7 @@ const AllTime = () => {
       );
 
       filterRate.forEach((item) => {
-        const month = new Date(item.date).toLocaleDateString("ru-RU", {
+        const month = new Date(item.date).toLocaleDateString(i18n.language == "ru" ? "ru-RU": "en-EN", {
           month: "long",
         });
         if (!result[month]) {
@@ -99,7 +102,7 @@ const AllTime = () => {
       });
 
       filterIncome.forEach((item) => {
-        const month = new Date(item.date).toLocaleDateString("ru-RU", {
+        const month = new Date(item.date).toLocaleDateString(i18n.language == "ru" ? "ru-RU": "en-EN", {
           month: "long",
         });
         if (!result[month]) {
@@ -120,8 +123,8 @@ const AllTime = () => {
       {sumOperations.map((item)=>(
           <ul className={styles.listMonth} key={item.name}>
             <li className={styles.listTitle}><span><MdCalendarMonth size={16}  /></span> {capitalizeFirstLetter(item.name)}</li>
-            <li> <span style={{color:"red"}}>Расходы:</span> {item.rate}{current}</li>
-            <li><span style={{color:"green"}}>Доходы :</span>{item.income}{current}</li>
+            <li> <span style={{color:"red"}}>{t("rate")}:</span> {item.rate}{current}</li>
+            <li><span style={{color:"green"}}>{t("income")} :</span>{item.income}{current}</li>
           </ul>
         ))}
         </div>
