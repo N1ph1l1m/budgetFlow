@@ -3,7 +3,7 @@ import styles from "../../app/styles/CreateCategory.module.css";
 import { IoMdClose } from "react-icons/io";
 import { param } from "../../app/params/param";
 import axios from "axios";
-import { updateListCategory } from "../../entities/API/getListCategory";
+import { updateListCategory } from "../../entities/crud/getListCategory";
 import { useDispatch } from "react-redux";
 
 const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {

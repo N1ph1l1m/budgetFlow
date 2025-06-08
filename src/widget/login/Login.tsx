@@ -2,20 +2,15 @@ import styles from "../../app/styles/Authorization.module.css";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
-import { param } from "../../app/params/param";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
-type typeMessage = "off" | "error" | "success";
-interface ICreateMessage {
-  typeMessage: typeMessage;
-  message: string;
-}
+import { createMessage, loginUser, typeMessage } from "../../entities/logIn";
+
 const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
-  const {t,i18n} = useTranslation()
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -26,41 +21,9 @@ const Login = () => {
   function handlerPassword(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
-  function createMessage({ typeMessage, message }: ICreateMessage) {
-    setIsMessage(typeMessage);
-    setTextMessage(message);
-  }
 
-  async function getMe(token:string) {
-    try{
-    const URL = `${param.baseUser}auth/users/me/`;
-      const {data} = await axios.get(URL, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      localStorage.setItem("token",token)
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("id", data.id);
-    }catch(error){
-      createMessage({ typeMessage: "error", message: `${error}` });
-    }
-  }
-  async function loginUser() {
-    try {
-      const URL = `${param.baseUser}auth/token/login/`;
-      const { data } = await axios.post(URL, {
-        username: login,
-        password: password,
-      });
-      await  getMe(data.auth_token)
-      navigate("/", { replace: true });
-    } catch (error) {
-      createMessage({ typeMessage: "error", message: `${error}` });
-    }
-  }
   function validateForm(): string | null {
-    if (!login && !password) return `${t("errorInputLog/Pass")}`
+    if (!login && !password) return `${t("errorInputLog/Pass")}`;
     if (!login) return `${t("errorInputLogin")}`;
     if (!password) return `${t("errorInputPassword")}`;
     return null;
@@ -70,10 +33,21 @@ const Login = () => {
     e.preventDefault();
     const errorMessage = validateForm();
     if (errorMessage) {
-      createMessage({ typeMessage: "error", message: errorMessage });
+      createMessage({
+        typeMessage: "error",
+        message: errorMessage,
+        setIsMessage,
+        setTextMessage,
+      });
       return;
     }
-    loginUser();
+    loginUser({
+      login: login,
+      password: password,
+      setIsMessage: setIsMessage,
+      setTextMessage: setTextMessage,
+      navigate: navigate,
+    });
   }
 
   return (

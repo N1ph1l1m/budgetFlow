@@ -8,7 +8,7 @@ import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactio
 import Logo from "../../shared/logo/Logo";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
-import { getListCategory } from "../../entities/API/getListCategory";
+import { getListCategory } from "../../entities/crud/getListCategory";
 import { BurgerMenu } from "../../shared/BurgerMenu/BurgerMenu";
 import { useTranslation } from "react-i18next";
 type NavProps = {
@@ -17,17 +17,16 @@ type NavProps = {
 };
 
 export const Nav = ({ isButton, location }: NavProps) => {
-
   const dispatch = useDispatch();
   const [isDropDown, setIsDropDown] = useState(false);
-  const [isBurger,setIsBurger] = useState(false)
+  const [isBurger, setIsBurger] = useState(false);
   const { modalInput } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
   const { categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-    const {t} = useTranslation()
+  const { t } = useTranslation();
   const DropDownList = () => {
     return (
       <>
@@ -35,16 +34,24 @@ export const Nav = ({ isButton, location }: NavProps) => {
           <ul className={styles.dropDownListWrap}>
             <NavLink to="month/">
               {" "}
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() }>{t("month")} </li>
+              <li onClick={() => isBurger && handlerBurgerMenu()}>
+                {t("month")}{" "}
+              </li>
             </NavLink>
             <NavLink to="allTime">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("allTime")}</li>
+              <li onClick={() => isBurger && handlerBurgerMenu()}>
+                {t("allTime")}
+              </li>
             </NavLink>
             <NavLink to="custom/">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("period")}</li>
+              <li onClick={() => isBurger && handlerBurgerMenu()}>
+                {t("period")}
+              </li>
             </NavLink>
-             <NavLink to="search/">
-              <li   onClick={()=>isBurger &&  handlerBurgerMenu() } >{t("search")}</li>
+            <NavLink to="search/">
+              <li onClick={() => isBurger && handlerBurgerMenu()}>
+                {t("search")}
+              </li>
             </NavLink>
           </ul>
         )}
@@ -56,51 +63,52 @@ export const Nav = ({ isButton, location }: NavProps) => {
   }
 
   async function handlerIsModal() {
-    getListCategory({categoryList, dispatch});
+    getListCategory({ categoryList, dispatch });
     dispatch(isModalInput());
   }
-  function handlerBurgerMenu(){
-    setIsBurger(prev =>!prev)
+  function handlerBurgerMenu() {
+    setIsBurger((prev) => !prev);
   }
 
-  const ListNav = () =>{
-    return(<>
-          <NavLink to="/">
-            {" "}
-            <li
-           onClick={()=>isBurger &&  handlerBurgerMenu() }
-              className={`${styles.navItem} ${
-                location === "/" ? styles.navItemActive : ""
-              }`}
-            >
-              {t("main")}
-            </li>{" "}
-          </NavLink>{" "}
+  const ListNav = () => {
+    return (
+      <>
+        <NavLink to="/">
+          {" "}
           <li
-            className={`${styles.navItem}   ${
-              location === "/review/" ? styles.navItemActive : ""
+            onClick={() => isBurger && handlerBurgerMenu()}
+            className={`${styles.navItem} ${
+              location === "/" ? styles.navItemActive : ""
             }`}
-            onClick={() => toggleDropDown()}
           >
-            {t("review")}
-            <span>
-              <IoIosArrowDown size={12} />
-            </span>
-            {<DropDownList />}
+            {t("main")}
           </li>{" "}
-          <NavLink to="setting/">
-            <li
-              onClick={()=>isBurger &&  handlerBurgerMenu() }
-              className={`${styles.navItem} ${
-                location === "/setting/" ? styles.navItemActive : ""
-              }`}
-            >
-             {t("setting")}
-            </li>
-          </NavLink>
-          </>)
-  }
-
+        </NavLink>{" "}
+        <li
+          className={`${styles.navItem}   ${
+            location === "/review/" ? styles.navItemActive : ""
+          }`}
+          onClick={() => toggleDropDown()}
+        >
+          {t("review")}
+          <span>
+            <IoIosArrowDown size={12} />
+          </span>
+          {<DropDownList />}
+        </li>{" "}
+        <NavLink to="setting/">
+          <li
+            onClick={() => isBurger && handlerBurgerMenu()}
+            className={`${styles.navItem} ${
+              location === "/setting/" ? styles.navItemActive : ""
+            }`}
+          >
+            {t("setting")}
+          </li>
+        </NavLink>
+      </>
+    );
+  };
 
   return (
     <>
@@ -111,16 +119,20 @@ export const Nav = ({ isButton, location }: NavProps) => {
       )}
       <div className={styles.wrapMain}>
         <Logo />
-        <BurgerMenu onChange={()=>handlerBurgerMenu()}
-            className={styles.burgerWrap}
-            checked={isBurger}/>
-                    {isBurger  && <div className={styles.menuBurger}>
+        <BurgerMenu
+          onChange={() => handlerBurgerMenu()}
+          className={styles.burgerWrap}
+          checked={isBurger}
+        />
+        {isBurger && (
+          <div className={styles.menuBurger}>
             <ul className={styles.navItemMenuWrap}>
-          <ListNav/>
-        </ul>
-                      </div>}
+              <ListNav />
+            </ul>
+          </div>
+        )}
         <ul className={styles.navItemWrap}>
-          <ListNav/>
+          <ListNav />
         </ul>
       </div>
       <div

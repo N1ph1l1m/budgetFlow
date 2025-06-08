@@ -15,22 +15,23 @@ import {
   IncomeButton,
 } from "../TransactionButtons/TransactionButtons";
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
-import { createTransactions } from "../../entities/API/createTransaction";
+import { createTransactions } from "../../entities/crud/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
 import { formatDate } from "../../entities/formarDateToServer";
-import { updateTransactions } from "../../entities/API/updateTransaction";
+import { updateTransactions } from "../../entities/crud/updateTransaction";
 import { useTranslation } from "react-i18next";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
 
-  const {
-    typeTransaction,
-    isUpdate,
-    updateCategory
-  } = useSelector((state: RootState) => state.modalTransactionSlice);
-  const {t} = useTranslation()
-const {description,date,price,category,type_operation,transaction_id} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
+  const { typeTransaction, isUpdate, updateCategory } = useSelector(
+    (state: RootState) => state.modalTransactionSlice
+  );
+  const { t } = useTranslation();
+  const { description, date, price, category, type_operation, transaction_id } =
+    useSelector(
+      (state: RootState) => state.modalTransactionSlice.transactionParametrs
+    );
 
   // useEffect(() => {
   //   console.log(dateTransaction);
@@ -39,16 +40,16 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
     const parsed = parseInt(digitsOnly, 10);
-    dispatch(setPriceTransaction(parsed))
+    dispatch(setPriceTransaction(parsed));
   }
 
   function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
     const format = formatDate(e.target.value);
-    dispatch(setDateTransaction(format))
+    dispatch(setDateTransaction(format));
   }
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
-    dispatch(setDescriptionTransaction(e.target.value))
+    dispatch(setDescriptionTransaction(e.target.value));
   }
 
   function closeModal() {
@@ -58,7 +59,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
 
   async function submitTransaction() {
     const userId = localStorage.getItem("id");
-      const dateNow = new Date().toISOString();
+    const dateNow = new Date().toISOString();
 
     if (!category) {
       alert(t("selectCategory"));
@@ -73,15 +74,16 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
       return;
     }
     try {
-
       if (isUpdate) {
         await updateTransactions({
-         transactionParametrs:{ transaction_id,
-          description,
-          date: formatDate(date),
-          category: updateCategory ? updateCategory : category?.id ?? null,
-          price: price,
-          type_operation},
+          transactionParametrs: {
+            transaction_id,
+            description,
+            date: formatDate(date),
+            category: updateCategory ? updateCategory : category?.id ?? null,
+            price: price,
+            type_operation,
+          },
           dispatch,
         });
       } else {
@@ -89,9 +91,9 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
           owner_transaction: Number(userId),
           description: description,
           price: price,
-          category:  category.id,
+          category: category.id,
           type_operation: typeTransaction.id,
-          date:  formatDate(dateNow)||  formatDate(date)  ,
+          date: formatDate(dateNow) || formatDate(date),
           dispatch,
         });
       }
@@ -131,7 +133,10 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
         </div>
 
         <div className={styles.inputMainWrap}>
-          <div className={styles.selectWrap}>     <SelectCategory /></div>
+          <div className={styles.selectWrap}>
+            {" "}
+            <SelectCategory />
+          </div>
           <div className={styles.inputDateWrap}>
             <div className={styles.headerDataInput}>
               <FaCalendarDays color="#fcb831 " size="40" />
@@ -167,7 +172,7 @@ const {description,date,price,category,type_operation,transaction_id} = useSelec
                 : "rgb(181,53,52)",
           }}
         >
-         {t("addTransaction")}
+          {t("addTransaction")}
         </button>
       </div>
     </>

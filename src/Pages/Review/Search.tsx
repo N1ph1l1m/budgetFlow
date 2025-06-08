@@ -3,13 +3,12 @@ import styles from "../../app/styles/Search.module.css";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchTransactions } from "../../entities/API/getTransactions";
-import { deleteItem } from "../../entities/API/deleteTransaction";
+import { fetchTransactions } from "../../entities/crud/getTransactions";
+import { deleteItem } from "../../entities/crud/deleteTransaction";
 import { MenuRedactor } from "../../shared/MenuRedactor/MenuRedactor";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { useTranslation } from "react-i18next";
 const Search = () => {
-
   const dispatch = useDispatch();
   const { isLoaded, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
@@ -25,7 +24,7 @@ const Search = () => {
   const { transactionState, current } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-  const {t,i18n} = useTranslation()
+  const { t, i18n } = useTranslation();
 
   function findTransactions() {
     if (transactionName.length >= 2) {
@@ -43,7 +42,10 @@ const Search = () => {
 
   function transformDate(date: string) {
     const transform = new Date(date);
-    return transform.toLocaleDateString(i18n.language =="ru"?"ru-RU" :"en-EN", option);
+    return transform.toLocaleDateString(
+      i18n.language == "ru" ? "ru-RU" : "en-EN",
+      option
+    );
   }
 
   function handlerIsMenuRedactor(id: number) {
@@ -98,11 +100,8 @@ const Search = () => {
                 />
               )}
             </li>
-
           </ul>
-
         ))}
-
       </div>
     );
   };

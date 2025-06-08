@@ -15,21 +15,19 @@ import {
 } from "../../entities/listTransactions";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
 import DataPieChart from "../../shared/Charts/DataPieChart";
-import { fetchTransactions } from "../../entities/API/getTransactions";
-import { deleteItem} from "../../entities/API/deleteTransaction";
+import { fetchTransactions } from "../../entities/crud/getTransactions";
+import { deleteItem } from "../../entities/crud/deleteTransaction";
 import { useTranslation } from "react-i18next";
 export const MainPage = () => {
   const dispatch = useDispatch();
   const { isLoaded, transactionState, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-  const {t,i18n} = useTranslation()
+  const { t, i18n } = useTranslation();
   useEffect(() => {
-    fetchTransactions({isLoaded, categoryList, dispatch});
+    fetchTransactions({ isLoaded, categoryList, dispatch });
     console.log(i18n.language);
-  }, [isLoaded, dispatch,categoryList , transactionState]);
-
-
+  }, [isLoaded, dispatch, categoryList, transactionState]);
 
   const { typeTransaction } = useSelector(
     (state: RootState) => state.modalTransactionSlice
@@ -38,7 +36,6 @@ export const MainPage = () => {
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const [sumRate, setSumRate] = useState<number>(0);
   const [sumIncome, setSumIncome] = useState<number>(0);
-
 
   function changeDay(type: string) {
     const newDate = new Date(date);
@@ -56,7 +53,6 @@ export const MainPage = () => {
 
   const filterTransition = useCallback(
     (data: Date, transactionState: ITransactionData[]) => {
-
       if (!transactionState) {
         setList({});
         setSumRate(0);
@@ -78,7 +74,7 @@ export const MainPage = () => {
       });
 
       const filteredRate = filteredTransactions({
-        state:transactionState,
+        state: transactionState,
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -86,7 +82,7 @@ export const MainPage = () => {
       });
 
       const filteredIncome = filteredTransactions({
-        state:transactionState,
+        state: transactionState,
         updatedDay,
         updatedMonth,
         updatedYear,
@@ -100,9 +96,8 @@ export const MainPage = () => {
     [typeTransaction, setList, setSumRate, setSumIncome]
   );
 
-  async function deleteTransaction(id:number){
-    deleteItem(id,dispatch)
-
+  async function deleteTransaction(id: number) {
+    deleteItem(id, dispatch);
   }
 
   useEffect(() => {
@@ -118,7 +113,10 @@ export const MainPage = () => {
             <IoIosArrowBack color="black" size="20" />
           </span>
           <h1 className={styles.headerTitle}>
-            {date.toLocaleDateString( i18n.language == "ru" ? "ru-RU": "en-EN", option)}
+            {date.toLocaleDateString(
+              i18n.language == "ru" ? "ru-RU" : "en-EN",
+              option
+            )}
           </h1>
           <span className={styles.headerNav} onClick={() => changeDay("+")}>
             <IoIosArrowForward color="black" size="20" />
@@ -131,15 +129,14 @@ export const MainPage = () => {
         </div>
         {Object.keys(list).length > 0 ? (
           <div className={styles.listWrapContainer}>
-
-              <DataPieChart data={getCategorySums(list)} />
+            <DataPieChart data={getCategorySums(list)} />
 
             <div className={styles.wrapList}>
-              <ListTransactions list={list}  deleteItem={deleteTransaction}    />
+              <ListTransactions list={list} deleteItem={deleteTransaction} />
             </div>
           </div>
         ) : (
-          <ListTransactions list={list}  deleteItem={deleteTransaction}/>
+          <ListTransactions list={list} deleteItem={deleteTransaction} />
         )}
       </div>
     </>

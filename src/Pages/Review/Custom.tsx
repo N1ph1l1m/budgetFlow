@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { fetchTransactions } from "../../entities/API/getTransactions";
+import { fetchTransactions } from "../../entities/crud/getTransactions";
 import styles from "../../app/styles/Custom.module.css";
 import { ITransactionData } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import ListTransactions from "../../widget/ListTransactions/ListTransactions";
@@ -18,7 +18,7 @@ import {
 import DataPieChart from "../../shared/Charts/DataPieChart";
 
 import TransactionPlaceholder from "../../shared/TransactionPlaceholder/TransactionPlaceholder";
-import { deleteItem } from "../../entities/API/deleteTransaction";
+import { deleteItem } from "../../entities/crud/deleteTransaction";
 import BarChartComponent from "../../shared/Charts/BarChart";
 import { useTranslation } from "react-i18next";
 const Custom = () => {
@@ -50,7 +50,7 @@ const Custom = () => {
   const [listSumTransactions, setListSumTransactions] = useState<
     ISumTypeOperation[]
   >([]);
-    const {t,i18n} = useTranslation()
+  const { t, i18n } = useTranslation();
 
   function getCustomList() {
     const result = transactionState?.filter((item) => {
@@ -111,8 +111,6 @@ const Custom = () => {
   function deleteTransaction(id: number) {
     deleteItem(id, dispatch);
   }
-
-
 
   return (
     <div className={styles.customWrap}>
