@@ -1,10 +1,9 @@
 import styles from "../../app/styles/Authorization.module.css";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
-import {param} from "../../app/params/param"
-import axios from "axios";
+import { createUser } from "../../entities/signUp";
 import { useTranslation } from "react-i18next";
-import i18next, { changeLanguage } from "i18next";
+
 type typeMessage = "off" | "error" | "success";
 interface ICreateMessage{
   typeMessage:typeMessage,
@@ -12,35 +11,22 @@ interface ICreateMessage{
 }
 
 const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [login, setLogin] = useState("UserMail");
+  const [email,setEmail] = useState("v883740@gmail.com");
+  const [password, setPassword] = useState("ghost1313");
+  const [confirmPassword, setConfirmPassword] = useState("ghost1313");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
-   const {t,i18n} = useTranslation()
+   const {t} = useTranslation()
 
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
     setLogin(e.target.value);
   }
 
- async function createUser() {
-  const url = `${param.baseUser}register/`;
-  try {
-    const response = await axios.post(url, {
-      username: login,
-      password: password,
-      confirm_password:confirmPassword
-    });
 
-    const data = response.data;
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.error(`${t("errorCreateUse")}`, error);
-    throw error;
+   function handlerEmail(e: ChangeEvent<HTMLInputElement>) {
+    setEmail(e.target.value);
   }
-}
-
 
   function handlerPassword(e: ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
@@ -54,6 +40,8 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   }
 
 
+
+
   function errorChangeLang(message:string):string{
     switch(message){
         case "Пароль должен быть не короче 8 символов.":
@@ -62,7 +50,8 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
         return `${t("errorUserExists")}`
         case "Пароль не должен состоять только из цифр.":
         return `${t("errorPassOnlyDigits")}`
-
+        case "Пользователь с такой почтой уже существует.":
+             return `${t("errorEmailExists")}`
         case "Пароль не должен состоять только из букв.":
         return `${t("errorPassOnlyLetters")}`
 
@@ -79,12 +68,12 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
   e.preventDefault();
 
   try {
-    if (!login || !password || !confirmPassword) {
+    if (!login || !email|| !password || !confirmPassword) {
       createMessage({ typeMessage: "error", message: `${t("errorFillAllInputs")}`});
       return;
     }
 
-    await createUser();
+    await createUser({login,email,password,confirmPassword,setIsMessage,setTextMessage});
 
     createMessage({ typeMessage: "success", message: `${t("registerSuccess")}` });
 
@@ -139,6 +128,14 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         id="login"
         type="text"
         placeholder={t("login")}
+      />
+        <input
+        className={styles.inputForm}
+        onChange={handlerEmail}
+        value={email}
+        id="email"
+        type="email"
+        placeholder={t("email")}
       />
       <input
         className={styles.inputForm}

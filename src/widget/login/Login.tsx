@@ -3,7 +3,9 @@ import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { createMessage, loginUser, typeMessage } from "../../entities/logIn";
+import {loginUser} from "../../entities/logIn";
+import createMessage from "../../entities/createMessage";
+import { typeMessage } from "../../entities/createMessage";
 
 const Login = () => {
   const [login, setLogin] = useState("");

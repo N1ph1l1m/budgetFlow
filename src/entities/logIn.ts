@@ -1,17 +1,10 @@
 import axios from "axios";
 import { param } from "../app/params/param";
 import { NavigateFunction } from "react-router";
+import createMessage from "./createMessage";
+import {typeSetIsMessage, typeSetTextMessage} from "./createMessage";
 
-export type typeMessage = "off" | "error" | "success";
-type typeSetIsMessage = (value: typeMessage) => void;
-type typeSetTextMessage = (value: string) => void;
 
-interface ICreateMessage {
-  typeMessage: typeMessage;
-  message: string;
-  setIsMessage: typeSetIsMessage;
-  setTextMessage: typeSetTextMessage;
-}
 interface IGetMe {
   token: string;
   setIsMessage: typeSetIsMessage;
@@ -26,15 +19,7 @@ interface ILogIn {
   navigate: NavigateFunction;
 }
 
-export function createMessage({
-  typeMessage,
-  message,
-  setIsMessage,
-  setTextMessage,
-}: ICreateMessage) {
-  setIsMessage(typeMessage);
-  setTextMessage(message);
-}
+
 
 export async function getMe({ token, setIsMessage, setTextMessage }: IGetMe) {
   try {
