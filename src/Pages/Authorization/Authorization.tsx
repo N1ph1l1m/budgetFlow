@@ -3,9 +3,23 @@ import styles from "../../app/styles/Authorization.module.css";
 import Logo from "../../shared/logo/Logo";
 import Login from "../../widget/login/Login";
 import SignUp from "../../widget/SignUp/SignUp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import getUserList from "../../entities/getUserList";
 const Authorization = () => {
+  const dispatch = useDispatch()
   const [isLogIn, setIsLogIn] = useState(true);
+
+
+  async function getUsers() {
+      await getUserList(dispatch)
+  }
+
+  useEffect(()=>{
+    getUsers()
+  },[])
+
+
   function switchLogIn() {
     setIsLogIn((prev) => !prev);
   }

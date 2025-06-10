@@ -66,6 +66,9 @@
     background-color: transparent;
     font-size: 14px;
 }
+span{
+    text-align: center;
+}
 .messageSuccess {
     color: green;
 }

@@ -6,13 +6,15 @@ import { useTranslation } from "react-i18next";
 import {loginUser} from "../../entities/logIn";
 import createMessage from "../../entities/createMessage";
 import { typeMessage } from "../../entities/createMessage";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
   const { t } = useTranslation();
+  const {users} = useSelector((state:RootState)=>state.usersSlice)
 
   const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ const Login = () => {
     return null;
   }
 
+
   function handlerSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errorMessage = validateForm();
@@ -46,6 +49,8 @@ const Login = () => {
     loginUser({
       login: login,
       password: password,
+      users:users,
+      t:t,
       setIsMessage: setIsMessage,
       setTextMessage: setTextMessage,
       navigate: navigate,
