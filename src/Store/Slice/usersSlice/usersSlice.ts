@@ -3,17 +3,24 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 export interface IUsers{
-    id:number,
+    id:number | undefined,
     username:string,
-    is_active:boolean
+    email:string,
+    is_active?:boolean
 }
 
 interface IInitialState{
-    users:IUsers[]
+    users:IUsers[],
+    activeUser:IUsers,
 }
 
 const initialState:IInitialState = {
-    users:[]
+    users:[],
+    activeUser:{
+        id:undefined,
+        username:"",
+        email:"",
+    }
 }
 
 const usersSlice  = createSlice({
@@ -22,8 +29,11 @@ const usersSlice  = createSlice({
     reducers:{
         setUsers(state,action:PayloadAction<IUsers[]>){
             state.users = action.payload
+        },
+        setActiveUse(state,action:PayloadAction<IUsers>){
+            state.activeUser = action.payload
         }
     }
 })
-export const{setUsers} = usersSlice.actions
+export const{setUsers,setActiveUse} = usersSlice.actions
 export default usersSlice.reducer

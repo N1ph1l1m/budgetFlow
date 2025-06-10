@@ -6,8 +6,11 @@ import { useTranslation } from "react-i18next";
 import {loginUser} from "../../entities/logIn";
 import createMessage from "../../entities/createMessage";
 import { typeMessage } from "../../entities/createMessage";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { RootState } from "../../store";
+import Modal from "../ModalWindow/ModalTransaction";
+import { setIsModalForgotPassword } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import ModalForgotPassword from "../modalForgotPassword/ModalForgotPassword";
 const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +18,9 @@ const Login = () => {
   const [textMessage, setTextMessage] = useState("");
   const { t } = useTranslation();
   const {users} = useSelector((state:RootState)=>state.usersSlice)
+  const {modalForgotPassword} = useSelector((state:RootState)=>state.modalTransactionSlice)
 
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
@@ -54,10 +59,16 @@ const Login = () => {
       setIsMessage: setIsMessage,
       setTextMessage: setTextMessage,
       navigate: navigate,
+      dispatch
     });
   }
 
   return (
+  <>
+    {modalForgotPassword &&
+    <Modal>
+      <ModalForgotPassword/>
+    </Modal>}
     <form onSubmit={handlerSubmit} className={styles.formWrap}>
       <h3 className={styles.titleForm}>{t("logIn")} </h3>
       {isMesssage !== "off" && (
@@ -79,18 +90,23 @@ const Login = () => {
         type="text"
         placeholder={`${t("login")}`}
       />
+     <div className={styles.inputPassWrap}>
+       <label  className={styles.labelPass} htmlFor="password">
+          <button  type="button" className={styles.forgotPasswordButton} onClick={()=> dispatch(setIsModalForgotPassword())}>{`${t("forgotPassword")}`}</button></label>
       <input
-        className={styles.inputForm}
+        className={`${styles.inputForm} ${styles.inputPassword}`}
         onChange={handlerPassword}
         value={password}
         id="password"
         type="password"
-        placeholder={`${t("password")}`}
-      />
+        placeholder={`${t("password")}`}/>
+     </div>
+
       <button className={styles.submitForm} type="submit">
         {t("logIn")}
       </button>
     </form>
+    </>
   );
 };
 

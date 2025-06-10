@@ -27,6 +27,7 @@ interface IModalTransaction {
   modalInput: boolean;
   isUpdate: boolean;
   modalCategory: boolean;
+  modalForgotPassword:boolean;
   typeTransaction: TypeTransaction;
   transactionParametrs:ITransactionParametrs,
   updateCategory:number|null,
@@ -36,6 +37,7 @@ const initialState: IModalTransaction = {
   modalInput: false,
   isUpdate: false,
   modalCategory: false,
+  modalForgotPassword:false,
   typeTransaction: { id: 1, name: "rate" },
   transactionParametrs:{
     transaction_id: null,
@@ -69,6 +71,12 @@ const modalTransactionSlice = createSlice({
     },
     closeModalCategory(state) {
       state.modalCategory = false;
+    },
+    setIsModalForgotPassword(state) {
+      state.modalForgotPassword = true;
+    },
+    closeModalForgorPassword(state) {
+      state.modalForgotPassword = false;
     },
     setDescriptionTransaction(state,action:PayloadAction<string>){
         state.transactionParametrs.description = action.payload
@@ -118,6 +126,8 @@ export const {
   isModalInput,
   closeModalInput,
   isModalCategory,
+  setIsModalForgotPassword,
+  closeModalForgorPassword,
   setIsUpdate,
   resetUpdate,
   resetCategory,

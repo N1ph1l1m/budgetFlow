@@ -1,35 +1,27 @@
-
-import styles from "../../App/Styles/ModalTransaction.module.css"
+import styles from "../../App/Styles/ModalTransaction.module.css";
 import { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
+const Modal = ({ children }: PropsWithChildren) => {
+  const [portal, setPortal] = useState<HTMLElement | null>(null);
 
-const Modal = ({children}:PropsWithChildren) => {
+  useEffect(() => {
+    setPortal(document.getElementById("portal"));
 
-    const [portal, setPortal] = useState<HTMLElement | null>(null);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
-    useEffect(() => {
-        setPortal(document.getElementById('portal'));
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
+  if (!portal) return null;
 
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, []);
-
-    if (!portal) return null;
-
-
-
-    return (<>
-     {   createPortal(  <div className={styles.modal}>
-                    {children}
-                </div>,portal)}
-
-            </>)
+  return (
+    <>{createPortal(<div className={styles.modal}>{children}</div>, portal)}</>
+  );
 };
 
 export default Modal;
