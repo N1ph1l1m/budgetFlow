@@ -1,6 +1,7 @@
 import styles from "../../App/Styles/Setting.module.css";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FaRegPlusSquare } from "react-icons/fa";
+import { RiLockPasswordLine } from "react-icons/ri";
 import { logOut } from "../../entities/logOut";
 import Select from "react-select";
 import pmr from "../../App/icons/pmr.png";
@@ -12,10 +13,12 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import Modal from "../../widget/ModalWindow/ModalTransaction";
 import CreateCategory from "../../widget/createCategory/CreateCategory";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { setCurrent } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { FaFlagUsa } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
+import { RootState } from "../../store";
+import { forgotPassword } from "../../entities/forgotPassword";
 interface SelectItemProps {
   imageSrc: string;
   title: string;
@@ -34,6 +37,7 @@ const Setting = () => {
   const [isModalCategory, setIsModalCategory] = useState(false);
   const [selectСurrency, setCurrency] = useState<string>("₽");
   const { t, i18n } = useTranslation();
+  const {email} = useSelector((state:RootState)=>state.usersSlice.activeUser)
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -74,6 +78,16 @@ const Setting = () => {
     i18n.changeLanguage(language);
   };
 
+  async function changePassword(){
+    console.log(email);
+    // if(email){
+    // await forgotPassword(email)
+    // }else{
+    //   alert("Почта отсуствует")
+    // }
+
+
+  }
   useEffect(() => {
     dispatch(setCurrent(selectСurrency));
   }, [dispatch, selectСurrency]);
@@ -118,6 +132,17 @@ const Setting = () => {
               options={optionsLanguage}
               onChange={(selected) => changeLanguage(selected?.value ?? "ru")}
             />
+          </li>
+         <li>
+            <button
+              className={styles.settingItem}
+              onClick={() => changePassword()}
+            >
+              <RiLockPasswordLine size={25} />
+              <span className={styles.titleSettingItem}>
+                {t("changePassword")}
+              </span>
+            </button>
           </li>
           <li>
             <button

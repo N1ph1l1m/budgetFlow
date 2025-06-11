@@ -32,6 +32,7 @@
   "signUp": " Sign up",
   "haveAnAccount": "Have an account?",
   "forgotPassword":"Forgot your password?",
+   "changePassword":"Change password",
   "errorInputLog/Pass": "Enter your login and password",
   "errorInputLogin": "Enter  login",
   "errorInputPassword": "Enter password",

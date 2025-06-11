@@ -3,10 +3,10 @@ import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import {loginUser} from "../../entities/logIn";
+import { loginUser } from "../../entities/logIn";
 import createMessage from "../../entities/createMessage";
 import { typeMessage } from "../../entities/createMessage";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import Modal from "../ModalWindow/ModalTransaction";
 import { setIsModalForgotPassword } from "../../store/Slice/modalTransaction/modalTransactionSlice";
@@ -17,10 +17,12 @@ const Login = () => {
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
   const { t } = useTranslation();
-  const {users} = useSelector((state:RootState)=>state.usersSlice)
-  const {modalForgotPassword} = useSelector((state:RootState)=>state.modalTransactionSlice)
+  const { users } = useSelector((state: RootState) => state.usersSlice);
+  const { modalForgotPassword } = useSelector(
+    (state: RootState) => state.modalTransactionSlice
+  );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
@@ -38,7 +40,6 @@ const Login = () => {
     return null;
   }
 
-
   function handlerSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errorMessage = validateForm();
@@ -54,58 +55,65 @@ const Login = () => {
     loginUser({
       login: login,
       password: password,
-      users:users,
-      t:t,
+      users: users,
+      t: t,
       setIsMessage: setIsMessage,
       setTextMessage: setTextMessage,
       navigate: navigate,
-      dispatch
+      dispatch,
     });
   }
 
   return (
-  <>
-    {modalForgotPassword &&
-    <Modal>
-      <ModalForgotPassword/>
-    </Modal>}
-    <form onSubmit={handlerSubmit} className={styles.formWrap}>
-      <h3 className={styles.titleForm}>{t("logIn")} </h3>
-      {isMesssage !== "off" && (
-        <span
-          className={`${
-            isMesssage == "success"
-              ? styles.messageSuccess
-              : styles.messageError
-          }`}
-        >
-          {textMessage}
-        </span>
+    <>
+      {modalForgotPassword && (
+        <Modal>
+          <ModalForgotPassword />
+        </Modal>
       )}
-      <input
-        className={styles.inputForm}
-        onChange={handlerLogin}
-        value={login}
-        id="login"
-        type="text"
-        placeholder={`${t("login")}`}
-      />
-     <div className={styles.inputPassWrap}>
-       <label  className={styles.labelPass} htmlFor="password">
-          <button  type="button" className={styles.forgotPasswordButton} onClick={()=> dispatch(setIsModalForgotPassword())}>{`${t("forgotPassword")}`}</button></label>
-      <input
-        className={`${styles.inputForm} ${styles.inputPassword}`}
-        onChange={handlerPassword}
-        value={password}
-        id="password"
-        type="password"
-        placeholder={`${t("password")}`}/>
-     </div>
+      <form onSubmit={handlerSubmit} className={styles.formWrap}>
+        <h3 className={styles.titleForm}>{t("logIn")} </h3>
+        {isMesssage !== "off" && (
+          <span
+            className={`${
+              isMesssage == "success"
+                ? styles.messageSuccess
+                : styles.messageError
+            }`}
+          >
+            {textMessage}
+          </span>
+        )}
+        <input
+          className={styles.inputForm}
+          onChange={handlerLogin}
+          value={login}
+          id="login"
+          type="text"
+          placeholder={`${t("login")}`}
+        />
+        <div className={styles.inputPassWrap}>
+          <label className={styles.labelPass} htmlFor="password">
+            <button
+              type="button"
+              className={styles.forgotPasswordButton}
+              onClick={() => dispatch(setIsModalForgotPassword())}
+            >{`${t("forgotPassword")}`}</button>
+          </label>
+          <input
+            className={`${styles.inputForm} ${styles.inputPassword}`}
+            onChange={handlerPassword}
+            value={password}
+            id="password"
+            type="password"
+            placeholder={`${t("password")}`}
+          />
+        </div>
 
-      <button className={styles.submitForm} type="submit">
-        {t("logIn")}
-      </button>
-    </form>
+        <button className={styles.submitForm} type="submit">
+          {t("logIn")}
+        </button>
+      </form>
     </>
   );
 };
