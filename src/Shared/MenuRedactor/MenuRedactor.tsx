@@ -3,6 +3,7 @@ import styles from "../../app/styles/MenuRedactor.module.css"
 import { GoPencil } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 interface MenuRedactorProps {
   className?:string,
@@ -11,7 +12,7 @@ interface MenuRedactorProps {
 }
 export const MenuRedactor = ({ className,transactionParam, deleteItem }: MenuRedactorProps) => {
   const dispatch = useDispatch();
-
+    const { t } = useTranslation();
   function updateTransactions(param: ITransactionParametrs) {
     dispatch(isModalInput());
     dispatch(setIsUpdate());
@@ -22,13 +23,13 @@ export const MenuRedactor = ({ className,transactionParam, deleteItem }: MenuRed
     <ul className={`${styles.menuRedactor} ${className}`}>
       <li onClick={() => updateTransactions(transactionParam)}>
         <GoPencil size={13} color="black" />
-        <span>Редактировать</span>
+        <span>{`${t("edit")}`}</span>
       </li>
 
       {transactionParam.transaction_id && (
         <li onClick={deleteItem}>
           <MdDelete size={13} color="red" />
-          <span>Удалить</span>
+          <span>{`${t("delete")}`}</span>
         </li>
       )}
     </ul>

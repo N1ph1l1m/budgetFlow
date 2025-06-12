@@ -9,11 +9,12 @@ import { ITransactionData } from "../../store/Slice/transactionsSlice/transactio
 import React from "react";
 import { MenuRedactor } from "../../shared/MenuRedactor/MenuRedactor";
 import { useTranslation } from "react-i18next";
-
+import { translateCategory } from "../../entities/translateCategory";
 interface ListTransactionsProps {
   list: Record<string, ITransactionData[]>;
   deleteItem: (id: number) => void | Promise<void>;
 }
+
 
 const ListTransactions: React.FC<ListTransactionsProps> = ({
   list,
@@ -100,7 +101,8 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
                 alt={`${category}icon`}
               />
               <span className={styles.titleList}>
-                {capitalizeFirstLetter(category)}
+
+                {capitalizeFirstLetter(translateCategory(t,category))}
               </span>
             </div>
 

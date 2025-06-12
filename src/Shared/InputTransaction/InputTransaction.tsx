@@ -1,7 +1,6 @@
 import styles from "../../App/Styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ChangeEvent } from "react";
-import { IoMdClose } from "react-icons/io";
 import { RootState } from "../../store";
 import {
   closeModalInput,
@@ -27,15 +26,13 @@ export const InputTransaction = () => {
   const { typeTransaction, isUpdate, updateCategory } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
+  const {current} = useSelector((state:RootState)=>state.transactionsSlice)
   const { t } = useTranslation();
   const { description, date, price, category, type_operation, transaction_id } =
     useSelector(
       (state: RootState) => state.modalTransactionSlice.transactionParametrs
     );
 
-  // useEffect(() => {
-  //   console.log(dateTransaction);
-  // }, []);
 
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
@@ -108,12 +105,6 @@ export const InputTransaction = () => {
   return (
     <>
       <div className={styles.mainWrap}>
-        <div className={styles.headerModal}>
-          <h1 className={styles.titleModal}>{t("newTransaction")}</h1>
-          <button className={styles.closeModal} onClick={() => closeModal()}>
-            <IoMdClose color="black" size="20" />
-          </button>
-        </div>
         <div>
           <input
             className={styles.inputPrice}
@@ -124,7 +115,7 @@ export const InputTransaction = () => {
             name="price"
             placeholder="0"
           />
-          <span style={{ fontSize: "24px" }}>{`\u20BD`}</span>
+          <span  className={styles.current}>{current}</span>
         </div>
 
         <div className={styles.buttonsWrap}>

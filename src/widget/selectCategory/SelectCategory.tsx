@@ -3,8 +3,8 @@ import { RootState } from "../../store";
 import { BiCategoryAlt } from "react-icons/bi";
 import ListCategory from "../listCategory/ListCategory";
 import styles from "../../App/Styles/SelectCategory.module.css";
-import Modal from "../ModalWindow/ModalTransaction";
-import { isModalCategory } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import Modal from "../../shared/ModalWindow/ModalTransaction";
+import { isModalCategory ,closeModalCategory} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { useTranslation } from "react-i18next";
 const SelectCategory = () => {
   const { modalCategory,} = useSelector(
@@ -13,6 +13,9 @@ const SelectCategory = () => {
   const {category} = useSelector((state:RootState)=>state.modalTransactionSlice.transactionParametrs)
   const dispatch = useDispatch();
   const {t} = useTranslation()
+  function closeModal(){
+    dispatch(closeModalCategory())
+  }
   return (
     <div className={styles.selectCategoryWrap}>
       <div className={styles.headerCategory}>
@@ -29,9 +32,9 @@ const SelectCategory = () => {
         {t("selectCategory")}
       </button>
       {modalCategory && (
-        <Modal>
-          <ListCategory />
-        </Modal>
+        <Modal title="Категории" children={<ListCategory />} closeModal={()=>closeModal()}/>
+
+
       )}
     </div>
   );

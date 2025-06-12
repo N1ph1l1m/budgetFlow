@@ -1,7 +1,8 @@
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 import styles from "../../app/styles/DataPieChart.module.css"
 import { useEffect, useState } from 'react';
-
+import { useTranslation } from 'react-i18next';
+import { translateCategory } from '../../entities/translateCategory';
 interface IDataPie {
   name: string;
   value: number;
@@ -12,7 +13,7 @@ interface DataPieChartProps {
 }
 
 const DataPieChart = ({ data }: DataPieChartProps) => {
-
+  const {t} = useTranslation();
   const COLORS = [
     '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
     '#A28CFF', '#FF66C4', '#4BC0C0', '#9966FF',
@@ -20,7 +21,10 @@ const DataPieChart = ({ data }: DataPieChartProps) => {
     '#6A5ACD', '#40E0D0', '#FF6347', '#FFD700',
     '#ADFF2F', '#FF1493', '#7FFFD4', '#DC143C'
   ];
-
+const translateData= data.map((item)=> ({
+  ...item,
+  name:translateCategory(t,item.name)
+}))
 const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -36,12 +40,11 @@ const [width, setWidth] = useState(window.innerWidth);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
   return (
     <div className={styles.wrapGraph}>
       <PieChart width={450} height={300}>
         <Pie
-          data={data}
+          data={translateData}
           dataKey="value"
           nameKey="name"
           cx="50%"

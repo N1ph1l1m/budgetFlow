@@ -10,7 +10,7 @@ import euro from "../../app/icons/euro.png";
 import russia from "../../app/icons/russia.png";
 import { useNavigate } from "react-router";
 import { FaMoneyBillWave } from "react-icons/fa";
-import Modal from "../../widget/ModalWindow/ModalTransaction";
+import Modal from "../../shared/ModalWindow/ModalTransaction";
 import CreateCategory from "../../widget/createCategory/CreateCategory";
 import { useState, useEffect } from "react";
 import { useDispatch ,useSelector} from "react-redux";
@@ -35,18 +35,26 @@ const SelectItem: React.FC<SelectItemProps> = ({ imageSrc, title }) => {
 
 const Setting = () => {
   const [isModalCategory, setIsModalCategory] = useState(false);
+  const [isModalChangePassword,setModalChangePassword] = useState(false);
   const [selectСurrency, setCurrency] = useState<string>("₽");
   const { t, i18n } = useTranslation();
-  const {email} = useSelector((state:RootState)=>state.usersSlice.activeUser)
+  const email  = localStorage.getItem("email")
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  function hanlderIsModal() {
+  function handlerIsModalCreateCategory() {
     setIsModalCategory((prev) => !prev);
   }
-  function closeModal() {
+  function handlerIsModalChangePassword(){
+  setModalChangePassword((prev)=>!prev)
+  }
+
+  function closeModalCreateCategory() {
     setIsModalCategory(false);
+  }
+    function closeModalChangePassword() {
+    setModalChangePassword(false);
   }
   const optionsCurrent = [
     {
@@ -78,15 +86,18 @@ const Setting = () => {
     i18n.changeLanguage(language);
   };
 
+
+
   async function changePassword(){
-    console.log(email);
-    // if(email){
-    // await forgotPassword(email)
-    // }else{
-    //   alert("Почта отсуствует")
-    // }
-
-
+    if(email){
+    const result = await forgotPassword(email)
+    console.log(result?.status);
+    if(result?.status === 204){
+      handlerIsModalChangePassword()
+    }
+    }else{
+      alert("Почта отсуствует")
+    }
   }
   useEffect(() => {
     dispatch(setCurrent(selectСurrency));
@@ -94,10 +105,13 @@ const Setting = () => {
   return (
     <>
       {isModalCategory && (
-        <Modal>
-          <CreateCategory closeModal={() => closeModal()} />
-        </Modal>
+        <Modal  title={`${t("addCategory")}`}  children={<CreateCategory/>} closeModal={()=>closeModalCreateCategory()}/>
+
+
       )}
+      {isModalChangePassword && <Modal children={<p>Сылка на смену пароля отправлено на почту</p>}  title="Смена пароля"
+      closeModal={()=> closeModalChangePassword()}/>}
+
       <div className={styles.wrapSetting}>
         <header>
           <h1>{t("setting")}</h1>
@@ -107,7 +121,7 @@ const Setting = () => {
           <li>
             <button
               className={styles.settingItem}
-              onClick={() => hanlderIsModal()}
+              onClick={() => handlerIsModalCreateCategory()}
             >
               <FaRegPlusSquare size={25} />
               <span className={styles.titleSettingItem}>

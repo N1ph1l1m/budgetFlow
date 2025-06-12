@@ -1,5 +1,4 @@
 import styles from "../../app/styles/ListCategory.module.css";
-
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
@@ -8,8 +7,8 @@ import {
   setCategoryTransaction,
   updateCategoryTransaction,
 } from "../../store/Slice/modalTransaction/modalTransactionSlice";
-import { IoMdClose } from "react-icons/io";
-import { BsClipboard2PlusFill } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
+import { translateCategory } from "../../entities/translateCategory";
 const ListCategory = () => {
   const dispatch = useDispatch();
   const { typeTransaction,isUpdate } = useSelector(
@@ -18,6 +17,7 @@ const ListCategory = () => {
   const { categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
+  const {t} = useTranslation();
 
   function closeModal() {
     dispatch(closeModalCategory());
@@ -33,22 +33,9 @@ const ListCategory = () => {
   const filterCategory = categoryList.filter(
     (item) => item.type_transaction.name === typeTransaction.name
   );
+
   return (
-    <div className={styles.listWrap}>
-      <div className={styles.headerModal}>
-        <BsClipboard2PlusFill
-          color={
-            typeTransaction.name === "income"
-              ? "rgb(93,126,88)"
-              : "rgb(181,53,52)"
-          }
-          size="20"
-        />
-        <h1 className={styles.titleModal}>Категории</h1>
-        <button className={styles.closeModal} onClick={() => closeModal()}>
-          <IoMdClose color="black" size="20" />
-        </button>
-      </div>
+    <>
       <ul className={styles.categoryListWrap}>
         {filterCategory.map((category) => (
           <li
@@ -63,11 +50,11 @@ const ListCategory = () => {
               src={category.icon}
               alt={`${category.id}`}
             />{" "}
-            {category.name}
+            {translateCategory(t,category.name)}
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 

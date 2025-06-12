@@ -1,16 +1,17 @@
 import styles from "../../App/Styles/Nav.module.css";
 import { InputTransaction } from "../../shared/InputTransaction/InputTransaction";
 import { NavLink } from "react-router";
-import Modal from "../ModalWindow/ModalTransaction";
+import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { isModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import { isModalInput, resetUpdate } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import Logo from "../../shared/logo/Logo";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { getListCategory } from "../../entities/crud/getListCategory";
 import { BurgerMenu } from "../../shared/BurgerMenu/BurgerMenu";
 import { useTranslation } from "react-i18next";
+import { closeModalInput } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 type NavProps = {
   isButton: boolean;
   location: string;
@@ -27,6 +28,12 @@ export const Nav = ({ isButton, location }: NavProps) => {
     (state: RootState) => state.transactionsSlice
   );
   const { t } = useTranslation();
+
+  function closeModal():void{
+    dispatch(closeModalInput());
+    dispatch(resetUpdate())
+  }
+
   const DropDownList = () => {
     return (
       <>
@@ -113,9 +120,11 @@ export const Nav = ({ isButton, location }: NavProps) => {
   return (
     <>
       {modalInput && (
-        <Modal>
-          <InputTransaction />
-        </Modal>
+        <Modal title={`${t("newTransaction")}`}
+                children={<InputTransaction />}
+                closeModal={()=>closeModal()}/>
+
+
       )}
       <div className={styles.wrapMain}>
         <Logo />

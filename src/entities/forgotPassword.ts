@@ -9,9 +9,8 @@ export async function forgotPassword(email:string){
         const response = await axios.post(url,{
             email:email
         })
-        const data = response.data
-        console.log(data);
-    }catch(error){
+        return  response
+        }catch(error){
         console.error(error)
     }
 }

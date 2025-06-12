@@ -4,9 +4,9 @@ import Logo from "../../shared/logo/Logo";
 import Login from "../../widget/login/Login";
 import SignUp from "../../widget/SignUp/SignUp";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import getUserList from "../../entities/getUserList";
-import { RootState } from "../../store";
+
 const Authorization = () => {
   const dispatch = useDispatch()
   const [isLogIn, setIsLogIn] = useState(true);
@@ -20,7 +20,6 @@ const Authorization = () => {
     getUsers()
   },[])
 
-  const {email} = useSelector((state:RootState)=>state.usersSlice.activeUser)
 
   function switchLogIn() {
     setIsLogIn((prev) => !prev);

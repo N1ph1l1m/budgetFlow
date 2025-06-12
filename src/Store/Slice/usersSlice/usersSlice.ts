@@ -11,16 +11,10 @@ export interface IUsers{
 
 interface IInitialState{
     users:IUsers[],
-    activeUser:IUsers,
 }
 
 const initialState:IInitialState = {
     users:[],
-    activeUser:{
-        id:undefined,
-        username:"",
-        email:"",
-    }
 }
 
 const usersSlice  = createSlice({
@@ -30,10 +24,8 @@ const usersSlice  = createSlice({
         setUsers(state,action:PayloadAction<IUsers[]>){
             state.users = action.payload
         },
-        setActiveUse(state,action:PayloadAction<IUsers>){
-            state.activeUser = action.payload
-        }
+
     }
 })
-export const{setUsers,setActiveUse} = usersSlice.actions
+export const{setUsers} = usersSlice.actions
 export default usersSlice.reducer

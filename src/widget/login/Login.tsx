@@ -8,7 +8,7 @@ import createMessage from "../../entities/createMessage";
 import { typeMessage } from "../../entities/createMessage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import Modal from "../ModalWindow/ModalTransaction";
+import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { setIsModalForgotPassword } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import ModalForgotPassword from "../modalForgotPassword/ModalForgotPassword";
 const Login = () => {

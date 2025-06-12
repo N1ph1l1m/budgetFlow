@@ -1,12 +1,12 @@
 import { useState, ChangeEvent, useEffect, FormEvent } from "react";
 import styles from "../../app/styles/CreateCategory.module.css";
-import { IoMdClose } from "react-icons/io";
 import { param } from "../../app/params/param";
 import axios from "axios";
 import { updateListCategory } from "../../entities/crud/getListCategory";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
+const CreateCategory = () => {
   type typeMessage = "off" | "error" | "success";
   const dispatch = useDispatch();
   interface ICreateMessage {
@@ -19,6 +19,7 @@ const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
   const [icon, setIcon] = useState<File | string>("");
   const [isMesssage, setIsMessage] = useState<typeMessage>("off");
   const [textMessage, setTextMessage] = useState("");
+    const { t } = useTranslation();
 
   function createMessage({ typeMessage, message }: ICreateMessage) {
     setIsMessage(typeMessage);
@@ -29,7 +30,6 @@ const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
     setInputName("");
     setIcon("");
     setSelectTransaction("");
-    closeModal();
     updateListCategory({ dispatch });
   }
 
@@ -117,14 +117,7 @@ const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
   }, [icon]);
 
   return (
-    <div className={styles.wrapCreateCategory}>
-      <header className={styles.headeWrap}>
-        <h1 className={styles.titleHeader}>Добавить категорию</h1>
-        <button className={styles.closeModal} onClick={closeModal}>
-          <IoMdClose color="black" size="20" />
-        </button>
-      </header>
-
+    <>
       <form className={styles.wrapContent} onSubmit={createCategory}>
         {isMesssage !== "off" && (
           <span
@@ -137,7 +130,7 @@ const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
             {textMessage}
           </span>
         )}
-        <label htmlFor="nameCategory">Название категории</label>
+        <label htmlFor="nameCategory">{`${t("nameCategory")}`}</label>
 
         <input
           id="nameCategory"
@@ -148,30 +141,29 @@ const CreateCategory = ({ closeModal }: { closeModal: () => void }) => {
           onChange={handleInputName}
         />
 
-        <label htmlFor="selectTransaction">Тип транзакции</label>
+        <label htmlFor="selectTransaction">{`${t("typeTransaction")}`}</label>
         <select
           onChange={selectTypeTransaction}
           className={styles.selectTypeTransaction}
           id="selectTransaction"
         >
           <option value="-">-----------</option>
-          <option value="1">Расходы</option>
-          <option value="2">Доходы</option>
+          <option value="1">{`${"rate"}`}</option>
+          <option value="2">{`${"income"}`}</option>
         </select>
 
-        <label htmlFor="inputFile">Иконка категории</label>
+        <label htmlFor="inputFile">{`${t("iconCategory")}`}</label>
         <input
           onChange={selectFile}
           id="inputFile"
           type="file"
           accept="image/png"
         />
-
         <button type="submit" className={styles.createCategory}>
-          Создать
+          {`${t("addCategory")}`}
         </button>
       </form>
-    </div>
+    </>
   );
 };
 

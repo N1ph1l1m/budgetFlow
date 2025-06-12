@@ -1,6 +1,5 @@
 .mainWrap {
-  margin: 10% auto;
-  max-width: 450px;
+  /* max-width: 450px; */
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -8,7 +7,6 @@
   padding: 10px;
   font-family: "Playfair";
   border-radius: 5px;
-  background-color: #ffffff;
   overflow: scroll auto;
 }
 .headerModal {
@@ -31,9 +29,9 @@
 }
 
 .inputPrice {
-  text-align: center;
+
   min-width: 10px;
-  max-width: 80px;
+  max-width: 180px;
   text-align: end;
   height: 40px;
   border-radius: 5px;
@@ -43,6 +41,9 @@
   font-size: 26px;
   background-color: #ffffff;
   padding-right: 3px;
+}
+.current{
+  font-size: 26px;
 }
 
 .buttonsWrap {
@@ -157,8 +158,10 @@
   }
   .inputItem,
   .inputPrice,
+  .current,
   .categoryWrap {
     width: 90%;
+    font-size: 18px;
   }
   .wrapCard {
     width: 150px;

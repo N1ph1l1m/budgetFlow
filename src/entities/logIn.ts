@@ -5,14 +5,11 @@ import { NavigateFunction } from "react-router";
 import createMessage from "./createMessage";
 import {typeSetIsMessage, typeSetTextMessage} from "./createMessage";
 import {IUsers} from "../store/Slice/usersSlice/usersSlice"
-import { AddDispatch } from "../store";
-import { setActiveUse } from "../store/Slice/usersSlice/usersSlice";
 
 interface IGetMe {
   token: string;
   setIsMessage: typeSetIsMessage;
   setTextMessage: typeSetTextMessage;
-  dispatch:AddDispatch,
 }
 
 interface ILogIn {
@@ -23,7 +20,6 @@ interface ILogIn {
   setIsMessage: typeSetIsMessage;
   setTextMessage: typeSetTextMessage;
   navigate: NavigateFunction;
-  dispatch:AddDispatch,
 }
 
 
@@ -37,7 +33,7 @@ interface ICheckEmail{
   email:string
 }
 
-export async function getMe({ token, setIsMessage, setTextMessage,dispatch }: IGetMe) {
+export async function getMe({ token, setIsMessage, setTextMessage }: IGetMe) {
   try {
     console.log("getMe");
     const URL = `${param.baseUser}auth/users/me/`;
@@ -49,11 +45,7 @@ export async function getMe({ token, setIsMessage, setTextMessage,dispatch }: IG
     localStorage.setItem("token", token);
     localStorage.setItem("username", data.username);
     localStorage.setItem("id", data.id);
-    dispatch(setActiveUse({
-        id:data.id,
-        username:data.username,
-        email:data.email
-      }))
+    localStorage.setItem("email",data.email)
   } catch (error) {
     createMessage({
       typeMessage: "error",
@@ -82,7 +74,6 @@ export async function loginUser({
   setIsMessage,
   setTextMessage,
   navigate,
-  dispatch
 }: ILogIn) {
   try {
 
@@ -95,7 +86,7 @@ export async function loginUser({
       password: password,
     });
     const token = data.auth_token;
-    await getMe({ token, setIsMessage, setTextMessage,dispatch});
+    await getMe({ token, setIsMessage, setTextMessage});
     navigate("/", { replace: true });
     }else{
         createMessage({

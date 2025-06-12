@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react";
+
 import {
   BarChart,
   CartesianGrid,
@@ -53,6 +54,7 @@ const BarChartComponent = ({ data,width }:IBartCharInterface) => {
       return 200
     }
   }
+
   return (
     <div>
 
