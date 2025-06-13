@@ -2,13 +2,13 @@ import styles from "../../App/Styles/ModalTransaction.module.css";
 import {ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useState, useEffect } from "react";
-
+import Notification from "../Notification/Notification";
 import { IoMdClose } from "react-icons/io";
 
 interface IModalTransaction{
   title:string,
   closeModal: ()=>void ,
-  children: ReactNode
+  children?: ReactNode
 }
 
 const Modal = ({ title,closeModal,children }: IModalTransaction) => {
@@ -30,8 +30,9 @@ const Modal = ({ title,closeModal,children }: IModalTransaction) => {
     <>{createPortal(<div className={styles.modal}>
 
       <div className={styles.modalWrap}>
-              <header className={styles.headeWrap}>
+        <header className={styles.headeWrap}>
         <h1 className={styles.titleHeader}>{title}</h1>
+
         <button
           className={styles.closeModal}
           onClick={() => closeModal()}
@@ -40,6 +41,7 @@ const Modal = ({ title,closeModal,children }: IModalTransaction) => {
         </button>
       </header>
       <div>
+      <Notification/>
       {children}
       </div>
 

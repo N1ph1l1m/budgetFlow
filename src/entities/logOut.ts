@@ -1,7 +1,17 @@
+import { AddDispatch } from './../store/index';
+
 import axios from "axios";
 import { param } from "../app/params/param";
+import { resetNotification } from '../store/Slice/notificationSlice/notificationSlice';
 
-export async function logOut(navigate: (patch: string) => void) {
+
+interface ILogOut{
+  dispatch:AddDispatch,
+  navigate:(patch:string)=>void
+}
+
+
+export async function logOut({navigate,dispatch}:ILogOut) {
   const url = `${param.baseUser}auth/token/logout/`;
   const token = localStorage.getItem("token");
   try {
@@ -20,7 +30,9 @@ export async function logOut(navigate: (patch: string) => void) {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
       localStorage.removeItem("email");
+      dispatch(resetNotification())
       navigate("/authorization/");
+
     }
   } catch (error) {
     console.error(error);

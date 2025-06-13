@@ -3,28 +3,31 @@ import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { createUser } from "../../entities/signUp";
 import { useTranslation } from "react-i18next";
-
-type typeMessage = "off" | "error" | "success";
-interface ICreateMessage{
-  typeMessage:typeMessage,
-  message:string,
-}
-
+import { useDispatch, useSelector } from "react-redux";
+import Notification from "../../shared/Notification/Notification";
+import {
+  createError,
+  resetNotification,
+} from "../../store/Slice/notificationSlice/notificationSlice";
+import { RootState } from "../../store";
+import Modal from "../../shared/ModalWindow/ModalTransaction";
+import { closeModalSignUp } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   const [login, setLogin] = useState("UserMail");
-  const [email,setEmail] = useState("v883740@gmail.com");
+  const [email, setEmail] = useState("v883740@gmail.com");
   const [password, setPassword] = useState("ghost1313");
   const [confirmPassword, setConfirmPassword] = useState("ghost1313");
-  const [isMesssage, setIsMessage] = useState<typeMessage>("off");
-  const [textMessage, setTextMessage] = useState("");
-   const {t} = useTranslation()
+  const { t } = useTranslation();
+  const {users} = useSelector((state:RootState)=>state.usersSlice)
+  const {modalSignUp} = useSelector((state:RootState)=>state.modalTransactionSlice)
+  const {textMessage} = useSelector((state:RootState)=>state.notificationSlice)
+  const dispatch = useDispatch();
+
 
   function handlerLogin(e: ChangeEvent<HTMLInputElement>) {
     setLogin(e.target.value);
   }
-
-
-   function handlerEmail(e: ChangeEvent<HTMLInputElement>) {
+  function handlerEmail(e: ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
 
@@ -34,93 +37,47 @@ const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
   function handlerConfirmPassword(e: ChangeEvent<HTMLInputElement>) {
     setConfirmPassword(e.target.value);
   }
-  function createMessage({typeMessage,message}:ICreateMessage ){
-        setIsMessage(typeMessage);
-        setTextMessage(message);
-  }
 
 
 
-
-  function errorChangeLang(message:string):string{
-    switch(message){
-        case "Пароль должен быть не короче 8 символов.":
-        return `${t("errorShortPass")}`
-        case "A user with that username already exists.":
-        return `${t("errorUserExists")}`
-        case "Пароль не должен состоять только из цифр.":
-        return `${t("errorPassOnlyDigits")}`
-        case "Пользователь с такой почтой уже существует.":
-             return `${t("errorEmailExists")}`
-        case "Пароль не должен состоять только из букв.":
-        return `${t("errorPassOnlyLetters")}`
-
-        case "Пароли не совпадают.":
-        return `${t("errorPasswordsMismatch")}`
-
-        default:
-         return message;
-    }
-
-  }
-
-async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
-  e.preventDefault();
-
-  try {
-    if (!login || !email|| !password || !confirmPassword) {
-      createMessage({ typeMessage: "error", message: `${t("errorFillAllInputs")}`});
-      return;
-    }
-
-    await createUser({login,email,password,confirmPassword,setIsMessage,setTextMessage});
-
-    createMessage({ typeMessage: "success", message: `${t("registerSuccess")}` });
-
-    setTimeout(() => {
-      setIsMessage("off");
-      setTextMessage("");
-      setLogin("");
-      setPassword("");
-      setConfirmPassword("");
-      switchToLogin();
-    }, 2000);
-
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      const errors = error.response.data;
-      for (const key in errors) {
-        const messages = errors[key];
-        if (Array.isArray(messages)) {
-          messages.forEach((msg) => {
-            createMessage({ typeMessage: "error", message: errorChangeLang(msg) });
-          });
-          console.log(messages[0])
-        } else {
-          createMessage({ typeMessage: "error", message: messages });
-        }
+  async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      if (!login || !email || !password || !confirmPassword) {
+        dispatch(createError(`${t("errorFillAllInputs")}`));
+        return;
       }
-    } else {
-      createMessage({ typeMessage: "error", message: `${t("errorByServer")}` });
+
+     await createUser({
+        login,
+        email,
+        password,
+        confirmPassword,
+        users,
+        dispatch,
+        t,
+      });
+
+    }catch(error:unknown){
+          dispatch(createError(`${error}`));
     }
   }
-}
 
+  function closeModal(){
+    dispatch(closeModalSignUp())
+    dispatch(resetNotification())
+    setLogin("");
+    setPassword("");
+    setEmail("")
+    setConfirmPassword("");
+  }
 
   return (
-    <form onSubmit={handlerSubmit} className={styles.formWrap}>
+    <>
+    {modalSignUp && <Modal title={`${t("signUp")}`}  closeModal={()=>closeModal()}/>}
+      <form onSubmit={handlerSubmit} className={styles.formWrap}>
       <h3 className={styles.titleForm}> {t("signUp")}</h3>
-      {isMesssage !== "off" && (
-        <span
-          className={`${
-            isMesssage == "success"
-              ? styles.messageSuccess
-              : styles.messageError
-          }`}
-        >
-          {textMessage}
-        </span>
-      )}
+   {textMessage !== t("registerSuccess") && <Notification />}
       <input
         className={styles.inputForm}
         onChange={handlerLogin}
@@ -129,7 +86,7 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
         type="text"
         placeholder={t("login")}
       />
-        <input
+      <input
         className={styles.inputForm}
         onChange={handlerEmail}
         value={email}
@@ -156,7 +113,7 @@ async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
       <button className={styles.submitForm} type="submit">
         {t("signUp")}
       </button>
-    </form>
+    </form></>
   );
 };
 

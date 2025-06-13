@@ -19,6 +19,7 @@ import { FaFlagUsa } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { RootState } from "../../store";
 import { forgotPassword } from "../../entities/forgotPassword";
+import { createError, createSuccess } from "../../store/Slice/notificationSlice/notificationSlice";
 interface SelectItemProps {
   imageSrc: string;
   title: string;
@@ -93,10 +94,14 @@ const Setting = () => {
     const result = await forgotPassword(email)
     console.log(result?.status);
     if(result?.status === 204){
+      dispatch(createSuccess(`${t("titleModalChangePassword")}`))
       handlerIsModalChangePassword()
+
     }
     }else{
-      alert("Почта отсуствует")
+        dispatch(createError(`${t("errorNotEmail")}`))
+        handlerIsModalChangePassword()
+
     }
   }
   useEffect(() => {
@@ -106,10 +111,8 @@ const Setting = () => {
     <>
       {isModalCategory && (
         <Modal  title={`${t("addCategory")}`}  children={<CreateCategory/>} closeModal={()=>closeModalCreateCategory()}/>
-
-
       )}
-      {isModalChangePassword && <Modal children={<p>Сылка на смену пароля отправлено на почту</p>}  title="Смена пароля"
+      {isModalChangePassword && <Modal   title={`${t("changePassword")}`}
       closeModal={()=> closeModalChangePassword()}/>}
 
       <div className={styles.wrapSetting}>
@@ -161,7 +164,7 @@ const Setting = () => {
           <li>
             <button
               className={styles.settingItem}
-              onClick={() => logOut(navigate)}
+              onClick={() => logOut({navigate,dispatch})}
             >
               <RiLogoutBoxRLine size={25} />
               <p className={styles.titleSettingItem}>{t("quit")}</p>

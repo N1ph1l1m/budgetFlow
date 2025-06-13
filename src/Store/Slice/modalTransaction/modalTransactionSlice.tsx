@@ -12,7 +12,6 @@ export interface ISelectCategory {
   icon: string;
 }
 
-
 export interface ITransactionParametrs{
   transaction_id: number |null,
   description: string,
@@ -28,6 +27,7 @@ interface IModalTransaction {
   isUpdate: boolean;
   modalCategory: boolean;
   modalForgotPassword:boolean;
+  modalSignUp:boolean;
   modalChangePassword:boolean,
   typeTransaction: TypeTransaction;
   transactionParametrs:ITransactionParametrs,
@@ -39,6 +39,7 @@ const initialState: IModalTransaction = {
   isUpdate: false,
   modalCategory: false,
   modalForgotPassword:false,
+  modalSignUp:false,
   modalChangePassword:false,
   typeTransaction: { id: 1, name: "rate" },
   transactionParametrs:{
@@ -85,6 +86,12 @@ const modalTransactionSlice = createSlice({
     },
     closeModalChangePassword(state){
       state.modalChangePassword = false
+    },
+    setModalSignUp(state){
+      state.modalSignUp = true
+    },
+    closeModalSignUp(state){
+      state.modalSignUp = false
     },
     setDescriptionTransaction(state,action:PayloadAction<string>){
         state.transactionParametrs.description = action.payload
@@ -138,6 +145,8 @@ export const {
   closeModalForgotPassword,
   setModalChangePassword,
   closeModalChangePassword,
+  setModalSignUp,
+  closeModalSignUp,
   setIsUpdate,
   resetUpdate,
   resetCategory,

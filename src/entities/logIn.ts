@@ -1,111 +1,86 @@
-
 import axios from "axios";
 import { param } from "../app/params/param";
 import { NavigateFunction } from "react-router";
-import createMessage from "./createMessage";
-import {typeSetIsMessage, typeSetTextMessage} from "./createMessage";
-import {IUsers} from "../store/Slice/usersSlice/usersSlice"
+import {
+  createSuccess,
+  createError,
+  resetNotification
+} from "../store/Slice/notificationSlice/notificationSlice";
+import { IUsers } from "../store/Slice/usersSlice/usersSlice";
+import { AddDispatch } from "../store";
+import { checkUserActive } from "./checkUsers";
 
 interface IGetMe {
   token: string;
-  setIsMessage: typeSetIsMessage;
-  setTextMessage: typeSetTextMessage;
+  dispatch: AddDispatch;
 }
 
 interface ILogIn {
   login: string;
   password: string;
-  users:IUsers[],
-  t:(value:string)=>string,
-  setIsMessage: typeSetIsMessage;
-  setTextMessage: typeSetTextMessage;
+  users: IUsers[];
+  t: (value: string) => string;
+  dispatch: AddDispatch;
   navigate: NavigateFunction;
 }
 
 
-interface ICheckActivate{
-  users: IUsers[],
-  login:string
-}
 
-interface ICheckEmail{
-  users: IUsers[],
-  email:string
-}
-
-export async function getMe({ token, setIsMessage, setTextMessage }: IGetMe) {
+export async function getMe({ token, dispatch }: IGetMe) {
   try {
     console.log("getMe");
     const URL = `${param.baseUser}auth/users/me/`;
-    const { data } = await axios.get(URL, {
+    const response = await axios.get(URL, {
       headers: {
         Authorization: `Token ${token}`,
       },
     });
+    if(response && response.status === 200){
     localStorage.setItem("token", token);
-    localStorage.setItem("username", data.username);
-    localStorage.setItem("id", data.id);
-    localStorage.setItem("email",data.email)
+    localStorage.setItem("username", response.data.username);
+    localStorage.setItem("id", response.data.id);
+    localStorage.setItem("email", response.data.email);
+    }
   } catch (error) {
-    createMessage({
-      typeMessage: "error",
-      message: `${error}`,
-      setIsMessage,
-      setTextMessage,
-    });
+    dispatch(createError(`${error}`));
   }
 }
 
-function checkUserActive({users,login}:ICheckActivate):boolean{
-  const user = users.filter((item)=>item.username == login)
-  return user[0]?.is_active ? true : false
-}
-export function checkUserEmail({users,email}:ICheckEmail){
-    const user = users.filter((item)=>item.email == email)
-    return user.length !== 0
 
 
-}
 
 export async function loginUser({
   login,
   password,
-  users,t,
-  setIsMessage,
-  setTextMessage,
+  users,
+  t,
   navigate,
+  dispatch,
 }: ILogIn) {
   try {
+    const isActiveUser = checkUserActive({ users, login });
 
-    const isActiveUser = checkUserActive({users,login})
-
-    if(isActiveUser){
-    const URL = `${param.baseUser}auth/token/login/`;
-    const { data } = await axios.post(URL, {
-      username: login,
-      password: password,
-    });
-    const token = data.auth_token;
-    await getMe({ token, setIsMessage, setTextMessage});
-    navigate("/", { replace: true });
-    }else{
-        createMessage({
-        typeMessage: "error",
-        message: `${t("errorUserIsNotActive")}`,
-        setIsMessage,
-        setTextMessage,
+    if (isActiveUser) {
+      const URL = `${param.baseUser}auth/token/login/`;
+      const response  = await axios.post(URL, {
+        username: login,
+        password: password,
       });
+      if(response && response.status === 200){
+        const token = response.data.auth_token;
+        await getMe({ token, dispatch });
+        dispatch(createSuccess(`${t("successLogIn")}`))
+        setTimeout(()=>{
+          dispatch(resetNotification())
+          navigate("/", { replace: true })},2000)
+      }
+
+    } else {
+      dispatch(createError(`${t("errorUserIsNotActive")}`));
     }
-
-
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response?.status === 400) {
-      createMessage({
-        typeMessage: "error",
-        message: `${t("errorInputData")}`,
-        setIsMessage,
-        setTextMessage,
-      });
+      dispatch(createError(`${t("errorInputData")}`));
     }
   }
 }

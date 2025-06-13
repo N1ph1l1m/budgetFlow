@@ -4,18 +4,20 @@ import { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { loginUser } from "../../entities/logIn";
-import createMessage from "../../entities/createMessage";
-import { typeMessage } from "../../entities/createMessage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
-import { setIsModalForgotPassword } from "../../store/Slice/modalTransaction/modalTransactionSlice";
+import {
+  closeModalForgotPassword,
+  setIsModalForgotPassword,
+} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import ModalForgotPassword from "../modalForgotPassword/ModalForgotPassword";
+import { resetNotification } from "../../store/Slice/notificationSlice/notificationSlice";
+import Notification from "../../shared/Notification/Notification";
+import { createSuccess } from "../../store/Slice/notificationSlice/notificationSlice";
 const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [isMesssage, setIsMessage] = useState<typeMessage>("off");
-  const [textMessage, setTextMessage] = useState("");
   const { t } = useTranslation();
   const { users } = useSelector((state: RootState) => state.usersSlice);
   const { modalForgotPassword } = useSelector(
@@ -44,12 +46,7 @@ const Login = () => {
     e.preventDefault();
     const errorMessage = validateForm();
     if (errorMessage) {
-      createMessage({
-        typeMessage: "error",
-        message: errorMessage,
-        setIsMessage,
-        setTextMessage,
-      });
+      dispatch(createSuccess(`${validateForm()}`));
       return;
     }
     loginUser({
@@ -57,33 +54,27 @@ const Login = () => {
       password: password,
       users: users,
       t: t,
-      setIsMessage: setIsMessage,
-      setTextMessage: setTextMessage,
-      navigate: navigate,
+      navigate,
       dispatch,
     });
+  }
+  function closeModal() {
+    dispatch(closeModalForgotPassword());
+    dispatch(resetNotification());
   }
 
   return (
     <>
       {modalForgotPassword && (
-        <Modal>
-          <ModalForgotPassword />
-        </Modal>
+        <Modal
+          title={`${t("forgotPassword")}`}
+          children={<ModalForgotPassword />}
+          closeModal={() => closeModal()}
+        />
       )}
       <form onSubmit={handlerSubmit} className={styles.formWrap}>
         <h3 className={styles.titleForm}>{t("logIn")} </h3>
-        {isMesssage !== "off" && (
-          <span
-            className={`${
-              isMesssage == "success"
-                ? styles.messageSuccess
-                : styles.messageError
-            }`}
-          >
-            {textMessage}
-          </span>
-        )}
+        <Notification />
         <input
           className={styles.inputForm}
           onChange={handlerLogin}

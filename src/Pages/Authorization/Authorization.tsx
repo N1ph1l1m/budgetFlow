@@ -6,6 +6,7 @@ import SignUp from "../../widget/SignUp/SignUp";
 import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
 import getUserList from "../../entities/getUserList";
+import { resetNotification } from "../../store/Slice/notificationSlice/notificationSlice";
 
 const Authorization = () => {
   const dispatch = useDispatch()
@@ -21,8 +22,10 @@ const Authorization = () => {
   },[])
 
 
-  function switchLogIn() {
+ async  function switchLogIn() {
     setIsLogIn((prev) => !prev);
+    dispatch(resetNotification())
+    await getUsers()
   }
   function resetIsLogin(){
     setIsLogIn(true)
