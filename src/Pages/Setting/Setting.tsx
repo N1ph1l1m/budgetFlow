@@ -1,10 +1,10 @@
-import styles from "../../App/Styles/Setting.module.css";
+import styles from "../../app/styles/Setting.module.css";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { logOut } from "../../entities/logOut";
 import Select from "react-select";
-import pmr from "../../App/icons/pmr.png";
+import pmr from "../../app/icons/pmr.png";
 import usa from "../../app/icons/usa.png";
 import euro from "../../app/icons/euro.png";
 import russia from "../../app/icons/russia.png";

@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/ModalTransaction.module.css";
+import styles from "../../app/styles/ModalTransaction.module.css";
 import {ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useState, useEffect } from "react";

@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/Month.module.css";
+import styles from "../../app/styles/Month.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";

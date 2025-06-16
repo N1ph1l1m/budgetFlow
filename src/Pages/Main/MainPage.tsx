@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/Main.module.css";
+import styles from "../../app/styles/Main.module.css"
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { useCallback, useEffect, useState } from "react";

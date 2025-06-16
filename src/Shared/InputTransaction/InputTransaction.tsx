@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/InputTransaction.module.css";
+import styles from "../../app/styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ChangeEvent } from "react";
 import { RootState } from "../../store";

@@ -1,4 +1,4 @@
-import styles from "../../App/Styles/Nav.module.css";
+import styles from "../../app/styles/Nav.module.css";
 import { InputTransaction } from "../../shared/InputTransaction/InputTransaction";
 import { NavLink } from "react-router";
 import Modal from "../../shared/ModalWindow/ModalTransaction";

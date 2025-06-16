@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { BiCategoryAlt } from "react-icons/bi";
 import ListCategory from "../listCategory/ListCategory";
-import styles from "../../App/Styles/SelectCategory.module.css";
+import styles from "../../app/styles/SelectCategory.module.css";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { isModalCategory ,closeModalCategory} from "../../store/Slice/modalTransaction/modalTransactionSlice";
 import { useTranslation } from "react-i18next";
