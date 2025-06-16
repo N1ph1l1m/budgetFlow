@@ -16,9 +16,13 @@ import {
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
 import { createTransactions } from "../../entities/crud/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
-import { formatDate } from "../../entities/formarDateToServer";
+import { formatDate } from "../../entities/formatDateToServer";
 import { updateTransactions } from "../../entities/crud/updateTransaction";
 import { useTranslation } from "react-i18next";
+import {
+  createError,
+  resetNotification,
+} from "../../store/Slice/notificationSlice/notificationSlice";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
@@ -26,13 +30,14 @@ export const InputTransaction = () => {
   const { typeTransaction, isUpdate, updateCategory } = useSelector(
     (state: RootState) => state.modalTransactionSlice
   );
-  const {current} = useSelector((state:RootState)=>state.transactionsSlice)
+  const { current } = useSelector(
+    (state: RootState) => state.transactionsSlice
+  );
   const { t } = useTranslation();
   const { description, date, price, category, type_operation, transaction_id } =
     useSelector(
       (state: RootState) => state.modalTransactionSlice.transactionParametrs
     );
-
 
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
@@ -52,24 +57,32 @@ export const InputTransaction = () => {
   function closeModal() {
     dispatch(closeModalInput());
     dispatch(resetUpdate());
+    dispatch(resetNotification());
   }
 
   async function submitTransaction() {
     const userId = localStorage.getItem("id");
     const dateNow = new Date().toISOString();
 
-    if (!category) {
-      alert(t("selectCategory"));
+    const checkCategory = Object.values(category).every(
+      (value) => value !== null && value !== "" && value !== undefined
+    );
+    console.log(checkCategory);
+    if (!checkCategory) {
+      dispatch(createError(t("errorSelectCategory")));
       return;
     }
     if (!description) {
-      alert(t("enterTransaction"));
+      dispatch(createError(t("enterTransaction")));
+
       return;
     }
     if (!price) {
-      alert(t("enterPrice"));
+      dispatch(createError(t("enterPrice")));
       return;
     }
+
+    const finalDate = date ? formatDate(date) : formatDate(dateNow);
     try {
       if (isUpdate) {
         await updateTransactions({
@@ -90,12 +103,12 @@ export const InputTransaction = () => {
           price: price,
           category: category.id,
           type_operation: typeTransaction.id,
-          date: formatDate(dateNow) || formatDate(date),
+          date: finalDate,
           dispatch,
         });
       }
     } catch (error) {
-      console.error("Ошибка при создании транзакции:", error);
+      dispatch(createError(`${t("errorInputTransaction")} \n ${error}`));
       alert(t("errorInputTransaction"));
     }
 
@@ -115,7 +128,7 @@ export const InputTransaction = () => {
             name="price"
             placeholder="0"
           />
-          <span  className={styles.current}>{current}</span>
+          <span className={styles.current}>{current}</span>
         </div>
 
         <div className={styles.buttonsWrap}>

@@ -50,6 +50,7 @@
   "changePassword":"Change password",
   "successLogIn": "Authorization was successful",
   "sendLetterSuccess":"The letter was sent successfully.",
+   "errorSelectCategory":"Select category",
   "errorResponse":"An error occurred",
   "errorServerError":"No response from server",
   "errorNotUserMail":"User with such email does not exist",

@@ -12,7 +12,7 @@ import {
 import { RootState } from "../../store";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { closeModalSignUp } from "../../store/Slice/modalTransaction/modalTransactionSlice";
-const SignUp = ({ switchToLogin }: { switchToLogin: () => void }) => {
+const SignUp = () => {
   const [login, setLogin] = useState("UserMail");
   const [email, setEmail] = useState("v883740@gmail.com");
   const [password, setPassword] = useState("ghost1313");

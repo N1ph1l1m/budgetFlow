@@ -34,7 +34,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
     dispatch(resetUpdate())
   }
 
-  const DropDownList = () => {
+const DropDownList = () => {
     return (
       <>
         {isDropDown && (
@@ -77,7 +77,7 @@ export const Nav = ({ isButton, location }: NavProps) => {
     setIsBurger((prev) => !prev);
   }
 
-  const ListNav = () => {
+const ListNav = () => {
     return (
       <>
         <NavLink to="/">
@@ -123,8 +123,6 @@ export const Nav = ({ isButton, location }: NavProps) => {
         <Modal title={`${t("newTransaction")}`}
                 children={<InputTransaction />}
                 closeModal={()=>closeModal()}/>
-
-
       )}
       <div className={styles.wrapMain}>
         <Logo />

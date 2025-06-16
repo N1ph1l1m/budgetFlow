@@ -23,7 +23,7 @@ export const MainPage = () => {
   const { isLoaded, transactionState, categoryList } = useSelector(
     (state: RootState) => state.transactionsSlice
   );
-  const { t, i18n } = useTranslation();
+  const {i18n } = useTranslation();
   useEffect(() => {
     fetchTransactions({ isLoaded, categoryList, dispatch });
     console.log(i18n.language);

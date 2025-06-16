@@ -50,7 +50,7 @@ const Custom = () => {
   const [listSumTransactions, setListSumTransactions] = useState<
     ISumTypeOperation[]
   >([]);
-  const { t, i18n } = useTranslation();
+  const { t} = useTranslation();
 
   function getCustomList() {
     const result = transactionState?.filter((item) => {

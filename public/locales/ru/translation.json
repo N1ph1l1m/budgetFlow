@@ -50,6 +50,7 @@
   "changePassword":"Сменить пароль",
   "successLogIn": "Авторизация прошла успешна",
   "sendLetterSuccess":"Письмо отправлено успешно",
+  "errorSelectCategory":"Выберите категорию",
   "errorResponse":"Произошла ошибка",
   "errorServerError":"Нет ответа от сервера",
   "errorNotUserMail":"Пользователь с такой почтой не существует ",

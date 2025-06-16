@@ -13,26 +13,13 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
 import CreateCategory from "../../widget/createCategory/CreateCategory";
 import { useState, useEffect } from "react";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrent } from "../../store/Slice/transactionsSlice/transactionsSlice";
 import { FaFlagUsa } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
-import { RootState } from "../../store";
 import { forgotPassword } from "../../entities/forgotPassword";
-import { createError, createSuccess } from "../../store/Slice/notificationSlice/notificationSlice";
-interface SelectItemProps {
-  imageSrc: string;
-  title: string;
-}
-
-const SelectItem: React.FC<SelectItemProps> = ({ imageSrc, title }) => {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <img src={imageSrc} style={{ width: 20 }} alt="pmr" />
-      {title}
-    </div>
-  );
-};
+import { createError, createSuccess, resetNotification } from "../../store/Slice/notificationSlice/notificationSlice";
+import { SelectItem } from "../../shared/SelectItem/SelectItem";
 
 const Setting = () => {
   const [isModalCategory, setIsModalCategory] = useState(false);
@@ -56,6 +43,7 @@ const Setting = () => {
   }
     function closeModalChangePassword() {
     setModalChangePassword(false);
+    dispatch(resetNotification())
   }
   const optionsCurrent = [
     {
@@ -88,15 +76,13 @@ const Setting = () => {
   };
 
 
-
-  async function changePassword(){
+async function changePassword(){
     if(email){
     const result = await forgotPassword(email)
     console.log(result?.status);
     if(result?.status === 204){
       dispatch(createSuccess(`${t("titleModalChangePassword")}`))
       handlerIsModalChangePassword()
-
     }
     }else{
         dispatch(createError(`${t("errorNotEmail")}`))
@@ -104,6 +90,7 @@ const Setting = () => {
 
     }
   }
+
   useEffect(() => {
     dispatch(setCurrent(selectСurrency));
   }, [dispatch, selectСurrency]);

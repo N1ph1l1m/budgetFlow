@@ -37,7 +37,7 @@ const Month = () => {
     fetchTransactions({ isLoaded, categoryList, dispatch });
   }, [isLoaded, categoryList, dispatch]);
 
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [list, setList] = useState<Record<string, ITransactionData[]>>({});
   const [listMonth, setListMonth] = useState<ISumTypeOperation[]>([]);
   const [date, setMonth] = useState(new Date());

@@ -27,9 +27,7 @@ const Authorization = () => {
     dispatch(resetNotification())
     await getUsers()
   }
-  function resetIsLogin(){
-    setIsLogIn(true)
-  }
+
     const {t,i18n} = useTranslation()
    const changeLanguage = (e:React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(e.target.value);
@@ -47,7 +45,7 @@ const Authorization = () => {
 
         <Logo large disableLink />
 
-        {isLogIn ? <Login /> : <SignUp  switchToLogin = {resetIsLogin}/>}
+        {isLogIn ? <Login /> : <SignUp />}
         {isLogIn ? (
           <span>
             {t("noAccount")}
