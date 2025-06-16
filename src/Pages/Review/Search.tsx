@@ -63,7 +63,7 @@ const Search = () => {
           <ul className={styles.resultWrap}>
             <img src={item.category.icon} alt={`item-img${item.id}`} />
             <li className={styles.resultItem}>{item.description}</li>
-            <li className={styles.resultItem}>{transformDate(item.date)}</li>
+            <li className={`${styles.resultItem}  ${styles.resultDate}`}>{transformDate(item.date)}</li>
             <li
               className={styles.resultItem}
               style={{
@@ -102,6 +102,15 @@ const Search = () => {
             </li>
           </ul>
         ))}
+             <ul className={styles.resultWrap } style={{justifyContent:" space-between"}}>
+            <li className={styles.resultItem}>Итого</li>
+            <li
+              className={styles.resultItem}
+              style={{textAlign:"right"}}
+            >
+             {`${resultList.reduce((accumulator, current)=>accumulator + current.price , 0)} ${current}`}
+            </li>
+          </ul>
       </div>
     );
   };
