@@ -1,6 +1,6 @@
 import styles from "../../app/styles/InputTransaction.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { RootState } from "../../store";
 import {
   closeModalInput,
@@ -23,6 +23,8 @@ import {
   createError,
   resetNotification,
 } from "../../store/Slice/notificationSlice/notificationSlice";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const InputTransaction = () => {
   const dispatch = useDispatch();
@@ -38,17 +40,19 @@ export const InputTransaction = () => {
     useSelector(
       (state: RootState) => state.modalTransactionSlice.transactionParametrs
     );
-
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
   function handlerPrice(e: ChangeEvent<HTMLInputElement>) {
     const digitsOnly = e.target.value.replace(/\D/g, "");
     const parsed = parseInt(digitsOnly, 10);
     dispatch(setPriceTransaction(parsed));
   }
+function handlerDataTransacton(date: Date | null) {
+  if (!date) return;
 
-  function handlerDataTransacton(e: ChangeEvent<HTMLInputElement>) {
-    const format = formatDate(e.target.value);
-    dispatch(setDateTransaction(format));
-  }
+  const formatted = formatDate(date);
+  setStartDate(date)
+  dispatch(setDateTransaction(formatted));
+}
 
   function handlerItemName(e: ChangeEvent<HTMLInputElement>) {
     dispatch(setDescriptionTransaction(e.target.value));
@@ -142,19 +146,23 @@ export const InputTransaction = () => {
             <SelectCategory />
           </div>
           <div className={styles.inputDateWrap}>
-            <div className={styles.headerDataInput}>
-              <FaCalendarDays color="#fcb831 " size="40" />
-              <label htmlFor="dateTransaction">
-                <span className={styles.inputTitle}>{t("date")}</span>
-              </label>
-            </div>
+  <div className={styles.headerDataInput}>
+    <FaCalendarDays color="#fcb831" size="40" />
+    <label htmlFor="dateTransaction">
+      <span className={styles.inputTitle}>{t("date")}</span>
+    </label>
+  </div>
 
-            <input
-              className={styles.inputDate}
-              type="date"
-              onChange={handlerDataTransacton}
-            />
-          </div>
+  <DatePicker
+    id="dateTransaction"
+    selected={startDate}
+    onChange={handlerDataTransacton}
+    dateFormat="yyyy-MM-dd"
+    className={styles.inputDate}
+    placeholderText="Выберите дату"
+  />
+</div>
+
         </div>
         <div>
           <input
