@@ -36,6 +36,25 @@ ul li{list-style: none;}
 img{vertical-align: top;}
 
 h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+
+button {
+  color: black;               /* Явный черный цвет текста */
+  background: transparent;    /* или нужный фон */
+  border: none;               /* или нужная граница */
+  appearance: none;           /* отключаем дефолтный стиль кнопки */
+  -webkit-appearance: none;   /* для Safari iOS */
+  -moz-appearance: none;      /* для Firefox */
+  font-family: inherit;       /* наследуем шрифт */
+  -webkit-touch-callout: none; /* отключить выделение */
+  -webkit-user-select: none;   /* отключить выделение */
+  user-select: none;
+}
+
+input[type="date"] {
+  color: black;
+  background-color: transparent;
+
+}
 /*--------------------*/
 
 
