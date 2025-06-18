@@ -20,11 +20,14 @@
     flex-direction: row;
     gap: 20px;
     justify-content: flex-end;
+
 }
+
 .wrapButtonLang select {
     padding: 5px;
     background-color: transparent;
     display: inline-block;
+    color:black;
 }
 .formWrap {
     width: 300px;

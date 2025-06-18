@@ -124,9 +124,9 @@ const ListTransactions: React.FC<ListTransactionsProps> = ({
               {openCategories[category] &&
                 items.map((item) => (
                   <li className={styles.listItems} key={item.id}>
-                    <span>{capitalizeFirstLetter(item.description)}</span>{" "}
+                    <span className={styles.titleList}>{capitalizeFirstLetter(item.description)}</span>{" "}
                     <div className={styles.wrapPriceRedactor}>
-                      <span className={styles.itemPrice}>
+                      <span className={styles.listPrice}>
                         {item.price} {current}
                       </span>
                       <div className={styles.meduRedactorWrap}>

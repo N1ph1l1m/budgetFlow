@@ -1,5 +1,5 @@
 import styles from "../../app/styles/Nav.module.css";
-import { InputTransaction } from "../../shared/InputTransaction/InputTransaction";
+import { InputTransaction } from "../InputTransaction/InputTransaction";
 import { NavLink } from "react-router";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { useDispatch, useSelector } from "react-redux";

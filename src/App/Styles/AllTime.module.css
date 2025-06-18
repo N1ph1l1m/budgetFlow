@@ -7,16 +7,20 @@
         gap: 10px;
         width: 100%;
 }
-  .listMonthWrap{
-    width: 70%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 10px;
-    gap:10px;
-    color:#333333;
+.listMonthWrap {
+  position: relative;
+
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  color: #333333;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 .listMonth{
+width: 95%;
 border:1px solid #e0e0e091;
 padding: 10px;
 font-size: 16px;

@@ -8,13 +8,16 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+
 
 }
 
 .wrapIconTitle {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items:center;
+
 }
 .iconCategory {
   width: 30px;
@@ -23,6 +26,8 @@
 .titleList {
   font-weight: 500;
   font-size: 20px;
+  width: 100%
+
 
 }
 .listPrice {
@@ -46,6 +51,10 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+}
+.listItems .titleList {
+  text-align: left;
+
 }
 
 .transactionPlaceholderWrap {
@@ -115,11 +124,35 @@
   cursor: pointer;
 }
 
+
+
+
+@media screen and (max-width:420px) {
+.titleList,.listPrice{
+  font-size: 16px;
+  }
+
+}
+
+@media screen and (max-width:390px) {
+.titleList ,.listPrice{
+  font-size: 14px;
+  }
+  .wrapIconTitle{
+      align-items: center;
+  width: 100%;
+  }
+
+}
+
+
+
 @media screen and (max-width:310px){
- .headerList ,.listItems{
+ .headerList .listItems{
     width: 80vw;
     flex-direction: column;
-    align-items:flex-start;
+    align-items:center;
+
   }
   .menuRedactor{
     font-size: 12px;

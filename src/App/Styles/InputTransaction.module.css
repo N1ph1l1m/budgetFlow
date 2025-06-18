@@ -29,7 +29,6 @@
 }
 
 .inputPrice {
-
   min-width: 10px;
   max-width: 180px;
   text-align: end;
@@ -68,6 +67,7 @@
   width: 45%;
 }
 .inputDateWrap {
+  color:black;
   width: 45%;
   border: 1px solid rgba(128, 128, 128, 0.5);
   padding: 10px;
@@ -91,7 +91,7 @@
 .inputDate {
   margin-top: 25px;
   height: 100%;
-
+  color:black;
   background-color: transparent;
 }
 .inputDescription {

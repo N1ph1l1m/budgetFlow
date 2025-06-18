@@ -12,7 +12,7 @@ import {
 import {
   RateButton,
   IncomeButton,
-} from "../TransactionButtons/TransactionButtons";
+} from "../../shared/TransactionButtons/TransactionButtons";
 import SelectCategory from "../../widget/selectCategory/SelectCategory";
 import { createTransactions } from "../../entities/crud/createTransaction";
 import { FaCalendarDays } from "react-icons/fa6";
