@@ -13,10 +13,10 @@ import { RootState } from "../../store";
 import Modal from "../../shared/ModalWindow/ModalTransaction";
 import { closeModalSignUp } from "../../store/Slice/modalTransaction/modalTransactionSlice";
 const SignUp = () => {
-  const [login, setLogin] = useState("UserMail");
-  const [email, setEmail] = useState("v883740@gmail.com");
-  const [password, setPassword] = useState("ghost1313");
-  const [confirmPassword, setConfirmPassword] = useState("ghost1313");
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const { t } = useTranslation();
   const {users} = useSelector((state:RootState)=>state.usersSlice)
   const {modalSignUp} = useSelector((state:RootState)=>state.modalTransactionSlice)
