@@ -1,5 +1,5 @@
 import styles from "../../app/styles/Logo.module.css";
-import logo from "../../app/icons/logo-512.png";
+import logo from "../../app/icons/logo.png";
 import { NavLink } from "react-router-dom";
 
 interface ILogo {
