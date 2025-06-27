@@ -10,6 +10,14 @@ interface ILogOut{
   navigate:(patch:string)=>void
 }
 
+function resetData({dispatch,navigate}:ILogOut){
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      dispatch(resetNotification())
+      navigate("/authorization/");
+}
 
 export async function logOut({navigate,dispatch}:ILogOut) {
   const url = `${param.baseUser}auth/token/logout/`;
@@ -26,15 +34,14 @@ export async function logOut({navigate,dispatch}:ILogOut) {
     );
     if (response.status === 204) {
       console.log("LogOut success");
-      localStorage.removeItem("id");
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      localStorage.removeItem("email");
-      dispatch(resetNotification())
-      navigate("/authorization/");
-
+      resetData({dispatch,navigate})
     }
-  } catch (error) {
+  } catch (error:unknown) {
+   if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401) {
+      resetData({ dispatch, navigate });
+    }
+  }
     console.error(error);
   }
 }
