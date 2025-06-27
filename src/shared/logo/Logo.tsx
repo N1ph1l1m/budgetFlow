@@ -1,6 +1,6 @@
 import styles from "../../app/styles/Logo.module.css";
 import logo from "../../app/icons/logo-512.png";
-import { NavLink } from "react-router-dom"; // убедитесь, что используете 'react-router-dom'
+import { NavLink } from "react-router-dom";
 
 interface ILogo {
   large?: boolean;
